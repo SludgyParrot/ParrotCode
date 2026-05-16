@@ -1,24 +1,41 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Native</BaseOutputPath>
-    <UnityVersion Condition="'$(UnityVersion)' == ''">2022.3.62f3</UnityVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Multiplayer</BaseOutputPath>
+    <UnityVersion Condition="'$(UnityVersion)'==''">2022.3.62f3</UnityVersion>
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2022'">
+    <UnityVersion>2022.3.62f3</UnityVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2023'">
+    <UnityVersion>2023.1.20f1</UnityVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Folder Include="Code\Runtime\Common\Structs\" />
+    <Folder Include="Code\Runtime\Logging\Interfaces\" />
+    <Folder Include="Code\Runtime\Logging\Structs\" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\UnityEditor.dll</HintPath>
-      <private>false</private>
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.Graphs">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\UnityEditor.Graphs.dll</HintPath>
-      <private>false</private>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\UnityEngine.dll</HintPath>
-      <private>false</private>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 

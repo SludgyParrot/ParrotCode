@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.sludgyparrot.common": {
+      "version": "file:com.sludgyparrot.common",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.collab-proxy": {
       "version": "2.11.3",
       "depth": 0,

@@ -1,8 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Native</BaseOutputPath>
+    <UnityVersion Condition="'$(UnityVersion)' == ''">2022.3.62f3</UnityVersion>
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEditor">
+      <HintPath>..\UnityDLL\2023.1.20f1\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>..\UnityDLL\2023.1.20f1\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

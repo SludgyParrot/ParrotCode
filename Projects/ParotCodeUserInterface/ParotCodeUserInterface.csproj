@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Multiplayer</BaseOutputPath>
+    <UnityVersion Condition="'$(UnityVersion)'==''">2022.3.62f3</UnityVersion>
+    <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2022'">
+    <UnityVersion>2022.3.62f3</UnityVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2023'">
+    <UnityVersion>2023.1.20f1</UnityVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="C:\Users\hlula\Documents\Work\Repos\2026\ParrotCode\Projects\ParrotCodeUserInterface\Code\Runtime\VirtualKeyboard\Classes\VirtualKeyboard.cs" Link="VirtualKeyboard.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\UnityDLL\$(UnityVersion)\UnityEditor.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\UnityDLL\$(UnityVersion)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\Runtime\UserInterface\Enums\" />
+    <Folder Include="Code\Runtime\UserInterface\Structs\" />
+    <Folder Include="Code\Runtime\VirtualKeyboard\Classes\" />
+  </ItemGroup>
+
+</Project>

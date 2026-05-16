@@ -1,59 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Multiplayer</BaseOutputPath>
-    <UnityVersion Condition="'$(UnityVersion)' == ''">2022.3.62f3</UnityVersion>
+    <UnityVersion Condition="'$(UnityVersion)'==''">2022.3.62f3</UnityVersion>
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configurations)' == 'Unity2022'">
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2022'">
     <UnityVersion>2022.3.62f3</UnityVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'Configuration' == 'Unity2023'">
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2023'">
     <UnityVersion>2023.1.20f1</UnityVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Unity.Netcode.Components">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Netcode.Components.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Editor">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Netcode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Editor.CodeGen">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Netcode.Editor.CodeGen.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Editor.PackageChecker">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Netcode.Editor.PackageChecker.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Runtime">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Netcode.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Networking.Editor">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Networking.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Networking.Transport">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\NetCode\Unity.Networking.Transport.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\UnityEditor.dll</HintPath>
-      <private>false</private>
-    </Reference>
-    <Reference Include="UnityEditor.Graphs">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\UnityEditor.Graphs.dll</HintPath>
-      <private>false</private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\UnityDLL\$(UnityVersion)\UnityEngine.dll</HintPath>
-      <private>false</private>
-    </Reference>
+    <Folder Include="Code\Runtime\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\Editor\" />
-    <Folder Include="Code\Runtime\" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
