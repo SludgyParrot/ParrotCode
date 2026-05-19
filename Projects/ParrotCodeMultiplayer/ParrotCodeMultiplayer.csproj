@@ -22,17 +22,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.CoreModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.InputModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 

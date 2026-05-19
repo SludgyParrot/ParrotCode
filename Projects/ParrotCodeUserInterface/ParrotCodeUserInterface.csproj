@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Multiplayer</BaseOutputPath>
-    <UnityVersion Condition="'$(UnityVersion)'==''">2022.3.62f3</UnityVersion>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Plugins\Native</BaseOutputPath>
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
@@ -23,25 +22,16 @@
 
   <ItemGroup>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>..\..\..\UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.CoreModule">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Graphs">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.Graphs.dll</HintPath>
+      <HintPath>..\..\UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\UnityDLL\2022.3.62f3\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\UnityDLL\2022.3.62f3\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 
