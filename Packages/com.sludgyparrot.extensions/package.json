@@ -1,0 +1,15 @@
+{
+  "name": "com.sludgyparrot.extensions",
+  "version": "0.0.1",
+  "displayName": "Extensions",
+  "description": "A collection of extension classes for use during an application development in Unity.",
+ "keywords": [
+    "Extensions",
+    "Utilities",
+    "Tools"
+  ],
+  "author": {
+    "name": "Sludgy Parrot",
+    "email": "sludgyparrot@gmail.com"
+  }
+}

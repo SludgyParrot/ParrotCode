@@ -1,0 +1,18 @@
+{
+    "name": "com.sludgyparrot.eventsystem",
+    "version": "0.0.1",
+    "displayName": "Event System",
+    "description": "A collection of event helper classes for developing Unity applications.",
+    "keywords": [
+        "Sludgy Parrot",
+        "Event",
+        "Event System"
+    ],
+    "dependencies": {
+        "com.sludgyparrot.native": "0.0.1"
+    },
+    "author": {
+        "name": "sludgy Parrot",
+        "email": "sludgyparrot@gmail.com"
+    }
+}

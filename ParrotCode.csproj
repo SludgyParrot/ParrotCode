@@ -10,24 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Library\**\*.cs"></Compile>
+    <Compile Remove="Packages\**\*.cs"></Compile>
+    <Compile Remove="Logs\**\*.cs"></Compile>
+    <Compile Remove="ProjectSettings\**\*.cs"></Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="Projects\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>UnityDLL\2022.3.62f3\Unity.TextMeshPro.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEditor.CoreModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.Graphs">
-      <HintPath>UnityDLL\2023.1.20f1\UnityEditor.Graphs.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">
@@ -38,22 +33,10 @@
       <HintPath>UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TextCoreFontEngineModule">
-      <HintPath>UnityDLL\2022.3.62f3\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>UnityDLL\2022.3.62f3\UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>UnityDLL\2022.3.62f3\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
       <EmbedInteropTypes></EmbedInteropTypes>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
 

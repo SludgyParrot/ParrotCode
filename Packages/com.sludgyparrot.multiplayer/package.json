@@ -1,0 +1,13 @@
+{
+  "name": "com.sludgyparrot.multiplayer",
+  "version": "0.0.1",
+  "displayName": "Multiplayer",
+  "description": "A collection of helper classes for developing multiplayer applications in Unity.",
+ "keywords": [
+    "Multiplayer"
+  ],
+  "author": {
+    "name": "Sludgy Parrot",
+    "email": "sludgyparrot@gmail.com"
+  }
+}

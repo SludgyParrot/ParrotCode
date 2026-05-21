@@ -1,0 +1,18 @@
+{
+    "name": "com.sludgyparrot.native",
+    "version": "0.0.1",
+    "displayName": "Native",
+    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "keywords": [
+        "Sludgy Parrot",
+        "Native",
+        "Common",
+        "Logging",
+        "Logs",
+        "Debug"
+    ],
+    "author": {
+        "name": "sludgy Parrot",
+        "email": "sludgyparrot@gmail.com"
+    }
+}

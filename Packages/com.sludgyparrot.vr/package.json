@@ -1,0 +1,19 @@
+{
+    "name": "com.sludgyparrot.vr",
+    "version": "0.0.1",
+    "displayName": "Virtual Reality",
+    "description": "A collection of VR specific tools for developing Unity applications.",
+    "keywords": [
+        "Sludgy Parrot",
+        "VR",
+        "Tools"
+    ],
+    "dependencies": {
+        "com.unity.modules.vr": "1.0.0",
+        "com.unity.modules.xr": "1.0.0"
+    },
+    "author": {
+        "name": "sludgy Parrot",
+        "email": "sludgyparrot@gmail.com"
+    }
+}

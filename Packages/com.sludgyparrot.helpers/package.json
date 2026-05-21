@@ -1,0 +1,15 @@
+{
+  "name": "com.sludgyparrot.helpers",
+  "version": "0.0.1",
+  "displayName": "Helpers",
+  "description": "A collection of helper classes for use during an application development in Unity.",
+ "keywords": [
+    "Helpers",
+    "Utilities",
+    "Tools"
+  ],
+  "author": {
+    "name": "Sludgy Parrot",
+    "email": "sludgyparrot@gmail.com"
+  }
+}
