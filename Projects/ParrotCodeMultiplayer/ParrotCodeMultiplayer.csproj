@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <BaseOutputPath>..\..\Packages\com.sludgyparrot.multiplayer\Runtime\Plugins</BaseOutputPath>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Packages\com.sludgyparrot.multiplayer\Runtime\Plugins</BaseOutputPath>
     <UnityVersion Condition="'$(UnityVersion)'==''">2022.3.62f3</UnityVersion>
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

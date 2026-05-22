@@ -1,0 +1,19 @@
+{
+    "name": "com.sludgyparrot.inputsystem",
+    "version": "0.0.1",
+    "displayName": "Input System",
+    "description": "A collection of helper classes for intergrating inputs [Including virtual keyboard] for developing Unity applications.",
+    "keywords": [
+        "Inputs",
+        "Input System",
+        "Virtual Keyboard"
+    ],
+    "dependencies": {
+        "com.sludgyparrot.ui": "0.0.3",
+        "com.unity.inputsystem": "1.14.2"
+    },
+    "author": {
+        "name": "sludgy Parrot",
+        "email": "sludgyparrot@gmail.com"
+    }
+}

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ParrotCode.UI
 {
+    [Serializable]
     public abstract class UIState
     {
         [SerializeField]
@@ -30,5 +31,15 @@ namespace ParrotCode.UI
         public UIStateType State => state;
         public Color Color => color;
         public bool UseOptionals => useOptionals;
+
+        protected UIState() { }
+
+        protected UIState(string stateId, UIStateType state, Color color, bool useOptionals = false)
+        {
+            this.stateId = stateId;
+            this.state = state;
+            this.color = color;
+            this.useOptionals = useOptionals;
+        }
     }
 }

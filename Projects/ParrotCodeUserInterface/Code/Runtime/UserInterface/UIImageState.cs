@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace ParrotCode.UI
-{
+{ 
+    [Serializable]
     public class UIImageState: UIState
     {
         [SerializeField, Space(5)]
@@ -17,5 +18,10 @@ namespace ParrotCode.UI
                 return stateImage;
             }
         }
+
+        public UIImageState(): base() { }
+
+        public UIImageState(Sprite stateImage, string stateId, UIStateType state, Color color, bool useOptionals = false) : base(stateId, state, color, useOptionals)
+            => this.stateImage = stateImage;
     }
 }

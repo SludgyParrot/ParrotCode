@@ -5,6 +5,7 @@ using ParrotCode.Native.Common;
 
 namespace ParrotCode.UI
 {
+    [RequireComponent(typeof(EventTrigger))]
     public abstract class SelectableUIComponent: UIImage, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IDropHandler, IEndDragHandler
     {
         [SerializeField, Space(5)]
@@ -13,10 +14,19 @@ namespace ParrotCode.UI
         [SerializeField, Space(5)]
         protected UIStateType initialInteractableState = UIStateType.Normal;
 
-        [SerializeField, Space(5)]
         private EventTrigger actionEvent;
 
         protected UIStateType currentInteractableState;
+
+        public EventTrigger ActionEvent
+        {
+            get
+            {
+                if (actionEvent == null) 
+                    actionEvent = GetComponent<EventTrigger>();
+                return actionEvent;
+            }
+        }
 
         protected override void Init()
             => SetUIState(initialInteractableState);
@@ -27,7 +37,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Hovered, isInteractableResults => 
             {  
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnPointerEnter(eventData);
+                    ActionEvent.OnPointerEnter(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -38,7 +48,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Normal, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnPointerExit(eventData);
+                    ActionEvent.OnPointerExit(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -49,7 +59,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Pressed, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnPointerDown(eventData);
+                    ActionEvent.OnPointerDown(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -60,7 +70,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Normal, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnPointerUp(eventData);
+                    ActionEvent.OnPointerUp(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -71,7 +81,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Pressed, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnPointerClick(eventData);
+                    ActionEvent.OnPointerClick(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -84,7 +94,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Selected, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnBeginDrag(eventData);
+                    ActionEvent.OnBeginDrag(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -95,7 +105,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Selected, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnDrag(eventData);
+                    ActionEvent.OnDrag(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -106,7 +116,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Pressed, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnDrop(eventData);
+                    ActionEvent.OnDrop(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });
@@ -117,7 +127,7 @@ namespace ParrotCode.UI
             SetUIState(UIStateType.Selected, isInteractableResults =>
             {
                 if (string.IsNullOrEmpty(isInteractableResults.errorMessage))
-                    actionEvent.OnEndDrag(eventData);
+                    ActionEvent.OnEndDrag(eventData);
                 else
                     Log(isInteractableResults.errorMessage, LogVerbosity.Error, LogChannel.UI);
             });

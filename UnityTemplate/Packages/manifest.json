@@ -2,6 +2,7 @@
   "dependencies": {
     "com.unity.collab-proxy": "2.11.3",
     "com.unity.feature.development": "1.0.1",
+    "com.unity.textmeshpro": "3.0.9",
     "com.unity.timeline": "1.7.7",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.4",
@@ -40,9 +41,10 @@
   "scopedRegistries": [
     {
       "name": "Parrot Code",
-      "url": "https://registry.nmpjs.org",
+      "url": "https://registry.npmjs.org",
       "scopes": [
-        "com.sludgyparrot.common"
+        "com.sludgyparrot.native",
+        "com.sludgyparrot.ui"
       ]
     }
   ]

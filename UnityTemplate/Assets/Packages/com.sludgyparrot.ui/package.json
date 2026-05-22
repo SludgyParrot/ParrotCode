@@ -1,0 +1,20 @@
+{
+    "name": "com.sludgyparrot.ui",
+    "version": "0.0.4",
+    "displayName": "User Interface",
+    "Unity": "2022.3",
+    "description": "A collection of UI classes that contains custom UI buttons, text [TextMeshPro based], image displayers, input fields, virtual inputs and more.",
+    "keywords": [
+        "Sludgy Parrot",
+        "UI",
+        "User Interface"
+    ],
+    "dependencies": {
+        "com.sludgyparrot.native": "0.0.3",
+        "com.unity.textmeshpro": "3.0.9"
+    },
+    "author": {
+        "name": "sludgy Parrot",
+        "email": "sludgyparrot@gmail.com"
+    }
+}
