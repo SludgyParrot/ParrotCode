@@ -5,7 +5,7 @@ using ParrotCode.Native.Common;
 namespace ParrotCode.UI.Keyboard
 {
     [DisallowMultipleComponent]
-    public sealed class VirtualKeyboard : BaseMonoBehavior, IVirtualKeyboard
+    public sealed class VirtualKeyboard : BaseMonoBehaviour, IVirtualKeyboard
     {
 
     }

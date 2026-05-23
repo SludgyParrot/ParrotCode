@@ -3,7 +3,7 @@
 namespace ParrotCode.Native.Common
 {
     [DisallowMultipleComponent]
-    public class SingletonInstance<T>: BaseMonoBehavior where T : MonoBehaviour
+    public class SingletonInstance<T>: BaseMonoBehaviour where T : MonoBehaviour
     {
         [SerializeField, Space(5)]
         protected bool doNotDestroyOnLoad = true;

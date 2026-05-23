@@ -5,7 +5,7 @@ using ParrotCode.Native.Common;
 namespace ParrotCode.UI
 {
     [DisallowMultipleComponent]
-    public abstract class UIComponent<TType> : BaseMonoBehavior, IUIComponent<TType> where TType: class
+    public abstract class UIComponent<TType> : BaseMonoBehaviour, IUIComponent<TType> where TType: class
     {
         [SerializeField, Space(5)]
         protected string identifier;
@@ -38,5 +38,13 @@ namespace ParrotCode.UI
 
         public abstract void SetColor(Color color);
         public abstract void SetUIState(UIStateType stateType, Action<(UIState state, string errorMessage)> actionCallback = null);
+
+        public virtual void Add<T>(UIComponent<T> component) where T: class
+        {
+            if (component == null)
+                throw new ArgumentNullException($"Add component failed. Couldn't add UI component to: {gameObject.name}. Parameter value is null.");
+
+            component.transform.SetParent(transform);
+        }
     }
 }

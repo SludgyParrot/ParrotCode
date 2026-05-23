@@ -8,7 +8,17 @@ namespace ParrotCode.UI
     public abstract class UIStateComponent<TTYpe, TState>: UIComponent<TTYpe> where TTYpe : class where TState : UIState
     {
         [field: SerializeField, Space(5)]
-        protected virtual List<TState> States {  get; set; }
+        protected List<TState> states;
+
+        public List<TState> States
+        {
+            get
+            {
+                if (states == null)
+                    throw new NullReferenceException($"States cannot be null for: {gameObject.name}");
+                return states;
+            }
+        }
 
         public virtual void SetUIState(UIStateType stateType, Action<(TState state, string errorMessage)> actionCallback = null)
         {

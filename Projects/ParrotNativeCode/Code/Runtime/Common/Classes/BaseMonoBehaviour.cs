@@ -1,6 +1,6 @@
 ﻿namespace ParrotCode.Native.Common
 {
-    public abstract class BaseMonoBehavior : UnityConsoleLogger
+    public abstract class BaseMonoBehaviour : UnityConsoleLogger
     {
         protected override void Init() {}
     }

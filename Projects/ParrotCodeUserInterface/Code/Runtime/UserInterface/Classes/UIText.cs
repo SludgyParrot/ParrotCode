@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ParrotCode.UI
 {
-    [RequireComponent(typeof(TMP_Text))]
-    public class UIText : UIStateComponent<TMP_Text, UITextState>
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    public class UIText : UIStateComponent<TextMeshProUGUI, UITextState>
     {
         public override void SetColor(Color color)
             => Value.color = color;
@@ -45,5 +45,17 @@ namespace ParrotCode.UI
                 }
             }
         }
+
+        public void SetFont(TMP_FontAsset fontAsset)
+            => Value.font = fontAsset;
+
+        public void SetFontStyle(FontStyles fontStyles)
+            => Value.fontStyle = fontStyles;
+
+        public void SetFontSize(int fontSize)
+            => Value.fontSize = fontSize;
+
+        public void SetAlignment(TextAlignmentOptions alignmentOptions)
+            => Value.alignment = alignmentOptions;
     }
 }

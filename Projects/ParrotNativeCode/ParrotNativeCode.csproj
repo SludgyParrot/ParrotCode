@@ -35,6 +35,9 @@
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UIModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
       <Private>False</Private>
