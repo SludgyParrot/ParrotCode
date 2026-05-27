@@ -39,12 +39,26 @@ namespace ParrotCode.UI
         public abstract void SetColor(Color color);
         public abstract void SetUIState(UIStateType stateType, Action<(UIState state, string errorMessage)> actionCallback = null);
 
-        public virtual void Add<T>(UIComponent<T> component) where T: class
+        public virtual void Create<T>(string label = "UI Component", Action<T> createdInstanceCallback = null) where T : UIComponent<T>
+        {
+            var component = new GameObject(label).AddComponent<T>();
+            component.transform.SetParent(transform, false);
+            createdInstanceCallback.Invoke(component);
+        }
+
+        public virtual T Create<T>(string label = "UI Component") where T : UIComponent<T>
+        {
+            var component = new GameObject(label).AddComponent<T>();
+            component.transform.SetParent(transform, false);
+            return component;
+        }
+
+        public virtual void Add<T>(UIComponent<T> component, bool keepComponentPosition = false)where T: class
         {
             if (component == null)
                 throw new ArgumentNullException($"Add component failed. Couldn't add UI component to: {gameObject.name}. Parameter value is null.");
 
-            component.transform.SetParent(transform);
+            component.transform.SetParent(transform, keepComponentPosition);
         }
     }
 }

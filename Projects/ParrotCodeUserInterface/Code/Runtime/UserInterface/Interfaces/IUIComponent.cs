@@ -9,6 +9,8 @@ namespace ParrotCode.UI
 
         void SetColor(Color color);
         void SetUIState(UIStateType stateType, Action<(UIState state, string errorMessage)> actionCallback = null);
-        void Add<T>(UIComponent<T> component) where T: class;
+        void Create<T>(string label = "UI Component", Action<T> createdInstanceCallback = null) where T : UIComponent<T>;
+        T Create<T>(string label = "UI Component") where T : UIComponent<T>;
+        void Add<T>(UIComponent<T> component, bool keepComponentPosition = false) where T: class;
     }
 }

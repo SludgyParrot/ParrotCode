@@ -8,10 +8,12 @@ namespace ParrotCode.UI
     public sealed class UIButton : SelectableUIComponent
     {
         [SerializeField, Space(5)]
-        private bool requireButtonTitle;
+        private bool requireButtonTitle = true;
 
         [SerializeField, Space(5)]
         private UIText titleTextDisplayer;
+
+        public bool RequireButtonTitle => requireButtonTitle;
 
         public UIText TitleTextDisplayer
         {
@@ -23,8 +25,8 @@ namespace ParrotCode.UI
             }
         }
 
-        [Button]
-        public void Create()
+        [Button("Create")]
+        public void InitializeButton()
         {
             if(states == null || states.Count == 0)
             {
@@ -38,12 +40,13 @@ namespace ParrotCode.UI
                 };
             }
 
-            if(requireButtonTitle)
+            if(RequireButtonTitle)
             {
                 titleTextDisplayer = GetComponentInChildren<UIText>();
 
                 if (titleTextDisplayer != null)
                     return;
+
 
                 titleTextDisplayer = new GameObject("Title Displayer").AddComponent<UIText>();
                 titleTextDisplayer.SetText("[None]");

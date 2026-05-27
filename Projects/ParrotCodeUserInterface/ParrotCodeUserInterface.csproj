@@ -25,6 +25,9 @@
       <HintPath>..\..\UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
@@ -32,6 +35,9 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\UnityDLL\2022.3.62f3\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 

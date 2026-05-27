@@ -41,6 +41,9 @@
       <Private>False</Private>
       <EmbedInteropTypes></EmbedInteropTypes>
     </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
