@@ -24,11 +24,11 @@
   <ItemGroup>
     <Reference Include="UnityEditor">
       <HintPath>..\..\..\UnityDLL\$(UnityVersion)\UnityEditor.dll</HintPath>
-      <Private>false</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\UnityDLL\$(UnityVersion)\UnityEngine.dll</HintPath>
-      <Private>false</Private>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 
