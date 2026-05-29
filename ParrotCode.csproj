@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Unity.Localization">
+      <HintPath>UnityDLL\6000.4.0f1\Unity.Localization.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.CoreModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
       <Private>False</Private>

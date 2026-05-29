@@ -17,10 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Reference Include="Unity.Localization">
+      <HintPath>..\..\UnityDLL\6000.4.0f1\Unity.Localization.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>..\..\UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
@@ -39,6 +38,14 @@
     <Reference Include="UnityEngine.UIModule">
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\Editor\Classes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
 </Project>

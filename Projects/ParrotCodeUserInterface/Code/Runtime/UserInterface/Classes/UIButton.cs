@@ -1,88 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
-using ParrotCode.Native.Inspector;
+using ParrotCode.Native.Common;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace ParrotCode.UI
 {
-    public sealed class UIButton : SelectableUIComponent
+    [RequireComponent(typeof(ImageView))]
+    [RequireComponent(typeof(UIInputHandler))]
+    [DisallowMultipleComponent]
+    public sealed class UIButton : BaseMonoBehaviour, IUIButton
     {
         [SerializeField, Space(5)]
-        private bool requireButtonTitle = true;
+        private TextView title;
 
         [SerializeField, Space(5)]
-        private UIText titleTextDisplayer;
+        private UITheme theme;
 
-        public bool RequireButtonTitle => requireButtonTitle;
+        [SerializeField, Space(5)]
+        private UIStateType entryState;
 
-        public UIText TitleTextDisplayer
+        private ImageView imageViewer;
+        private UIInputHandler inputHandler;
+
+        public UITheme Theme
         {
             get
             {
-                if (titleTextDisplayer == null)
-                    throw new NullReferenceException($"TitleTextDisplayer cannot be null for: {Identifier}");
-                return titleTextDisplayer;
+                if (theme == null)
+                    throw new NullReferenceException($"Theme is not assigned in the inspector for: {gameObject.name}");
+                return theme;
             }
         }
 
-        [Button("Create")]
-        public void InitializeButton()
+        public ImageView ImageViewer
         {
-            if(states == null || states.Count == 0)
-            {
-                states = new List<UIImageState>
-                { 
-                    new UIImageState(null, "Normal State", UIStateType.Normal, Color.white),
-                    new UIImageState(null, "Hovered State", UIStateType.Hovered, Color.black),
-                    new UIImageState(null, "Selected State", UIStateType.Selected, Color.gray),
-                    new UIImageState(null, "Pressed State", UIStateType.Pressed, Color.black),
-                    new UIImageState(null, "Disabled State", UIStateType.Disabled, Color.grey),
-                };
-            }
-
-            if(RequireButtonTitle)
-            {
-                titleTextDisplayer = GetComponentInChildren<UIText>();
-
-                if (titleTextDisplayer != null)
-                    return;
-
-
-                titleTextDisplayer = new GameObject("Title Displayer").AddComponent<UIText>();
-                titleTextDisplayer.SetText("[None]");
-                titleTextDisplayer.SetColor(Color.black);
-                titleTextDisplayer.SetAlignment(TMPro.TextAlignmentOptions.Center);
-
-                Add(titleTextDisplayer);
+            get
+            { 
+                if(imageViewer == null) 
+                    imageViewer = GetComponent<ImageView>();
+                return imageViewer;
             }
         }
 
-        [Button]
-        private void Invoke()
+        public UIInputHandler InputHandler
+        {
+            get
+            { 
+                if (inputHandler == null)
+                    inputHandler = GetComponent<UIInputHandler>();
+                return inputHandler;
+            }
+        }
+
+        public void Config()
+        {
+            UIStateMachine stateMachine = new UIStateMachine(Theme);
+            stateMachine.OnStateChanged += OnStateChanged;
+            InputHandler.OnInput += stateMachine.SetState;
+            stateMachine.SetState(entryState);
+        }
+
+        private void OnStateChanged(UIState state)
+        {
+            SetBackgroundColor(state.Color);
+            SetBackgroundImage(state.Image);
+        }
+
+        public void SetBackgroundColor(Color color)
+            => ImageViewer.SetColor(color);
+
+        public void SetBackgroundImage(Sprite image)
+            => ImageViewer.SetImage(image);
+
+        public void SetTextColor(Color color)
+            => title?.SetColor(color);
+
+        public void SetTitleText(string text)
+            => title?.SetText(text);
+
+        public void SetTitleText(LocalizedString text)
         {
 
         }
-
-        protected override void Init()
-        {
-            base.Init();
-
-            if (!requireButtonTitle)
-                return;
-
-            TitleTextDisplayer.SetUIState(initialInteractableState);
-        }
-
-        public override void SetUIState(UIStateType stateType, Action<(UIImageState state, string errorMessage)> actionCallback = null)
-        {
-            base.SetUIState(stateType, actionCallback);
-
-            if (!requireButtonTitle)
-                return;
-
-            TitleTextDisplayer.SetUIState(stateType);
-        }
-
-        public override void SetColor(Color color) { }
     }
 }

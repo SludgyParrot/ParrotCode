@@ -4,42 +4,18 @@ using UnityEngine;
 namespace ParrotCode.UI
 {
     [Serializable]
-    public abstract class UIState
+    public class UIState
     {
-        [SerializeField]
-        private string stateId;
+        [field: SerializeField]
+        public string Name { get; private set; }
 
-        [SerializeField, Space(5)]
-        private UIStateType state;
+        [field: SerializeField, Space(5)]
+        public Color Color { get; private set; } = Color.white;
 
-        [SerializeField, Space(5)]
-        private Color color;
+        [field: SerializeField, Space(5)]
+        public Sprite Image { get; private set; }
 
-        [Header("Optionals"), SerializeField, Space(5)]
-        private bool useOptionals;
-
-        public string StateId
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(stateId))
-                    throw new NullReferenceException("StateId cannot be null for UIState.");
-                return stateId;
-            }
-        }
-
-        public UIStateType State => state;
-        public Color Color => color;
-        public bool UseOptionals => useOptionals;
-
-        protected UIState() { }
-
-        protected UIState(string stateId, UIStateType state, Color color, bool useOptionals = false)
-        {
-            this.stateId = stateId;
-            this.state = state;
-            this.color = color;
-            this.useOptionals = useOptionals;
-        }
+        [field: SerializeField, Space(5)]
+        public UIStateType State { get; private set; }
     }
 }
