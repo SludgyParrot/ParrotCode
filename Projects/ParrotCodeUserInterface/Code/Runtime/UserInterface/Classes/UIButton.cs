@@ -1,10 +1,12 @@
 ﻿using System;
-using ParrotCode.Native.Common;
 using UnityEngine;
 using UnityEngine.Localization;
+using ParrotCode.Native.Common;
+using ParrotCode.Audio;
 
 namespace ParrotCode.UI
 {
+    [RequireComponent(typeof(SoundPlayer))]
     [RequireComponent(typeof(ImageView))]
     [RequireComponent(typeof(UIInputHandler))]
     [DisallowMultipleComponent]
@@ -21,6 +23,8 @@ namespace ParrotCode.UI
 
         private ImageView imageViewer;
         private UIInputHandler inputHandler;
+        private UIStateMachine stateMachine;
+        private SoundPlayer soundPlayer;
 
         public UITheme Theme
         {
@@ -52,9 +56,9 @@ namespace ParrotCode.UI
             }
         }
 
-        public void Config()
+        protected override void Init()
         {
-            UIStateMachine stateMachine = new UIStateMachine(Theme);
+            stateMachine = new UIStateMachine(Theme);
             stateMachine.OnStateChanged += OnStateChanged;
             InputHandler.OnInput += stateMachine.SetState;
             stateMachine.SetState(entryState);
@@ -62,9 +66,12 @@ namespace ParrotCode.UI
 
         private void OnStateChanged(UIState state)
         {
-            SetBackgroundColor(state.Color);
+            SetBackgroundColor(state.BackgroundColor);
             SetBackgroundImage(state.Image);
         }
+
+        public void SetColor(Color color)
+            => title?.SetColor(color);
 
         public void SetBackgroundColor(Color color)
             => ImageViewer.SetColor(color);
@@ -72,15 +79,18 @@ namespace ParrotCode.UI
         public void SetBackgroundImage(Sprite image)
             => ImageViewer.SetImage(image);
 
-        public void SetTextColor(Color color)
-            => title?.SetColor(color);
-
         public void SetTitleText(string text)
             => title?.SetText(text);
 
         public void SetTitleText(LocalizedString text)
         {
 
+        }
+
+        public void OnDestroy()
+        {
+            stateMachine.OnStateChanged -= OnStateChanged;
+            InputHandler.OnInput -= stateMachine.SetState;
         }
     }
 }

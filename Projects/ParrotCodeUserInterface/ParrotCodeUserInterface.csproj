@@ -29,6 +29,10 @@
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
@@ -44,11 +48,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\Editor\Classes\" />
+    <ProjectReference Include="..\ParrotCodeAudio\ParrotCodeAudio.csproj" />
+    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
+    <Folder Include="Code\Editor\" />
   </ItemGroup>
 
 </Project>

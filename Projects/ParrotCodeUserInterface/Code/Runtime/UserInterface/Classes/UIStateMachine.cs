@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace ParrotCode.UI
 {
@@ -9,9 +10,7 @@ namespace ParrotCode.UI
         private readonly Dictionary<UIStateType, UIState> states = new Dictionary<UIStateType, UIState>();
 
         public UIState CurrentState { get; private set; }
-        public delegate void UIStateDelegate(UIState state);
-
-        public UIStateDelegate OnStateChanged;
+        public event Action<UIState> OnStateChanged;
 
         public UIStateMachine(UITheme theme)
         {
@@ -33,7 +32,7 @@ namespace ParrotCode.UI
                 OnStateChanged?.Invoke(state);
             }
             else
-                throw new NullReferenceException($"Set state: {stateType} failed. Couldn't find state of type on the assigned theme.");
+                Debug.Log($"Set state: {stateType} failed. Couldn't find state of type on the assigned theme.");
         }
     }
 }

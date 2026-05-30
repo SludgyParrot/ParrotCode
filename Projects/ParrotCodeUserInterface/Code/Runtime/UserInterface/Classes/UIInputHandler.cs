@@ -12,9 +12,7 @@ namespace ParrotCode.UI
         IPointerDownHandler,
         IPointerUpHandler
     {
-
-        public delegate void OnActionPerformed(UIStateType stateType);
-        public OnActionPerformed OnInput;
+        public event Action<UIStateType> OnInput;
 
         public void OnPointerEnter(PointerEventData eventData)
             => OnInput?.Invoke(UIStateType.Hovered);

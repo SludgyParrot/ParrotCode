@@ -13,6 +13,9 @@ namespace ParrotCode.UI
         public Color Color { get; private set; } = Color.white;
 
         [field: SerializeField, Space(5)]
+        public Color BackgroundColor { get; private set; } = Color.white;
+
+        [field: SerializeField, Space(5)]
         public Sprite Image { get; private set; }
 
         [field: SerializeField, Space(5)]

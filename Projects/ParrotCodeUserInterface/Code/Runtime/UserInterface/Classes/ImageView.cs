@@ -24,6 +24,6 @@ namespace ParrotCode.UI
             => ImageRenderer.color = color;
 
         public void SetImage(Sprite image)
-            => imageRenderer.sprite = image;
+            => ImageRenderer.sprite = image;
     }
 }

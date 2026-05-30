@@ -1,0 +1,20 @@
+{
+    "name": "com.sludgyparrot.audio",
+    "version": "0.0.1",
+    "displayName": "User Interface",
+    "Unity": "2022.3",
+    "description": "A collection of audio managers, helpers classes, packages and more, for use in Unity software development.",
+    "keywords": [
+        "Sludgy Parrot",
+        "Audio",
+        "Sound"
+    ],
+    "dependencies": {
+        "com.sludgyparrot.native": "0.0.3",
+        "com.unity.textmeshpro": "3.0.9"
+    },
+    "author": {
+        "name": "sludgy Parrot",
+        "email": "sludgyparrot@gmail.com"
+    }
+}

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine.Localization;
+﻿using UnityEngine.Localization;
 using ParrotCode.Native.Common;
 using UnityEngine;
 using TMPro;
@@ -8,7 +7,7 @@ namespace ParrotCode.UI
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
     [DisallowMultipleComponent]
-    public sealed class TextView : BaseMonoBehaviour, ITextView, IDisposable
+    public sealed class TextView : BaseMonoBehaviour, ITextView
     {
         private TextMeshProUGUI textRenderer;
 
@@ -32,11 +31,6 @@ namespace ParrotCode.UI
         {
             // Add reference to UnityEngine.UIElementsModule
             //TextRenderer.SetText(localizedText.GetLocalizedString());
-        }
-
-        public void Dispose()
-        {
-
         }
     }
 }

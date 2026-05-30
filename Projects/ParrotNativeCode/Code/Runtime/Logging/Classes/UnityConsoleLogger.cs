@@ -15,7 +15,7 @@ namespace ParrotCode.Native.Common
         public LogVerbosity Verbosity => verbosity;
 
         #region Initialization
-        private void Start()
+        private void Awake()
             => Init();
 
         protected abstract void Init();
