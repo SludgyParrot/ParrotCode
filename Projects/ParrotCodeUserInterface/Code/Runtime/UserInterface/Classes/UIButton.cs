@@ -56,6 +56,16 @@ namespace ParrotCode.UI
             }
         }
 
+        public SoundPlayer SoundPlayer
+        {
+            get
+            {
+                if (soundPlayer == null)
+                    soundPlayer = GetComponent<SoundPlayer>();
+                return soundPlayer;
+            }
+        }
+
         protected override void Init()
         {
             stateMachine = new UIStateMachine(Theme);
@@ -66,8 +76,10 @@ namespace ParrotCode.UI
 
         private void OnStateChanged(UIState state)
         {
+            SetColor(state.TextColor);
             SetBackgroundColor(state.BackgroundColor);
             SetBackgroundImage(state.Image);
+            PlaySoundFx(state.SoundFx);
         }
 
         public void SetColor(Color color)
@@ -86,6 +98,9 @@ namespace ParrotCode.UI
         {
 
         }
+
+        public void PlaySoundFx(AudioClip clip)
+            => SoundPlayer.PlayOnce(clip);
 
         public void OnDestroy()
         {
