@@ -9,6 +9,9 @@ namespace ParrotCode.UI
         [SerializeField]
         private List<UIState> states = new List<UIState>();
 
+        [field: SerializeField, Space(5)]
+        public ThemeType Type {  get; private set; }
+
         public IReadOnlyList<UIState> States
         {
             get

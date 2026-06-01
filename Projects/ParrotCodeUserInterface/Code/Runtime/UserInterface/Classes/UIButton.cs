@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Localization;
 using ParrotCode.Native.Common;
+using ParotCode.EventSystem;
 using ParrotCode.Audio;
 
 namespace ParrotCode.UI
@@ -15,8 +15,7 @@ namespace ParrotCode.UI
         [SerializeField, Space(5)]
         private TextView title;
 
-        [SerializeField, Space(5)]
-        private UITheme theme;
+    
 
         [SerializeField, Space(5)]
         private UIStateType entryState;
@@ -25,16 +24,6 @@ namespace ParrotCode.UI
         private UIInputHandler inputHandler;
         private UIStateMachine stateMachine;
         private SoundPlayer soundPlayer;
-
-        public UITheme Theme
-        {
-            get
-            {
-                if (theme == null)
-                    throw new NullReferenceException($"Theme is not assigned in the inspector for: {gameObject.name}");
-                return theme;
-            }
-        }
 
         public ImageView ImageViewer
         {
@@ -67,8 +56,11 @@ namespace ParrotCode.UI
         }
 
         protected override void Init()
+            => EventBus.Register<UITheme>(OnThemeChangedEvent);
+
+        private void OnThemeChangedEvent(UITheme theme)
         {
-            stateMachine = new UIStateMachine(Theme);
+            stateMachine = new UIStateMachine(theme);
             stateMachine.OnStateChanged += OnStateChanged;
             InputHandler.OnInput += stateMachine.SetState;
             stateMachine.SetState(entryState);

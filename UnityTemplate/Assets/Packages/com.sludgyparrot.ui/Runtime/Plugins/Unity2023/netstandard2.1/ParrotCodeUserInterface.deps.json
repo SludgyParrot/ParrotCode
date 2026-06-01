@@ -9,11 +9,23 @@
     ".NETStandard,Version=v2.1/": {
       "ParrotCodeUserInterface/1.0.0": {
         "dependencies": {
+          "ParotCodeEventSystem": "1.0.0",
           "ParrotCodeAudio": "1.0.0",
           "ParrotNativeCode": "1.0.0"
         },
         "runtime": {
           "ParrotCodeUserInterface.dll": {}
+        }
+      },
+      "ParotCodeEventSystem/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParotCodeEventSystem.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
         }
       },
       "ParrotCodeAudio/1.0.0": {
@@ -39,6 +51,11 @@
   },
   "libraries": {
     "ParrotCodeUserInterface/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParotCodeEventSystem/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

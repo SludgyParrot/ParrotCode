@@ -8,4 +8,11 @@
         Selected,
         Disabled
     }
+
+    public enum ThemeType
+    {
+        Default,
+        LightMode,
+        DarkMode
+    }
 }

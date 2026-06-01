@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ParotCodeEventSystem\ParotCodeEventSystem.csproj" />
     <ProjectReference Include="..\ParrotCodeAudio\ParrotCodeAudio.csproj" />
     <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
