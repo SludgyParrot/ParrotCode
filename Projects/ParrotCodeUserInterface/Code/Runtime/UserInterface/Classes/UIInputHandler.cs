@@ -6,24 +6,63 @@ using ParrotCode.Native.Common;
 namespace ParrotCode.UI
 {
     [DisallowMultipleComponent]
-    public sealed class UIInputHandler : BaseMonoBehaviour,
+    public sealed class UIInputHandler : BaseMonoBehaviour, 
+        IUIInputHandler,
         IPointerEnterHandler,
         IPointerExitHandler,
         IPointerDownHandler,
         IPointerUpHandler
     {
-        public event Action<UIStateType> OnInput;
+        private event Action<UIStateType> onInputActionEventTrigger;
+
+        public void AddListener(params Action<UIStateType>[] listeners)
+        {
+            if(listeners == null || listeners.Length == 0)
+            {
+                Log($"[{gameObject.name}] AddEventListeners failed for register '{nameof(listeners)}'. There are no listener(s) assigned in the arguments.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            for(int i = 0; i < listeners.Length; i++)
+            {
+                if (listeners[i] == null)
+                {
+                    Log($"[{gameObject.name}] AddEventListeners failed to register a listener at '{i}'", LogVerbosity.Error, LogChannel.UI);
+                    continue;
+                }
+                onInputActionEventTrigger += listeners[i];
+            }
+        }
+
+        public void RemoveListener(params Action<UIStateType>[] listeners)
+        {
+            if (listeners == null || listeners.Length == 0)
+            {
+                Log($"[{gameObject.name}] RemoveEventListener failed for unregister '{nameof(listeners)}'. There are no listener(s) assigned in the arguments.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            for (int i = 0; i < listeners.Length; i++)
+            {
+                if (listeners[i] == null)
+                {
+                    Log($"[{gameObject.name}] RemoveEventListener failed to unregister a listener at '{i}'", LogVerbosity.Error, LogChannel.UI);
+                    continue;
+                }
+                onInputActionEventTrigger -= listeners[i];
+            }
+        }
 
         public void OnPointerEnter(PointerEventData eventData)
-            => OnInput?.Invoke(UIStateType.Hovered);
+            => onInputActionEventTrigger?.Invoke(UIStateType.Hovered);
 
         public void OnPointerExit(PointerEventData eventData)
-            => OnInput?.Invoke(UIStateType.Normal);
+            => onInputActionEventTrigger?.Invoke(UIStateType.Normal);
 
         public void OnPointerDown(PointerEventData eventData)
-            => OnInput?.Invoke(UIStateType.Pressed);
+            => onInputActionEventTrigger?.Invoke(UIStateType.Pressed);
 
         public void OnPointerUp(PointerEventData eventData)
-            => OnInput?.Invoke(UIStateType.Selected);
+            => onInputActionEventTrigger?.Invoke(UIStateType.Selected);
     }
 }

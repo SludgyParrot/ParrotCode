@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using ParrotCode.Native.Common;
-using ParotCode.EventSystem;
+using ParrotCode.EventSystem;
 using ParrotCode.Native.Inspector;
 
 namespace ParrotCode.UI
@@ -43,7 +43,7 @@ namespace ParrotCode.UI
             }
 
             SelectedTheme = selectedTheme;
-            EventBus.Publish(theme);
+            EventBus.InvokeEvent(theme);
         }
     }
 }

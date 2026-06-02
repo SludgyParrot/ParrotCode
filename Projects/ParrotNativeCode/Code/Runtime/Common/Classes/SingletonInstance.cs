@@ -15,9 +15,8 @@ namespace ParrotCode.Native.Common
             {
                 if(instance == null)
                 {
-                    instance = FindObjectOfType<T>();
-                    if (instance == null)
-                        instance = new GameObject($"{nameof(T)} [Singleton Instance]").AddComponent<T>();
+                    instance = FindFirstObjectByType<T>();
+                    instance ??= new GameObject($"{nameof(T)} [Singleton Instance]").AddComponent<T>();
                 }
                 return instance;
             }
@@ -28,8 +27,8 @@ namespace ParrotCode.Native.Common
             if (!doNotDestroyOnLoad)
                 return;
 
-            if(instance !=null && instance != this)
-                Destroy(instance);
+            if(instance != null && instance != this)
+                Destroy(this);
 
             DontDestroyOnLoad(this);
         }

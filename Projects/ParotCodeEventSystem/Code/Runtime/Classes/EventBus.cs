@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ParotCode.EventSystem
+namespace ParrotCode.EventSystem
 {
-
     /// <summary>
     /// This class handles global events across the Sludgy Parrot Code framework.
     /// </summary>
@@ -16,19 +15,12 @@ namespace ParotCode.EventSystem
         /// </summary>
         /// <typeparam name="T">Event data type.</typeparam>
         /// <param name="eventCallback">The function that listens to callbacks from the event.</param>
-        public static void Register<T>(Action<T> eventCallback)
+        public static void AddListener<T>(Action<T> eventCallback)
         {
-            try
-            {
-                if (events.TryGetValue(typeof(T), out object existingEvent))
-                    events[typeof(T)] = (Action<T>)existingEvent + eventCallback;
-                else
-                    events[typeof(T)] = eventCallback;
-            }
-            catch (Exception exception)
-            {
-                UnityEngine.Debug.LogError($"Register event on type: {typeof(T)} failed with exception: {exception.Message}");
-            }
+            if (events.TryGetValue(typeof(T), out object existingEvent))
+                events[typeof(T)] = (Action<T>)existingEvent + eventCallback;
+            else
+                events[typeof(T)] = eventCallback;
         }
 
         /// <summary>
@@ -36,19 +28,10 @@ namespace ParotCode.EventSystem
         /// </summary>
         /// <typeparam name="T">Event data type.</typeparam>
         /// <param name="eventData">The event data parameter to be sent to the listening functions.</param>
-        public static void Publish<T>(T eventData)
+        public static void InvokeEvent<T>(T eventData)
         {
-            try
-            {
-                if(events.TryGetValue(typeof(T), out object existingEvent))
-                    ((Action<T>)existingEvent).Invoke(eventData);
-                else
-                    UnityEngine.Debug.LogWarning($"Couldn't publish event of type: {typeof(T)}. Event was not found in the registered events list.");
-            }
-            catch (Exception exception)
-            {
-                UnityEngine.Debug.LogError($"Publish event on type: {typeof(T)} failed with exception: {exception.Message}");
-            }
+            if (events.TryGetValue(typeof(T), out object existingEvent))
+                ((Action<T>)existingEvent).Invoke(eventData);
         }
 
         /// <summary>
@@ -56,19 +39,19 @@ namespace ParotCode.EventSystem
         /// </summary>
         /// <typeparam name="T">Event data type.</typeparam>
         /// <param name="eventCallback">The function that listens to callbacks from the event.</param>
-        public static void Unregister<T>(Action<T> eventCallback)
+        public static void RemoveListener<T>(Action<T> eventCallback)
         {
-            try
+            if (events.TryGetValue(typeof(T), out object existingEvent))
             {
-                if (events.TryGetValue(typeof(T), out object existingEvent))
-                    events[typeof(T)] = (Action<T>)existingEvent - eventCallback;
+                Action<T> callback = (Action<T>)existingEvent - eventCallback;
+
+                if (callback == null)
+                    events.Remove(typeof(T));
                 else
-                    UnityEngine.Debug.LogWarning($"Couldn't unregister event of type: {typeof(T)}. Event was not found in the registered events list.");
+                    events[typeof(T)] = callback;
             }
-            catch (Exception exception)
-            {
-                UnityEngine.Debug.LogError($"Unregister event on type: {typeof(T)} failed with exception: {exception.Message}");
-            }
+            else
+                UnityEngine.Debug.LogWarning($"Couldn't unregister event of type: {typeof(T)}. Event was not found in the registered events list.");
         }
     }
 }
