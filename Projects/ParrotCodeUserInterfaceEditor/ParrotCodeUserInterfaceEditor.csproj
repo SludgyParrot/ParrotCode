@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <BaseOutputPath>..\..\UnityTemplate\Assets\Packages\com.sludgyparrot.ui\Runtime\Plugins</BaseOutputPath>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Packages\com.sludgyparrot.ui\Editor\Plugins</BaseOutputPath>
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
@@ -49,7 +49,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ParotCodeEventSystem\ParotCodeEventSystem.csproj" />
-    <ProjectReference Include="..\ParrotCodeAudio\ParrotCodeAudio.csproj" />
+    <ProjectReference Include="..\ParrotCodeUserInterface\ParrotCodeUserInterface.csproj" />
     <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
