@@ -123,6 +123,9 @@ namespace ParrotCode.UI
                 ConfigEventHandler.Config();
         }
 
+        public void OverrideTitleDisplayer(TextView title)
+            => this.title = title;
+
         public void SetColor(Color color)
             => title?.SetColor(color);
 

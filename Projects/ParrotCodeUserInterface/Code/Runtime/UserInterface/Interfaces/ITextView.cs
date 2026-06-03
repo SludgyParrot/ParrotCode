@@ -1,5 +1,6 @@
 ﻿using UnityEngine.Localization;
 using UnityEngine;
+using TMPro;
 
 namespace ParrotCode.UI
 {
@@ -8,5 +9,6 @@ namespace ParrotCode.UI
         void SetText(string text);
         void SetText(LocalizedString localizedText);
         void SetColor(Color color);
+        void SetTextAlignment(TextAlignmentOptions alignmentOptions);
     }
 }

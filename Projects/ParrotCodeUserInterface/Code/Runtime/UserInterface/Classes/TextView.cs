@@ -24,6 +24,9 @@ namespace ParrotCode.UI
         public void SetColor(Color color)
             => TextRenderer.color = color;
 
+        public void SetTextAlignment(TextAlignmentOptions alignmentOptions)
+            => TextRenderer.alignment = alignmentOptions;
+
         public void SetText(string text)
             => TextRenderer.text = text;
 
