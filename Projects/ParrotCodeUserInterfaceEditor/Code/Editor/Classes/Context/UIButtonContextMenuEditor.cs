@@ -12,7 +12,7 @@ namespace ParrotCode.UIEditor
 {
     public class UIButtonContextMenuEditor: Editor
     {
-        private const string ButtonMenuName = EditorSharedStrings.ContextRootMenuName + "UI Button";
+        private const string ButtonMenuName = EditorSharedStrings.ContextRootMenuName + "UI Button #%B";
         private const int UIMenuPriority = 0;
         private const bool Validate = false;
 
@@ -57,15 +57,13 @@ namespace ParrotCode.UIEditor
         private static bool TryCreateUIView(RenderMode renderMode, out GameObject uiView)
         {
             uiView = new GameObject(UIViewName);
-            Canvas canvas = uiView.AddComponent<Canvas>();
-            uiView.AddComponent<CanvasScaler>();
-            uiView.AddComponent<GraphicRaycaster>();
-            canvas.renderMode = renderMode;
+            UIView canvas = uiView.AddComponent<UIView>();
+            canvas.SetRenderMode(renderMode);
 
             if (TryAddEventSystem(out GameObject eventSystem))
                 Undo.RegisterCreatedObjectUndo(eventSystem, EventSystemName);
 
-            return uiView != null && (canvas != null && canvas.renderMode == renderMode);
+            return uiView.GetComponent<Canvas>() != null;
         }
 
         private static bool TryCreateUIButton(out GameObject button)

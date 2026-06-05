@@ -15,4 +15,11 @@
         LightMode,
         DarkMode
     }
+
+    public enum UINavigationType
+    {
+        None,
+        Automatic,
+        Explicit
+    }
 }
