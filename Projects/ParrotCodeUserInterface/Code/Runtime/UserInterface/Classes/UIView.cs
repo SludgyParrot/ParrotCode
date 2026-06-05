@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using ParrotCode.Native.Common;
 
@@ -11,8 +12,18 @@ namespace ParrotCode.UI
     [RequireComponent(typeof(CanvasGroup))]
     public sealed class UIView : BaseMonoBehaviour, IUIView
     {
-        [field: SerializeField, Space(5)]
-        public UINavigationType NavigationType { get; set; }
+        [HideInInspector]
+        public List<Object> selectables = new List<Object>();
+
+        public IEnumerable<ISelectable> Selectables
+        {
+            get
+            {
+                foreach(Object selectableObject in selectables)
+                    if (selectableObject is ISelectable)
+                        yield return selectableObject as ISelectable;
+            }
+        }
 
         private Canvas uiViewCanvas;
         public Canvas UIViewCanvas
@@ -27,5 +38,15 @@ namespace ParrotCode.UI
 
         public void SetRenderMode(RenderMode renderMode)
             => UIViewCanvas.renderMode = renderMode;
+
+        public void OnFocus()
+        {
+            
+        }
+
+        public void OnBlur()
+        {
+            
+        }
     }
 }

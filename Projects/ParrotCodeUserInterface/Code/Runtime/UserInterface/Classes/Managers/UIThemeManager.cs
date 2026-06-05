@@ -13,7 +13,7 @@ namespace ParrotCode.UI
         private List<UITheme> themes = new List<UITheme>();
 
         [field: SerializeField, Space(5)]
-        public ThemeType SelectedTheme {  get; private set; }
+        public Theme SelectedTheme {  get; private set; }
 
         public IReadOnlyList<UITheme> Themes => themes;
 
@@ -32,7 +32,7 @@ namespace ParrotCode.UI
         private void ChangeTheme()
             => ChangeTheme(SelectedTheme);
 
-        public void ChangeTheme(ThemeType selectedTheme)
+        public void ChangeTheme(Theme selectedTheme)
         {
             UITheme theme = Themes.FirstOrDefault(theme => theme.Type.Equals(selectedTheme));
 

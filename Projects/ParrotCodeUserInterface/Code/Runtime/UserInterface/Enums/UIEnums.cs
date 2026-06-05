@@ -1,6 +1,6 @@
 ﻿namespace ParrotCode.UI
 {
-    public enum UIStateType
+    public enum State
     {
         Normal,
         Hovered,
@@ -9,16 +9,18 @@
         Disabled
     }
 
-    public enum ThemeType
+    public enum Theme
     {
         Default,
         LightMode,
         DarkMode
     }
 
-    public enum UINavigationType
+    public enum Navigation
     {
         None,
+        Vertical,
+        Horizontal,
         Automatic,
         Explicit
     }

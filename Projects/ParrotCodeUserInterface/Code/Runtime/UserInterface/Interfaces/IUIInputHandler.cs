@@ -5,7 +5,7 @@ namespace ParrotCode.UI
 {
     public interface IUIInputHandler
     {
-        void AddListener(params Action<UIStateType>[] listeners);
-        void RemoveListener(params Action<UIStateType>[] listeners);
+        void AddListener(params Action<State>[] listeners);
+        void RemoveListener(params Action<State>[] listeners);
     }
 }

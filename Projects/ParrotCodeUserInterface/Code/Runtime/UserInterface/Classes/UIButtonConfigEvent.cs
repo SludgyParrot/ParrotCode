@@ -5,7 +5,7 @@ using ParrotCode.EventSystem;
 namespace ParrotCode.UI
 {
     [DisallowMultipleComponent]
-    public sealed class UIButtonConfigEventHandler: BaseMonoBehaviour, IConfigurator
+    public sealed class UIButtonConfigEvent: BaseMonoBehaviour, IConfigurator
     {
         [SerializeField]
         private UIButtonConfig config;

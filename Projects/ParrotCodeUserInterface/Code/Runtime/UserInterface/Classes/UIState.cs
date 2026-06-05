@@ -22,6 +22,6 @@ namespace ParrotCode.UI
         public AudioClip SoundFx { get; private set; }
 
         [field: SerializeField, Space(5)]
-        public UIStateType State { get; private set; }
+        public State State { get; private set; }
     }
 }

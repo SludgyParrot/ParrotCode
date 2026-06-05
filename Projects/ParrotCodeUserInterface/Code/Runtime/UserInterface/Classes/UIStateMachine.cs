@@ -6,7 +6,7 @@ namespace ParrotCode.UI
 {
     public sealed class UIStateMachine
     {
-        private readonly Dictionary<UIStateType, UIState> states = new Dictionary<UIStateType, UIState>();
+        private readonly Dictionary<State, UIState> states = new Dictionary<State, UIState>();
 
         public UIState CurrentState { get; private set; }
         private event Action<UIState> onStateChanged;
@@ -41,7 +41,7 @@ namespace ParrotCode.UI
             }
         }
 
-        public void SetState(UIStateType stateType)
+        public void SetState(State stateType)
         {
             if (states.TryGetValue(stateType, out var state))
             {

@@ -6,16 +6,16 @@ using ParrotCode.Native.Common;
 namespace ParrotCode.UI
 {
     [DisallowMultipleComponent]
-    public sealed class UIInputHandler : BaseMonoBehaviour, 
+    public sealed class InputActions : BaseMonoBehaviour, 
         IUIInputHandler,
         IPointerEnterHandler,
         IPointerExitHandler,
         IPointerDownHandler,
         IPointerUpHandler
     {
-        private event Action<UIStateType> onInputActionEventTrigger;
+        private event Action<State> onInputActionEventTrigger;
 
-        public void AddListener(params Action<UIStateType>[] listeners)
+        public void AddListener(params Action<State>[] listeners)
         {
             if(listeners == null || listeners.Length == 0)
             {
@@ -34,7 +34,7 @@ namespace ParrotCode.UI
             }
         }
 
-        public void RemoveListener(params Action<UIStateType>[] listeners)
+        public void RemoveListener(params Action<State>[] listeners)
         {
             if (listeners == null || listeners.Length == 0)
             {
@@ -54,15 +54,15 @@ namespace ParrotCode.UI
         }
 
         public void OnPointerEnter(PointerEventData eventData)
-            => onInputActionEventTrigger?.Invoke(UIStateType.Hovered);
+            => onInputActionEventTrigger?.Invoke(State.Hovered);
 
         public void OnPointerExit(PointerEventData eventData)
-            => onInputActionEventTrigger?.Invoke(UIStateType.Normal);
+            => onInputActionEventTrigger?.Invoke(State.Normal);
 
         public void OnPointerDown(PointerEventData eventData)
-            => onInputActionEventTrigger?.Invoke(UIStateType.Pressed);
+            => onInputActionEventTrigger?.Invoke(State.Pressed);
 
         public void OnPointerUp(PointerEventData eventData)
-            => onInputActionEventTrigger?.Invoke(UIStateType.Selected);
+            => onInputActionEventTrigger?.Invoke(State.Selected);
     }
 }

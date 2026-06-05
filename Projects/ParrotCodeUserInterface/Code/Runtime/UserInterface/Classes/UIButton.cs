@@ -8,25 +8,24 @@ namespace ParrotCode.UI
 {
     [RequireComponent(typeof(SoundPlayer))]
     [RequireComponent(typeof(ImageView))]
-    [RequireComponent(typeof(UIInputHandler))]
-    [RequireComponent (typeof(UIButtonConfigEventHandler))] 
-    [DisallowMultipleComponent]
-    public sealed class UIButton : BaseMonoBehaviour, IUIButton, ISelectable
+    [RequireComponent(typeof(InputActions))]
+    [RequireComponent (typeof(UIButtonConfigEvent))]
+    public sealed class UIButton : Selectable, IUIButton
     {
         [SerializeField, Space(5)]
         private TextView title;
 
         [SerializeField, Space(5)]
-        private UIStateType entryState;
+        private State entryState;
 
         [SerializeField, Space(5)]
         private UITheme fallbackTheme;
 
         private ImageView imageViewer;
-        private UIInputHandler inputHandler;
+        private InputActions inputHandler;
         public UIStateMachine stateMachine;
         private SoundPlayer soundPlayer;
-        private UIButtonConfigEventHandler configEventHandler;
+        private UIButtonConfigEvent configEventHandler;
 
         public ImageView ImageViewer
         {
@@ -38,12 +37,12 @@ namespace ParrotCode.UI
             }
         }
 
-        public UIInputHandler InputHandler
+        public InputActions InputHandler
         {
             get
             { 
                 if (inputHandler == null)
-                    inputHandler = GetComponent<UIInputHandler>();
+                    inputHandler = GetComponent<InputActions>();
                 return inputHandler;
             }
         }
@@ -58,12 +57,12 @@ namespace ParrotCode.UI
             }
         }
 
-        public UIButtonConfigEventHandler ConfigEventHandler
+        public UIButtonConfigEvent ConfigEventHandler
         {
             get
             {
                 if(configEventHandler == null)
-                    configEventHandler = GetComponent<UIButtonConfigEventHandler>();
+                    configEventHandler = GetComponent<UIButtonConfigEvent>();
                 return configEventHandler;
             }
         }
@@ -119,7 +118,7 @@ namespace ParrotCode.UI
             SetBackgroundImage(state.Image);
             PlaySoundFx(state.SoundFx);
 
-            if (state.State == UIStateType.Pressed)
+            if (state.State == State.Pressed)
                 ConfigEventHandler.Config();
         }
 
@@ -152,14 +151,7 @@ namespace ParrotCode.UI
         public void PlaySoundFx(AudioClip clip)
             => SoundPlayer.PlayOnce(clip);
 
-        public void Focus()
-        {
-           
-        }
-
-        public void Select()
-        {
-        
-        }
+        public override void Select()
+            => stateMachine.SetState(entryState);
     }
 }

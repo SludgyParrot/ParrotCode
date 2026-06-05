@@ -2,17 +2,18 @@
 using UnityEngine;
 using UnityEditor;
 using ParrotCode.UI;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.EventSystems;
 
 using UnityEventSystem = UnityEngine.EventSystems.EventSystem;
+using UnityEngine.InputSystem.UI;
 
 namespace ParrotCode.UIEditor
 {
     public class UIButtonContextMenuEditor: Editor
     {
-        private const string ButtonMenuName = EditorSharedStrings.ContextRootMenuName + "UI Button #%B";
+        private const string ButtonMenuName = EditorSharedStrings.ContextRootMenuName + "UI Button #B";
         private const int UIMenuPriority = 0;
         private const bool Validate = false;
 
@@ -92,7 +93,7 @@ namespace ParrotCode.UIEditor
             {
                 eventSystem = new GameObject(EventSystemName);
                 eventSystem.AddComponent<UnityEventSystem>();
-                eventSystem.AddComponent<StandaloneInputModule>();
+                eventSystem.AddComponent<InputSystemUIInputModule>();
             }
             else
                 eventSystem = eventSystemComponent.gameObject;
