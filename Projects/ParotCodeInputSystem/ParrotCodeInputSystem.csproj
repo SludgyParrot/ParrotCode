@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParotCodeEventSystem\ParotCodeEventSystem.csproj" />
+    <ProjectReference Include="..\ParotCodeEventSystem\ParrotCodeEventSystem.csproj" />
     <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 

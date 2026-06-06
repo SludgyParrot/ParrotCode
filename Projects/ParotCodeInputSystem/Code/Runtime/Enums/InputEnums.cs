@@ -7,7 +7,7 @@
         Player
     }
 
-    public enum Action
+    public enum InputActionType
     {
         Action,
         Back,

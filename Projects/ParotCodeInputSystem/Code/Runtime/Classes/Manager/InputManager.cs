@@ -1,10 +1,37 @@
-﻿using System;
+﻿/*
+
+MIT License
+
+Copyright (c) 2026 Sludgy Parrot
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. 
+
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using ParrotCode.Native.Common;
 using ParrotCode.EventSystem;
+using System.Text;
 
 namespace ParrotCode.InputSystem
 { 
@@ -13,42 +40,97 @@ namespace ParrotCode.InputSystem
         [SerializeField, Space(5)]
         private List<InputActionScheme> actionSchemes = new List<InputActionScheme>();
 
+        private readonly Dictionary<InputAction, (Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)> subscribedInputActionEvents = 
+            new Dictionary<InputAction, (Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)>();
+
         public IReadOnlyList<InputActionScheme> ActionSchemes => actionSchemes;
+
+        private void OnEnable()
+            => RegisterInputBindings();
+
+        private void OnDisable()
+            => UnregisterInputBindings();
 
         protected override void Init()
         {
             base.Init();
 
-            if (ActionSchemes.Count == 0)
-                throw new NullReferenceException($"[{gameObject.name}] Initialization failed. {nameof(ActionSchemes)} cannot be null or empty.");
+            string errorMessage = ValidateConfigs();
 
-            if(ActionSchemes.Any(scheme => scheme == null))
-                throw new NullReferenceException($"[{gameObject.name}] Initialization Failed. Action schemes cannot contain a null scheme.");
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                Log($"[{gameObject.name}] {errorMessage}", LogVerbosity.Error, LogChannel.InputSystem);
+                return;
+            }
+        }
 
-            if (ActionSchemes.Any(scheme => scheme.InputActionConfigs.Any(action => action == null)))
-                throw new NullReferenceException($"[{gameObject.name}] Initialization Failed. An action scheme in action schemes contains a null action config.");
+        private string ValidateConfigs()
+        {
+            StringBuilder errorMessageString = new StringBuilder();
+
+            if (ActionSchemes == null || ActionSchemes.Count == 0)
+                errorMessageString.Append($"{nameof(ActionSchemes)} cannot be null or empty. ");
+
+            if (ActionSchemes.Any(scheme => scheme == null))
+                errorMessageString.Append($"Action schemes cannot contain a null scheme. ");
+
+            if (ActionSchemes.Any(scheme => scheme?.InputActionConfigs == null || scheme?.InputActionConfigs.Count == 0 || scheme.InputActionConfigs.Any(action => action == null)))
+                errorMessageString.Append($"An action scheme in action schemes contains a null action config. ");
+
+            var duplicatedSchemes = ActionSchemes.SelectMany(scheme => scheme.InputActionConfigs).GroupBy(action => action.Action).Where(group => group.Count() > 1).ToList();
+
+            if(duplicatedSchemes.Count > 0)
+                errorMessageString.Append($"There are {duplicatedSchemes.Count} input action scheme config duplicates found.");
+
+            return errorMessageString.ToString();
+        }
+
+        private void RegisterInputBindings()
+        {
+            if(subscribedInputActionEvents?.Count > 0)
+            {
+                Log($"[{gameObject.name}] RegisterInputBindings failed. subscribedInputActionEvents already contains {subscribedInputActionEvents.Count} registered events.", LogVerbosity.Warning, LogChannel.InputSystem);
+                return;
+            }
 
             foreach (InputActionScheme scheme in ActionSchemes)
             {
-                foreach(InputActionConfig inputAction in scheme.InputActionConfigs)
+                foreach (InputActionConfig inputAction in scheme.InputActionConfigs)
                 {
-                    if(inputAction.ActionReference == null)
+                    if (inputAction.ActionReference == null)
                     {
-                        Log($"[{gameObject.name}] Initialization Failed. Action schemes cannot contain a null action refrence.", LogVerbosity.Error, LogChannel.InputSystem);
-                        break;
+                        Log($"[{gameObject.name}] RegisterInputBindings failed. Action schemes cannot contain a null action refrence.", LogVerbosity.Error, LogChannel.InputSystem);
+                        continue;
                     }
 
-                    inputAction.ActionReference.action.Enable();
-                    inputAction.ActionReference.action.performed += callback => { OnActionEvent(scheme.Scheme, inputAction.Action, callback, true); };
-                    inputAction.ActionReference.action.canceled += callback => { OnActionEvent(scheme.Scheme, inputAction.Action, callback, false); };
+                    if(subscribedInputActionEvents.ContainsKey(inputAction?.ActionReference?.action))
+                    {
+                        Log($"[{gameObject.name}] RegisterInputBindings failed. subscribedInputActionEvents already contains a key '{nameof(inputAction.ActionReference.action)}' for scheme: {scheme.name} of type: {scheme.Scheme}.", LogVerbosity.Warning, LogChannel.InputSystem);
+                        continue;
+                    }
+
+                    InputAction action = inputAction.ActionReference.action;
+
+                    InputScheme currentScheme = scheme.Scheme;
+                    InputActionType currentAction = inputAction.Action;
+
+                    action.Enable();
+
+                    Action<InputAction.CallbackContext> performedAction = callback => { OnActionEvent(currentScheme, currentAction, callback, true); };
+                    Action<InputAction.CallbackContext> canceledAction = callback => { OnActionEvent(currentScheme, currentAction, callback, false); };
+
+                    action.performed += performedAction;
+                    action.canceled += canceledAction;
+
+                    subscribedInputActionEvents[action] = (performedAction, canceledAction);
                 }
             }
         }
 
-        private void OnActionEvent(InputScheme scheme, Action action, InputAction.CallbackContext callback, bool performed)
+        private void OnActionEvent(InputScheme scheme, InputActionType action, InputAction.CallbackContext callback, bool performed)
             => EventBus.InvokeEvent(new InputActionEvent(scheme, action, callback, performed));
 
-        private void OnDestroy()
+        private void UnregisterInputBindings()
         {
             foreach (InputActionScheme scheme in ActionSchemes)
             {
@@ -56,14 +138,27 @@ namespace ParrotCode.InputSystem
                 {
                     if (inputAction.ActionReference == null)
                     {
-                        Log($"[{gameObject.name}] Initialization Failed. Action schemes cannot contain a null action refrence.", LogVerbosity.Error, LogChannel.InputSystem);
-                        break;
+                        Log($"[{gameObject.name}] UnregisterInputBindings issue. Action schemes cannot contain a null action refrence for '{nameof(inputAction)}'.", LogVerbosity.Error, LogChannel.InputSystem);
+                        continue;
                     }
 
-                    inputAction.ActionReference.action.Disable();
-                    inputAction.ActionReference.action.Reset();
+                    if (!subscribedInputActionEvents.TryGetValue(inputAction?.ActionReference?.action, out var subscribedInputActionEvent))
+                    {
+                        Log($"[{gameObject.name}] Unsusbscribe input action events failed. Couldn't find subscribed input action event for '{nameof(inputAction)}'.", LogVerbosity.Warning, LogChannel.InputSystem);
+                        continue;
+                    }
+
+                    InputAction action = inputAction.ActionReference.action;
+
+                    action.performed -= subscribedInputActionEvent.performed;
+                    action.canceled -= subscribedInputActionEvent.canceled;
+                    action.Disable();
+
+                    subscribedInputActionEvents.Remove(action);
                 }
             }
+
+            subscribedInputActionEvents.Clear();
         }
     }
 }

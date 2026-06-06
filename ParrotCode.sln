@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeUserInterfaceEdit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeAudio", "Projects\ParrotCodeAudio\ParrotCodeAudio.csproj", "{E5E53294-3C40-48B1-B308-601869B1CF10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParotCodeEventSystem", "Projects\ParotCodeEventSystem\ParotCodeEventSystem.csproj", "{58B98786-6C9C-4609-847B-66C1233B8B86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeEventSystem", "Projects\ParotCodeEventSystem\ParrotCodeEventSystem.csproj", "{58B98786-6C9C-4609-847B-66C1233B8B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParotCodeInputSystem", "Projects\ParotCodeInputSystem\ParotCodeInputSystem.csproj", "{8D37BEC1-97A9-4104-966C-1080061673D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeInputSystem", "Projects\ParotCodeInputSystem\ParrotCodeInputSystem.csproj", "{8D37BEC1-97A9-4104-966C-1080061673D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParotCodeVirtualReality", "Projects\ParotCodeVirtualReality\ParotCodeVirtualReality.csproj", "{E7F4C806-ABA0-43C8-8E2C-40A9B3FA090B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeVirtualReality", "Projects\ParotCodeVirtualReality\ParrotCodeVirtualReality.csproj", "{E7F4C806-ABA0-43C8-8E2C-40A9B3FA090B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeMultiplayer", "Projects\ParrotCodeMultiplayer\ParrotCodeMultiplayer.csproj", "{0803A906-06D4-4070-AE8D-996264D02FCC}"
 EndProject

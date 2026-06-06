@@ -10,9 +10,9 @@ namespace ParrotCode.InputSystem
         private InputActionReference actionReference;
 
         [SerializeField, Space(5)]
-        private Action action;
+        private InputActionType action;
 
         public InputActionReference ActionReference => actionReference;
-        public Action Action => action;
+        public InputActionType Action => action;
     }
 }
