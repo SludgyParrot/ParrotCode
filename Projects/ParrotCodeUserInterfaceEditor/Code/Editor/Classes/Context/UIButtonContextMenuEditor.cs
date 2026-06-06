@@ -2,9 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using ParrotCode.UI;
-using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.EventSystems;
 
 using UnityEventSystem = UnityEngine.EventSystems.EventSystem;
 using UnityEngine.InputSystem.UI;

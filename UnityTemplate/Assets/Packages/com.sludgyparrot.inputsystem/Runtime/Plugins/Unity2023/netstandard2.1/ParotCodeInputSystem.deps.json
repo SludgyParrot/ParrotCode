@@ -9,10 +9,22 @@
     ".NETStandard,Version=v2.1/": {
       "ParotCodeInputSystem/1.0.0": {
         "dependencies": {
+          "ParotCodeEventSystem": "1.0.0",
           "ParrotNativeCode": "1.0.0"
         },
         "runtime": {
           "ParotCodeInputSystem.dll": {}
+        }
+      },
+      "ParotCodeEventSystem/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParotCodeEventSystem.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
         }
       },
       "ParrotNativeCode/1.0.0": {
@@ -27,6 +39,11 @@
   },
   "libraries": {
     "ParotCodeInputSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParotCodeEventSystem/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

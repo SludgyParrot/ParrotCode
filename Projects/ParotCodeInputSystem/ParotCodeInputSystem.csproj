@@ -18,18 +18,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ParotCodeEventSystem\ParotCodeEventSystem.csproj" />
     <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="UnityEditor">
-      <HintPath>..\..\..\UnityDLL\$(UnityVersion)\UnityEditor.dll</HintPath>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\Unity.InputSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\UnityDLL\$(UnityVersion)\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\Runtime\Interfaces\" />
   </ItemGroup>
 
 </Project>
