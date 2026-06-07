@@ -40,16 +40,25 @@ namespace ParrotCode.InputSystem
         [SerializeField, Space(5)]
         private List<InputActionScheme> actionSchemes = new List<InputActionScheme>();
 
-        private readonly Dictionary<InputAction, (Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)> subscribedInputActionEvents = 
-            new Dictionary<InputAction, (Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)>();
+        private readonly Dictionary<InputAction, (Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)> subscribedInputActionEvents 
+            = new Dictionary<InputAction, (Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)>();
+
+        private readonly Dictionary<InputActionType, InputAction> cachedInputActions 
+            = new Dictionary<InputActionType, InputAction>();
 
         public IReadOnlyList<InputActionScheme> ActionSchemes => actionSchemes;
+
+        #region Subscriptions
 
         private void OnEnable()
             => RegisterInputBindings();
 
         private void OnDisable()
             => UnregisterInputBindings();
+
+        #endregion
+
+        #region Initialization
 
         protected override void Init()
         {
@@ -85,9 +94,13 @@ namespace ParrotCode.InputSystem
             return errorMessageString.ToString();
         }
 
+        #endregion
+
+        #region Bindings
+
         private void RegisterInputBindings()
         {
-            if(subscribedInputActionEvents?.Count > 0)
+            if(subscribedInputActionEvents.Count > 0)
             {
                 Log($"[{gameObject.name}] RegisterInputBindings failed. subscribedInputActionEvents already contains {subscribedInputActionEvents.Count} registered events.", LogVerbosity.Warning, LogChannel.InputSystem);
                 return;
@@ -123,12 +136,10 @@ namespace ParrotCode.InputSystem
                     action.canceled += canceledAction;
 
                     subscribedInputActionEvents[action] = (performedAction, canceledAction);
+                    cachedInputActions[currentAction] = action;
                 }
             }
         }
-
-        private void OnActionEvent(InputScheme scheme, InputActionType action, InputAction.CallbackContext callback, bool performed)
-            => EventBus.InvokeEvent(new InputActionEvent(scheme, action, callback, performed));
 
         private void UnregisterInputBindings()
         {
@@ -160,5 +171,52 @@ namespace ParrotCode.InputSystem
 
             subscribedInputActionEvents.Clear();
         }
+
+        #endregion
+
+        #region Events
+
+        private void OnActionEvent(InputScheme scheme, InputActionType action, InputAction.CallbackContext callback, bool performed)
+            => EventBus.InvokeEvent(new InputActionEvent(scheme, action, callback, performed));
+
+        #endregion
+
+        #region API 
+
+        public bool HasInputAction(InputActionType action)
+            => cachedInputActions.ContainsKey(action);
+
+        public bool IsPressed(InputActionType action)
+            => cachedInputActions.TryGetValue(action, out InputAction inputAction) && inputAction.IsPressed();
+
+        public bool WasPressedThisFrame(InputActionType action)
+            => cachedInputActions.TryGetValue(action, out InputAction inputAction) && inputAction.WasPressedThisFrame();
+
+        public bool WasReleasedThisFrame(InputActionType action)
+            => cachedInputActions.TryGetValue(action, out InputAction inputAction) && inputAction.WasReleasedThisFrame();
+
+        public bool WasPerformedThisFrame(InputActionType action)
+            => cachedInputActions.TryGetValue(action, out InputAction inputAction) && inputAction.WasPerformedThisFrame();
+
+        public T GetInputValue<T>(InputActionType action) where T : struct
+            => cachedInputActions.TryGetValue(action, out InputAction inputAction)? inputAction.ReadValue<T>() : new T();
+
+        public void TryGetIsPressed(InputActionType action, out bool pressed)
+        {
+            if (cachedInputActions.TryGetValue(action, out InputAction inputAction))
+                pressed = inputAction.IsPressed();
+            else
+                throw new InvalidOperationException($"[{gameObject.name}] Get input press for action: {action} failed. Action was not found in the cachedInputActions.");
+        }
+
+        public void TryGetInputValue<T>(InputActionType action, out T value) where T : struct
+        {
+            if (cachedInputActions.TryGetValue(action, out InputAction inputAction))
+                value = inputAction.ReadValue<T>();
+            else
+                throw new InvalidOperationException($"[{gameObject.name}] Get input value '{nameof(T)}' for action: {action} failed. Action was not found in the cachedInputActions.");
+        }
+
+        #endregion
     }
 }
