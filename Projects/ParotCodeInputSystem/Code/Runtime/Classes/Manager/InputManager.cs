@@ -1,26 +1,29 @@
 ﻿/*
 
-MIT License
+Parrot Code
+Copyright (c) 2026 Sludgy Parrot (Pty) Ltd. All Rights Reserved.
 
-Copyright (c) 2026 Sludgy Parrot
+This source code is proprietary and confidential software owned by
+Sludgy Parrot (Pty) Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Parrot Code is a commercial software product developed and distributed
+by Sludgy Parrot (Pty) Ltd.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Unauthorized copying, modification, distribution, sublicensing,
+reverse engineering, decompilation, disclosure, or use of this
+software, in whole or in part, is strictly prohibited without
+prior written permission from Sludgy Parrot (Pty) Ltd.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. 
+This software is provided under the terms of a separate license
+agreement. Possession of this source code does not grant any rights
+to use, modify, distribute, or create derivative works unless
+explicitly authorized by a valid written license.
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, EXCEPT AS REQUIRED BY APPLICABLE LAW.
+
+For licensing inquiries:
+licensing@sludgyparrot.com
 
 */
 
@@ -87,9 +90,13 @@ namespace ParrotCode.InputSystem
                 errorMessageString.Append($"An action scheme in action schemes contains a null action config. ");
 
             var duplicatedSchemes = ActionSchemes.SelectMany(scheme => scheme.InputActionConfigs).GroupBy(action => action.Action).Where(group => group.Count() > 1).ToList();
+            var duplicates = duplicatedSchemes.Select(duplicateGroup => duplicateGroup.Key).ToList();
 
             if(duplicatedSchemes.Count > 0)
-                errorMessageString.Append($"There are {duplicatedSchemes.Count} input action scheme config duplicates found.");
+            {
+                foreach ( var duplicatedScheme in duplicatedSchemes)
+                    errorMessageString.Append($"Found {duplicatedScheme.Count()} duplicates for: {duplicatedScheme.Key}");
+            }
 
             return errorMessageString.ToString();
         }
@@ -170,6 +177,7 @@ namespace ParrotCode.InputSystem
             }
 
             subscribedInputActionEvents.Clear();
+            cachedInputActions.Clear();
         }
 
         #endregion
@@ -199,23 +207,37 @@ namespace ParrotCode.InputSystem
             => cachedInputActions.TryGetValue(action, out InputAction inputAction) && inputAction.WasPerformedThisFrame();
 
         public T GetInputValue<T>(InputActionType action) where T : struct
-            => cachedInputActions.TryGetValue(action, out InputAction inputAction)? inputAction.ReadValue<T>() : new T();
+            => cachedInputActions.TryGetValue(action, out InputAction inputAction)? inputAction.ReadValue<T>() : default;
 
-        public void TryGetIsPressed(InputActionType action, out bool pressed)
+        public bool TryGetIsPressed(InputActionType action, out bool pressed)
         {
             if (cachedInputActions.TryGetValue(action, out InputAction inputAction))
+            {
                 pressed = inputAction.IsPressed();
-            else
-                throw new InvalidOperationException($"[{gameObject.name}] Get input press for action: {action} failed. Action was not found in the cachedInputActions.");
+                return true;
+            }
+
+            pressed = false;
+            return false;
         }
 
-        public void TryGetInputValue<T>(InputActionType action, out T value) where T : struct
+        public bool TryGetInputValue<T>(InputActionType action, out T value) where T : struct
         {
             if (cachedInputActions.TryGetValue(action, out InputAction inputAction))
+            {
                 value = inputAction.ReadValue<T>();
-            else
-                throw new InvalidOperationException($"[{gameObject.name}] Get input value '{nameof(T)}' for action: {action} failed. Action was not found in the cachedInputActions.");
+                return true;
+            }
+
+            value = default;
+            return false;
         }
+
+        public float GetAxis(InputActionType action)
+            => GetInputValue<float>(action);
+
+        public Vector2 GetAxis2D(InputActionType action)
+            => GetInputValue<Vector2>(action);
 
         #endregion
     }
