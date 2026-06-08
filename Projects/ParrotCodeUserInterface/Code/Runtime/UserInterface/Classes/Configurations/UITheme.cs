@@ -29,10 +29,11 @@ licensing@sludgyparrot.com
 
 using System.Collections.Generic;
 using UnityEngine;
+using ParrotCode.Native.Shared;
 
 namespace ParrotCode.UI
 {
-    [CreateAssetMenu(fileName = "UITheme", menuName = "Parrot Code/UI/Theme")]
+    [CreateAssetMenu(fileName = "UITheme", menuName = ParrotCodeShared.ParrotCodeConfigRootPath + "UI/Theme")]
     public sealed class UITheme: ScriptableObject
     {
         [SerializeField]

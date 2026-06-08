@@ -28,10 +28,11 @@ licensing@sludgyparrot.com
 */
 
 using UnityEngine;
+using ParrotCode.Native.Shared;
 
 namespace ParrotCode.Audio
 {
-    [CreateAssetMenu(fileName = "SoundSettings", menuName = "Parrot Code/Sound/Settings")]
+    [CreateAssetMenu(fileName = "Sound Settings", menuName = ParrotCodeShared.ParrotCodeConfigRootPath + "Sound/Settings")]
     public sealed class SoundSettings: ScriptableObject
     {
         [field: SerializeField]
