@@ -11,6 +11,7 @@
         "dependencies": {
           "ParrotCodeAudio": "1.0.0",
           "ParrotCodeEventSystem": "1.0.0",
+          "ParrotCodeInputSystem": "1.0.0",
           "ParrotNativeCode": "1.0.0"
         },
         "runtime": {
@@ -39,6 +40,18 @@
           }
         }
       },
+      "ParrotCodeInputSystem/1.0.0": {
+        "dependencies": {
+          "ParrotCodeEventSystem": "1.0.0",
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeInputSystem.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "ParrotNativeCode/1.0.0": {
         "runtime": {
           "ParrotNativeCode.dll": {
@@ -61,6 +74,11 @@
       "sha512": ""
     },
     "ParrotCodeEventSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeInputSystem/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

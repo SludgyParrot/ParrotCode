@@ -31,6 +31,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ParrotCode.Native.Common;
+using ParrotCode.InputSystem;
+using ParrotCode.EventSystem;
 
 namespace ParrotCode.UI
 {
@@ -63,6 +65,20 @@ namespace ParrotCode.UI
                     uiViewCanvas = GetComponent<Canvas>();
                 return uiViewCanvas;
             }
+        }
+
+        protected override void Init()
+        {
+            base.Init();
+            EventBus.AddListener<InputActionEvent>(OnInputEvent);
+        }
+
+        private void OnInputEvent(InputActionEvent evt)
+        {
+            if (evt.Sheme != InputScheme.Menu)
+                return;
+
+            Log($"~Input action: {evt.Action} is performed: {evt.Performed}", LogVerbosity.Debug, LogChannel.UI);
         }
 
         public void SetRenderMode(RenderMode renderMode)

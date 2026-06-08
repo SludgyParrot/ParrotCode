@@ -32,7 +32,7 @@ using UnityEngine.InputSystem;
 
 namespace ParrotCode.InputSystem
 {
-    [CreateAssetMenu(fileName = "Input Action", menuName = "Sludgy Parrot/Configs/Input Action #I")]
+    [CreateAssetMenu(fileName = "Input Action", menuName = "Sludgy Parrot/Config/Input Action #I")]
     public sealed class InputActionConfig: ScriptableObject
     {
         [SerializeField]
