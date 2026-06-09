@@ -53,4 +53,10 @@ namespace ParrotCode.UI
         Automatic,
         Explicit
     }
+
+    public enum ViewType
+    {
+        Default,
+        Navigation
+    }
 }

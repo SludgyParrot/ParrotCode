@@ -27,28 +27,22 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEngine.InputSystem;
+using UnityEngine;
 
-namespace ParrotCode.InputSystem
-{ 
-    public class InputActionEvent
+namespace ParrotCode.UI
+{
+    [DisallowMultipleComponent]
+    public sealed class UINavigationHandler
     {
-        private readonly InputScheme scheme;
-        private readonly InputActionType action;
-        private readonly InputAction.CallbackContext callback;
-        private readonly bool performed;
 
-        public InputScheme Sheme => scheme;
-        public InputActionType Action => action;
-        public InputAction.CallbackContext Callback => callback;
-        public bool Performed => performed;
-
-        public InputActionEvent(InputScheme scheme, InputActionType action, InputAction.CallbackContext callback, bool performed)
+        public void Init()
         {
-            this.scheme = scheme;
-            this.action = action;
-            this.callback = callback;
-            this.performed = performed;
+
+        }
+
+        public void Navigate()
+        {
+
         }
     }
 }

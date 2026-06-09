@@ -27,38 +27,38 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEditor;
 using ParrotCode.UI;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace ParrotCode.UIEditor
 {
     [CustomEditor(typeof(UIView))]
     public class UIViewEditor: Editor
     {
-        private SerializedProperty navigation;
+        private SerializedProperty viewType;
         private SerializedProperty selectables;
+        private readonly List<string> excludedProperties = new List<string>() { "selectables" };
 
         private void OnEnable()
         {
-            navigation = serializedObject.FindProperty("Navigation");
+            viewType = serializedObject.FindProperty("viewType");
             selectables = serializedObject.FindProperty("selectables");
         }
 
-        //public override void OnInspectorGUI()
-        //{
-        //    serializedObject.Update();
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
 
-        //    EditorGUILayout.PropertyField(navigation, new GUIContent("Navigation"));
+            DrawPropertiesExcluding(serializedObject, excludedProperties.ToArray());
 
-        //    //UINavigationType navigationType = (UINavigationType)navigation.enumValueIndex;
+            ViewType view = (ViewType)viewType.enumValueIndex;
 
-        //    //if (navigationType != UINavigationType.None)
-        //    //{
-        //    //    EditorGUILayout.LabelField("Selectables");
-        //    //    EditorGUILayout.IntField(new GUIContent("Selectables Size"), selectables.arraySize);
-        //    //}
+            if(view == ViewType.Navigation)
+                EditorGUILayout.PropertyField(selectables, new GUIContent("Selectables"), includeChildren: true);
 
-        //    serializedObject.ApplyModifiedProperties();
-        //}
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }

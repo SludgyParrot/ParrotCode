@@ -185,7 +185,23 @@ namespace ParrotCode.InputSystem
         #region Events
 
         private void OnActionEvent(InputScheme scheme, InputActionType action, InputAction.CallbackContext callback, bool performed)
-            => EventBus.InvokeEvent(new InputActionEvent(scheme, action, callback, performed));
+        {
+            switch(action)
+            {
+                case InputActionType.Move:
+                case InputActionType.Look:
+                case InputActionType.Navigate:
+                    EventBus.InvokeEvent(new InputActionEvent(scheme: scheme, action: action, inputAxis: default, inputAxis2D: callback.action.ReadValue<Vector2>(), performed: performed));
+                    break;
+                case InputActionType.Accelerate:
+                case InputActionType.Brake:
+                    EventBus.InvokeEvent(new InputActionEvent(scheme: scheme, action: action, inputAxis: callback.action.ReadValue<float>(), inputAxis2D: default, performed: performed));
+                    break;
+                default:
+                    EventBus.InvokeEvent(new InputActionEvent(scheme: scheme, action: action, inputAxis: default, inputAxis2D: default, performed: performed));
+                    break;
+            }    
+        }
 
         #endregion
 

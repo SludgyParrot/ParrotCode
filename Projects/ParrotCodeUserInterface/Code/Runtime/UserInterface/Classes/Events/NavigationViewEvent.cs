@@ -27,12 +27,17 @@ licensing@sludgyparrot.com
 
 */
 
+using System.Collections.Generic;
+
 namespace ParrotCode.UI
 {
-    public interface ISelectable
+    public class NavigationViewEvent
     {
-        void Select();
-        void Deselect();
-        void Submit();
+        public readonly string ViewID;
+
+        public NavigationViewEvent(string viewID)
+        {
+            ViewID = viewID;
+        }
     }
 }

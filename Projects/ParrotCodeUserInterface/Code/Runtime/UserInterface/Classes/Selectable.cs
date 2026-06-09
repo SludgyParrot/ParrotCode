@@ -57,5 +57,15 @@ namespace ParrotCode.UI
         /// This function is triggered during a selection.
         /// </summary>
         public abstract void Select();
+
+        /// <summary>
+        /// This function is triggered during unselect event.
+        /// </summary>
+        public abstract void Deselect();
+
+        /// <summary>
+        /// This function is triggered during a submission.
+        /// </summary>
+        public abstract void Submit();
     }
 }

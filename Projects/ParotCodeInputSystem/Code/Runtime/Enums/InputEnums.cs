@@ -38,7 +38,9 @@ namespace ParrotCode.InputSystem
 
     public enum InputActionType
     {
+        Accelerate,
         Action,
+        Brake,
         Back,
         Cancel,
         Confirm,
@@ -63,6 +65,6 @@ namespace ParrotCode.InputSystem
         Select,
         Share,
         Sprint,
-        Submit
+        Submit,
     }
 }

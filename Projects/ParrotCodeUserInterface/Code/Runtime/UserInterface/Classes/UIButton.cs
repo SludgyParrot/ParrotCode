@@ -96,15 +96,27 @@ namespace ParrotCode.UI
             }
         }
 
-        private void OnEnable()
+        protected override void Init()
         {
-            if(stateMachine == null && fallbackTheme == null)
+            base.Init();
+
+            if (fallbackTheme == null)
             {
                 Log($"[{gameObject.name}] Button initialization failed. There is no fallback theme '{nameof(fallbackTheme)}' assigned.", LogVerbosity.Error, LogChannel.UI);
                 return;
             }
 
-            stateMachine ??= new UIStateMachine(fallbackTheme);
+            stateMachine = new UIStateMachine(fallbackTheme);
+        }
+
+        private void OnEnable()
+        {
+            if (stateMachine == null)
+            {
+                Log($"[{gameObject.name}] Register UI button state machine on enable failed. State machine component '{nameof(stateMachine)}' is null.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
             stateMachine.AddListener(OnStateChanged);
             InputHandler.AddListener(stateMachine.SetState);
             EventBus.AddListener<UITheme>(OnThemeChangedEvent);
@@ -117,6 +129,7 @@ namespace ParrotCode.UI
                 Log($"[{gameObject.name}] Unregister UI button state machine on disable failed. State machine component '{nameof(stateMachine)}' is null.", LogVerbosity.Error, LogChannel.UI);
                 return;
             }
+
             stateMachine.RemoveListener(OnStateChanged);
             InputHandler.RemoveListener(stateMachine.SetState);
             EventBus.RemoveListener<UITheme>(OnThemeChangedEvent);
@@ -141,6 +154,8 @@ namespace ParrotCode.UI
                 Log($"[{gameObject.name}] OnStateChanged failed, state '{nameof(state)}' argument s null.", LogVerbosity.Error, LogChannel.UI);
                 return;
             }
+
+            entryState = state.State;
 
             SetColor(state.TextColor);
             SetBackgroundColor(state.BackgroundColor);
@@ -181,6 +196,14 @@ namespace ParrotCode.UI
             => SoundPlayer.PlayOnce(clip);
 
         public override void Select()
-            => stateMachine.SetState(entryState);
+            => stateMachine.SetState(State.Selected);
+
+        public override void Deselect()
+            => stateMachine.SetState(State.Normal);
+
+        public override void Submit()
+        {
+            stateMachine.SetState(State.Pressed);
+        }
     }
 }

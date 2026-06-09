@@ -31,8 +31,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ParrotCode.Native.Common;
-using ParrotCode.InputSystem;
 using ParrotCode.EventSystem;
+using System.Linq;
+using ParrotCode.Native.Inspector;
 
 namespace ParrotCode.UI
 {
@@ -41,18 +42,34 @@ namespace ParrotCode.UI
     [RequireComponent(typeof(CanvasScaler))]
     [RequireComponent(typeof(GraphicRaycaster))]
     [RequireComponent(typeof(CanvasGroup))]
+    [RequireComponent(typeof(UINavigationHandler))]
     public sealed class UIView : BaseMonoBehaviour, IUIView
     {
-        [HideInInspector]
-        public List<Object> selectables = new List<Object>();
+        [SerializeField, Space(5)]
+        private ViewType viewType;
+
+        [SerializeField, Space(5)]
+        private List<Selectable> selectables = new List<Selectable>();
 
         public IEnumerable<ISelectable> Selectables
         {
             get
             {
-                foreach(Object selectableObject in selectables)
+                foreach(Selectable selectableObject in selectables)
                     if (selectableObject is ISelectable)
-                        yield return selectableObject as ISelectable;
+                        yield return selectableObject;
+            }
+        }
+
+        private UINavigationHandler navigationHandler;
+
+        public UINavigationHandler NavigationHandler
+        {
+            get
+            {
+                if(navigationHandler == null)
+                    navigationHandler = GetComponent<UINavigationHandler>();
+                return navigationHandler;
             }
         }
 
@@ -67,26 +84,37 @@ namespace ParrotCode.UI
             }
         }
 
+        private string viewGUID;
+        private string ViewGUID
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(viewGUID))
+                    viewGUID = gameObject.GetInstanceID().ToString();
+                return viewGUID;
+            }
+        }
+
         protected override void Init()
         {
             base.Init();
-            EventBus.AddListener<InputActionEvent>(OnInputEvent);
+
+            if (viewType == ViewType.Navigation)
+                UINavigationSystem.Instance.RegisterSelectables(ViewGUID, Selectables.ToArray());
         }
 
-        private void OnInputEvent(InputActionEvent evt)
+        private void OnEnable()
         {
-            if (evt.Sheme != InputScheme.Menu)
-                return;
-
-            Log($"~Input action: {evt.Action} is performed: {evt.Performed}", LogVerbosity.Debug, LogChannel.UI);
+            OnFocus();
         }
 
         public void SetRenderMode(RenderMode renderMode)
             => UIViewCanvas.renderMode = renderMode;
 
+        [Button]
         public void OnFocus()
         {
-            
+            EventBus.InvokeEvent(new NavigationViewEvent(ViewGUID));
         }
 
         public void OnBlur()
