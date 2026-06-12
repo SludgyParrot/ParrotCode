@@ -27,19 +27,13 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
-
 namespace ParrotCode.UI
 {
-    public class NavigationViewEvent
+    public sealed class SubmitCommand : INavigationCommand
     {
-        public readonly string ViewID;
-        public IReadOnlyList<ISelectable> Selectables;
+        private readonly NavigationSystem navigationSystem;
 
-        public NavigationViewEvent(string viewID, IReadOnlyList<ISelectable> selectables)
-        {
-            ViewID = viewID;
-            Selectables = selectables;
-        }
+        public SubmitCommand(NavigationSystem navigationSystem) => this.navigationSystem = navigationSystem;
+        public void Execute() => navigationSystem.Submit();
     }
 }

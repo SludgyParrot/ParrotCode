@@ -27,19 +27,19 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
+using ParrotCode.Native.Shared;
 
 namespace ParrotCode.UI
 {
-    public class NavigationViewEvent
+    public sealed class AutomaticNavigation : INavigationStrategy
     {
-        public readonly string ViewID;
-        public IReadOnlyList<ISelectable> Selectables;
+        private readonly NavigationSystem navigationSystem;
 
-        public NavigationViewEvent(string viewID, IReadOnlyList<ISelectable> selectables)
+        public AutomaticNavigation(NavigationSystem navigationSystem) => this.navigationSystem = navigationSystem;
+
+        public void Navigate(ISelectable selectable, ScreenDirection direction)
         {
-            ViewID = viewID;
-            Selectables = selectables;
+          
         }
     }
 }

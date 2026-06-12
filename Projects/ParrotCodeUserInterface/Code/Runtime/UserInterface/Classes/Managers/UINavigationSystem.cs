@@ -95,8 +95,6 @@ namespace ParrotCode.UI
 
         private void OnNavigationInputEvent(InputActionEvent evt)
         {
-          
-
             string validateNavigationResults = ValidateNavigation(evt);
 
             if (!string.IsNullOrEmpty(validateNavigationResults))

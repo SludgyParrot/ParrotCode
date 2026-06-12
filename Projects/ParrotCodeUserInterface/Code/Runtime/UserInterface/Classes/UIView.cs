@@ -32,8 +32,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using ParrotCode.Native.Common;
 using ParrotCode.EventSystem;
-using System.Linq;
 using ParrotCode.Native.Inspector;
+using System.Linq;
 
 namespace ParrotCode.UI
 {
@@ -95,14 +95,6 @@ namespace ParrotCode.UI
             }
         }
 
-        protected override void Init()
-        {
-            base.Init();
-
-            if (viewType == ViewType.Navigation)
-                UINavigationSystem.Instance.RegisterSelectables(ViewGUID, Selectables.ToArray());
-        }
-
         private void OnEnable()
         {
             OnFocus();
@@ -114,12 +106,15 @@ namespace ParrotCode.UI
         [Button]
         public void OnFocus()
         {
-            EventBus.InvokeEvent(new NavigationViewEvent(ViewGUID));
+            if (viewType == ViewType.Navigation)
+                EventBus.InvokeEvent(new NavigationViewEvent(ViewGUID, selectables));
         }
 
         public void OnBlur()
         {
             
         }
+
+        public void FetchViewRootSelectables() => selectables = GetComponentsInChildren<Selectable>().ToList();
     }
 }

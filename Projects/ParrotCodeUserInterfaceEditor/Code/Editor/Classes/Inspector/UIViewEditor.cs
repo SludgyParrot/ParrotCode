@@ -56,7 +56,16 @@ namespace ParrotCode.UIEditor
             ViewType view = (ViewType)viewType.enumValueIndex;
 
             if(view == ViewType.Navigation)
+            {
                 EditorGUILayout.PropertyField(selectables, new GUIContent("Selectables"), includeChildren: true);
+                EditorGUILayout.Space();
+
+                if(GUILayout.Button("Fetch Selectables"))
+                {
+                    UIView viewLayout = target as UIView;
+                    viewLayout.FetchViewRootSelectables();
+                }
+            }
 
             serializedObject.ApplyModifiedProperties();
         }

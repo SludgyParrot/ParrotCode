@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
 
 Parrot Code
 Copyright (c) 2026 Sludgy Parrot (Pty) Ltd. All Rights Reserved.
@@ -26,20 +27,19 @@ For licensing inquiries:
 licensing@sludgyparrot.com
 
 */
-
-using System.Collections.Generic;
+using ParrotCode.Native.Shared;
 
 namespace ParrotCode.UI
 {
-    public class NavigationViewEvent
+    public sealed class VerticalNavigation : INavigationStrategy
     {
-        public readonly string ViewID;
-        public IReadOnlyList<ISelectable> Selectables;
+        private readonly NavigationSystem navigationSystem;
 
-        public NavigationViewEvent(string viewID, IReadOnlyList<ISelectable> selectables)
+        public VerticalNavigation(NavigationSystem navigationSystem) => this.navigationSystem = navigationSystem;
+
+        public void Navigate(ISelectable selectable, ScreenDirection direction)
         {
-            ViewID = viewID;
-            Selectables = selectables;
+          
         }
     }
 }

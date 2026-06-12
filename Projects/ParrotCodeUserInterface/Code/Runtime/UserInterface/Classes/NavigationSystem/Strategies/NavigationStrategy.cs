@@ -28,18 +28,29 @@ licensing@sludgyparrot.com
 */
 
 using System.Collections.Generic;
+using ParrotCode.Native.Shared;
 
 namespace ParrotCode.UI
 {
-    public class NavigationViewEvent
+    public sealed class NavigationStrategy
     {
-        public readonly string ViewID;
-        public IReadOnlyList<ISelectable> Selectables;
+        private readonly Dictionary<Navigation, INavigationStrategy> navigationStrategies;
 
-        public NavigationViewEvent(string viewID, IReadOnlyList<ISelectable> selectables)
+        public NavigationStrategy(NavigationSystem navigationSystem)
         {
-            ViewID = viewID;
-            Selectables = selectables;
+            navigationStrategies = new Dictionary<Navigation, INavigationStrategy>
+            {
+                {Navigation.Automatic, new AutomaticNavigation(navigationSystem)},
+                {Navigation.Horizontal, new HorizontalNavigation(navigationSystem)},
+                {Navigation.Vertical, new VerticalNavigation(navigationSystem)},
+                {Navigation.Explicit, new ExplicitNavigation(navigationSystem)}
+            };
+        }
+
+        public void Navigate(Selectable selectable, ScreenDirection direction)
+        {
+            if(navigationStrategies.TryGetValue(selectable.Navigation, out INavigationStrategy nextSelection))
+                nextSelection.Navigate(selectable, direction);
         }
     }
 }
