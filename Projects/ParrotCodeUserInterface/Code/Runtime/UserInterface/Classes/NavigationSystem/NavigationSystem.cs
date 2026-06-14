@@ -107,7 +107,7 @@ namespace ParrotCode.UI
 
         public void Cancel()
         {
-
+            submitted = false;
         }
        
 
@@ -127,7 +127,8 @@ namespace ParrotCode.UI
 
         public void Submit()
         {
-
+            selected?.Submit();
+            submitted = true;
         }
     }
 }
