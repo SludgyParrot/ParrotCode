@@ -31,6 +31,7 @@ namespace ParrotCode.Native.Shared
 {
     public static class ParrotCodeShared
     {
-        public const string ParrotCodeConfigRootPath = "Parrot Code/Config/";
+        public const string ParrotCodeRootPath = "Parrot Code/";
+        public const string ParrotCodeConfigRootPath = ParrotCodeRootPath + "Config/";
     }
 }

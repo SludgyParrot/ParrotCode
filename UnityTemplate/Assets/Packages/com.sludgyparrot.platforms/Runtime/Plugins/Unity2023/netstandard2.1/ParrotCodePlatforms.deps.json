@@ -1,0 +1,40 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.1/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.1": {},
+    ".NETStandard,Version=v2.1/": {
+      "ParrotCodePlatforms/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodePlatforms.dll": {}
+        }
+      },
+      "ParrotNativeCode/1.0.0": {
+        "runtime": {
+          "ParrotNativeCode.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ParrotCodePlatforms/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotNativeCode/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.1/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.1": {},
+    ".NETStandard,Version=v2.1/": {
+      "ParrotCodeUserInterfaceEditor/1.0.0": {
+        "dependencies": {
+          "ParrotCodeEventSystem": "1.0.0",
+          "ParrotCodeUserInterface": "1.0.0",
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeUserInterfaceEditor.dll": {}
+        }
+      },
+      "ParrotCodeAudio/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeAudio.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotCodeEventSystem/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeEventSystem.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotCodeExtensions/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeExtensions.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotCodeInputSystem/1.0.0": {
+        "dependencies": {
+          "ParrotCodeEventSystem": "1.0.0",
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeInputSystem.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotCodeUserInterface/1.0.0": {
+        "dependencies": {
+          "ParrotCodeAudio": "1.0.0",
+          "ParrotCodeEventSystem": "1.0.0",
+          "ParrotCodeExtensions": "1.0.0",
+          "ParrotCodeInputSystem": "1.0.0",
+          "ParrotNativeCode": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeUserInterface.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotNativeCode/1.0.0": {
+        "runtime": {
+          "ParrotNativeCode.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ParrotCodeUserInterfaceEditor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeAudio/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeEventSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeExtensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeInputSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeUserInterface/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotNativeCode/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

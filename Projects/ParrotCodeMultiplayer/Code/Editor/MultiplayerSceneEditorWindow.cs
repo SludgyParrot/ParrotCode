@@ -27,13 +27,9 @@ licensing@sludgyparrot.com
 
 */
 
-using System;
-using System.Data.Common;
-using System.IO;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using ParrotCode.Native.Shared;
 
 namespace ParrotCode.Editors.Multiplayer
 {
@@ -43,7 +39,7 @@ namespace ParrotCode.Editors.Multiplayer
     public sealed class MultiplayerSceneEditorWindow : EditorWindow
     {
         private const string MultiplayerSceneWindowName = "SP Multiplayer Manager";
-        private const string WindowMenuPath = "Sludgy Parrot/Multiplayer/Generate Template Scene #M";
+        private const string WindowMenuPath = ParrotCodeShared.ParrotCodeRootPath + "Multiplayer/Generate Template Scene #M";
 
         #region Window properties
         private static Vector2 MinWindowSize = new Vector2(256.0f, 512.0f);
