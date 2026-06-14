@@ -1,40 +1,60 @@
-﻿using System;
+﻿/*
+
+Parrot Code
+Copyright (c) 2026 Sludgy Parrot (Pty) Ltd. All Rights Reserved.
+
+This source code is proprietary and confidential software owned by
+Sludgy Parrot (Pty) Ltd.
+
+Parrot Code is a commercial software product developed and distributed
+by Sludgy Parrot (Pty) Ltd.
+
+Unauthorized copying, modification, distribution, sublicensing,
+reverse engineering, decompilation, disclosure, or use of this
+software, in whole or in part, is strictly prohibited without
+prior written permission from Sludgy Parrot (Pty) Ltd.
+
+This software is provided under the terms of a separate license
+agreement. Possession of this source code does not grant any rights
+to use, modify, distribute, or create derivative works unless
+explicitly authorized by a valid written license.
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, EXCEPT AS REQUIRED BY APPLICABLE LAW.
+
+For licensing inquiries:
+licensing@sludgyparrot.com
+
+*/
+
 using UnityEngine;
 using UnityEngine.Localization;
 using ParrotCode.Native.Common;
+using ParrotCode.EventSystem;
 using ParrotCode.Audio;
 
 namespace ParrotCode.UI
 {
     [RequireComponent(typeof(SoundPlayer))]
     [RequireComponent(typeof(ImageView))]
-    [RequireComponent(typeof(UIInputHandler))]
-    [DisallowMultipleComponent]
-    public sealed class UIButton : BaseMonoBehaviour, IUIButton
+    [RequireComponent(typeof(InputActions))]
+    [RequireComponent (typeof(UIButtonConfigEvent))]
+    public sealed class UIButton : Selectable, IUIButton
     {
         [SerializeField, Space(5)]
         private TextView title;
 
         [SerializeField, Space(5)]
-        private UITheme theme;
+        private State entryState;
 
         [SerializeField, Space(5)]
-        private UIStateType entryState;
+        private UITheme fallbackTheme;
 
         private ImageView imageViewer;
-        private UIInputHandler inputHandler;
-        private UIStateMachine stateMachine;
+        private InputActions inputHandler;
+        public UIStateMachine stateMachine;
         private SoundPlayer soundPlayer;
-
-        public UITheme Theme
-        {
-            get
-            {
-                if (theme == null)
-                    throw new NullReferenceException($"Theme is not assigned in the inspector for: {gameObject.name}");
-                return theme;
-            }
-        }
+        private UIButtonConfigEvent configEventHandler;
 
         public ImageView ImageViewer
         {
@@ -46,12 +66,12 @@ namespace ParrotCode.UI
             }
         }
 
-        public UIInputHandler InputHandler
+        public InputActions InputHandler
         {
             get
             { 
                 if (inputHandler == null)
-                    inputHandler = GetComponent<UIInputHandler>();
+                    inputHandler = GetComponent<InputActions>();
                 return inputHandler;
             }
         }
@@ -66,21 +86,88 @@ namespace ParrotCode.UI
             }
         }
 
+        public UIButtonConfigEvent ConfigEventHandler
+        {
+            get
+            {
+                if(configEventHandler == null)
+                    configEventHandler = GetComponent<UIButtonConfigEvent>();
+                return configEventHandler;
+            }
+        }
+
         protected override void Init()
         {
-            stateMachine = new UIStateMachine(Theme);
-            stateMachine.OnStateChanged += OnStateChanged;
-            InputHandler.OnInput += stateMachine.SetState;
+            base.Init();
+
+            if (fallbackTheme == null)
+            {
+                Log($"[{gameObject.name}] Button initialization failed. There is no fallback theme '{nameof(fallbackTheme)}' assigned.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            stateMachine = new UIStateMachine(fallbackTheme);
+        }
+
+        private void OnEnable()
+        {
+            if (stateMachine == null)
+            {
+                Log($"[{gameObject.name}] Register UI button state machine on enable failed. State machine component '{nameof(stateMachine)}' is null.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            stateMachine.AddListener(OnStateChanged);
+            InputHandler.AddListener(stateMachine.SetState);
+            EventBus.AddListener<UITheme>(OnThemeChangedEvent);
+        }
+
+        private void OnDisable()
+        {
+            if (stateMachine == null)
+            {
+                Log($"[{gameObject.name}] Unregister UI button state machine on disable failed. State machine component '{nameof(stateMachine)}' is null.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            stateMachine.RemoveListener(OnStateChanged);
+            InputHandler.RemoveListener(stateMachine.SetState);
+            EventBus.RemoveListener<UITheme>(OnThemeChangedEvent);
+        }
+
+        private void OnThemeChangedEvent(UITheme theme)
+        {
+            if(theme == null || stateMachine == null)
+            {
+                Log($"UI Button: OnThemeChangedEvent failed. Theme event parameter value '{nameof(theme)}' or state machine cannot be null for '{gameObject.name}'.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            stateMachine.ChangeTheme(theme);
             stateMachine.SetState(entryState);
         }
 
         private void OnStateChanged(UIState state)
         {
+            if(state == null)
+            {
+                Log($"[{gameObject.name}] OnStateChanged failed, state '{nameof(state)}' argument s null.", LogVerbosity.Error, LogChannel.UI);
+                return;
+            }
+
+            entryState = state.State;
+
             SetColor(state.TextColor);
             SetBackgroundColor(state.BackgroundColor);
             SetBackgroundImage(state.Image);
             PlaySoundFx(state.SoundFx);
+
+            if (state.State == State.Pressed)
+                ConfigEventHandler.Config();
         }
+
+        public void OverrideTitleDisplayer(TextView title)
+            => this.title = title;
 
         public void SetColor(Color color)
             => title?.SetColor(color);
@@ -96,16 +183,27 @@ namespace ParrotCode.UI
 
         public void SetTitleText(LocalizedString text)
         {
+            //if(text == null)
+            //{
 
+            //    return;
+            //}
+
+            //title?.SetText(text.GetLocalizedString());
         }
 
         public void PlaySoundFx(AudioClip clip)
             => SoundPlayer.PlayOnce(clip);
 
-        public void OnDestroy()
+        public override void Select()
+            => stateMachine.SetState(State.Selected);
+
+        public override void Deselect()
+            => stateMachine.SetState(State.Normal);
+
+        public override void Submit()
         {
-            stateMachine.OnStateChanged -= OnStateChanged;
-            InputHandler.OnInput -= stateMachine.SetState;
+            stateMachine.SetState(State.Pressed);
         }
     }
 }

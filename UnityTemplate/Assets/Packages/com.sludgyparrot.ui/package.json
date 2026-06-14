@@ -11,7 +11,8 @@
     ],
     "dependencies": {
         "com.sludgyparrot.native": "0.0.3",
-        "com.unity.textmeshpro": "3.0.9"
+        "com.unity.textmeshpro": "3.0.9",
+        "com.unity.inputsystem": "1.7.0"
     },
     "author": {
         "name": "sludgy Parrot",

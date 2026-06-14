@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <BaseOutputPath>..\..\UnityTemplate\Assets\Packages\com.sludgyparrot.ui\Editor\Plugins</BaseOutputPath>
+    <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2022'">
+    <UnityVersion>2022.3.62f3</UnityVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configurations)'=='Unity2023'">
+    <UnityVersion>2023.1.20f1</UnityVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\Unity.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>..\..\UnityDLL\6000.4.0f1\Unity.Localization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>..\..\UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\UnityDLL\2022.3.62f3\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParotCodeEventSystem\ParrotCodeEventSystem.csproj" />
+    <ProjectReference Include="..\ParrotCodeUserInterface\ParrotCodeUserInterface.csproj" />
+    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\Editor\Structs\" />
+  </ItemGroup>
+
+</Project>

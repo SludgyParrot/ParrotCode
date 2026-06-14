@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Code\" />
   </ItemGroup>
 

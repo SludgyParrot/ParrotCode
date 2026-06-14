@@ -9,7 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Code\" />
+    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,56 @@
+﻿/*
+
+Parrot Code
+Copyright (c) 2026 Sludgy Parrot (Pty) Ltd. All Rights Reserved.
+
+This source code is proprietary and confidential software owned by
+Sludgy Parrot (Pty) Ltd.
+
+Parrot Code is a commercial software product developed and distributed
+by Sludgy Parrot (Pty) Ltd.
+
+Unauthorized copying, modification, distribution, sublicensing,
+reverse engineering, decompilation, disclosure, or use of this
+software, in whole or in part, is strictly prohibited without
+prior written permission from Sludgy Parrot (Pty) Ltd.
+
+This software is provided under the terms of a separate license
+agreement. Possession of this source code does not grant any rights
+to use, modify, distribute, or create derivative works unless
+explicitly authorized by a valid written license.
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, EXCEPT AS REQUIRED BY APPLICABLE LAW.
+
+For licensing inquiries:
+licensing@sludgyparrot.com
+
+*/
+
+using System.Collections.Generic;
+using ParrotCode.Native.Shared;
+
+namespace ParrotCode.UI
+{
+    public sealed class NavigationStrategy
+    {
+        private readonly Dictionary<Navigation, INavigationStrategy> navigationStrategies;
+
+        public NavigationStrategy(NavigationSystem navigationSystem)
+        {
+            navigationStrategies = new Dictionary<Navigation, INavigationStrategy>
+            {
+                {Navigation.Automatic, new AutomaticNavigation(navigationSystem)},
+                {Navigation.Horizontal, new HorizontalNavigation(navigationSystem)},
+                {Navigation.Vertical, new VerticalNavigation(navigationSystem)},
+                {Navigation.Explicit, new ExplicitNavigation(navigationSystem)}
+            };
+        }
+
+        public void Navigate(Selectable selectable, ScreenDirection direction)
+        {
+            if(navigationStrategies.TryGetValue(selectable.Navigation, out INavigationStrategy nextSelection))
+                nextSelection.Navigate(selectable, direction);
+        }
+    }
+}

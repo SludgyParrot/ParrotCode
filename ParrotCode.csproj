@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>..\..\UnityDLL\2023.1.20f1\Unity.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Localization">
       <HintPath>UnityDLL\6000.4.0f1\Unity.Localization.dll</HintPath>
       <Private>False</Private>
