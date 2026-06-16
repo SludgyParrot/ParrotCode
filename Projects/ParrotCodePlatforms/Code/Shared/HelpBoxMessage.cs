@@ -27,15 +27,25 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
+using UnityEditor;
 
 namespace ParrotCode.Platforms
 {
-    public sealed class WebGLProjectConfigurator : IProjectConfigurator
+    public readonly struct HelpBoxMessage
     {
-        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
+        private readonly string message;
+        private readonly MessageType messageType;
+        private readonly bool isWideHelpBox;
+
+        public string Message => message;
+        public MessageType MessageType => messageType;
+        public bool IsWideHelpBox => isWideHelpBox;
+
+        public HelpBoxMessage(string message, MessageType messageType, bool isWideHelpBox = false)
         {
-           
+            this.message = message;
+            this.messageType = messageType;             
+            this.isWideHelpBox = isWideHelpBox;         
         }
     }
 }

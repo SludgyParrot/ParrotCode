@@ -27,13 +27,12 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEngine;
+using UnityEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "iOS Rendering Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "iOS Rendering Settings")]
-    public sealed class IOSRenderingProjectBuildConfig: RenderingProjectBuildConfig
+    public interface IProjectBuildConfig
     {
-
+        BuildTarget BuildTarget { get; }
     }
 }

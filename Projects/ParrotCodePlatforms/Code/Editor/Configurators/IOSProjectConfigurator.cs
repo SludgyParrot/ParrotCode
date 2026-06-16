@@ -27,20 +27,23 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEditor;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Project Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Project Settings")]
-    public sealed class GeneralProjectBuildConfig: ProjectBuildConfig
+    public sealed class IOSProjectConfigurator : IProjectConfigurator
     {
-        [Header("General Settings")]
-        [SerializeField, Space(5)]
-        private ScriptingImplementation scriptingBackend;
+        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
+        {
+            if (buildConfigs == null || buildConfigs.Count == 0)
+            {
+                Debug.LogError($"IOSProjectConfigurator configure function failed. '{nameof(buildConfigs)}' value cannot be null/empty. At least '1' build config file is required.");
+                return;
+            }
 
-        #region General Settings
-        public ScriptingImplementation ScriptingBackend => scriptingBackend;
-        #endregion
+            foreach (ProjectBuildConfig buildConfig in buildConfigs)
+                buildConfig.ApplySettings();
+        }
     }
 }

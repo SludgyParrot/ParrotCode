@@ -27,13 +27,12 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEngine;
+using System;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Android Rendering Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Android Rendering Settings")]
-    public sealed class AndroidRenderingProjectBuildConfig: RenderingProjectBuildConfig
+    [Serializable]
+    public readonly struct WebGLRenderingProjectBuildConfig
     {
-
     }
 }

@@ -27,13 +27,36 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    public sealed class AndroidProjectConfigurator : IProjectConfigurator
+    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Screen Resolution Settings")]
+    public sealed class ScreenResolutionProjectBuildConfig: ProjectSpecificBuildConfig
     {
-        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
+        [SerializeField]
+        private BuildTarget buildTarget;
+
+        public override BuildTarget BuildTarget => buildTarget;
+
+        #region Android Resolution Settings
+
+        #endregion
+
+        #region IOS Resolution Settings
+
+        #endregion
+
+        #region Windows Resolution Settings
+
+        #endregion
+
+        #region WebGL Resolution Settings
+
+        #endregion
+
+        public override void ApplySettings()
         {
            
         }

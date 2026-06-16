@@ -27,20 +27,12 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEditor;
-using UnityEngine;
+using System;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Network Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Network Settings")]
-    public sealed class NetworkProjectBuildConfig : ProjectBuildConfig
+    [Serializable]
+    public readonly struct WindowsRenderingProjectBuildConfig
     {
-        [Header("Network Settings")]
-        [SerializeField, Space(5)]
-        private InsecureHttpOption allowHTTPDownload;
-
-        #region Network Settings
-        public InsecureHttpOption HTTPDownloadPolicy => allowHTTPDownload;
-        #endregion
     }
 }

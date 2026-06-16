@@ -27,15 +27,13 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
+using System;
 
 namespace ParrotCode.Platforms
 {
-    public sealed class WindowsProjectConfigurator : IProjectConfigurator
+    [Serializable]
+    public readonly struct AndroidRenderingProjectBuildConfig
     {
-        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
-        {
 
-        }
     }
 }

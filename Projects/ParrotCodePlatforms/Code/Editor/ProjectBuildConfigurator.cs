@@ -39,14 +39,24 @@ namespace ParrotCode.Platforms
         private const string DevelopmentSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot + "Development";
         private const string ProductionSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot + "Production";
 
-        private const string ProjectBuildConfigGroupConfigFilterName = "t:ProjectBuildConfigGroup";
+        private const string ProjectConfigurationWarningPopUpTitle = "Parrot Code: Configure Project Settings";
+
+        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity project's settings to a predefined {0} configuration data. " +
+            "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
+
+        private const string ProjectConfigurationWarningPopUpConfirmButtonTitle = "Yes Please!";
+        private const string ProjectConfigurationWarningPopUpCancelButtonTitle = "No Thanks!";
+
+        private const string ProjectBuildConfigGroupConfigSearchFilter = "t:ProjectBuildConfigGroup";
+
+        private static WindowsProjectConfigurator sharedWindowsProjectConfigurator = new WindowsProjectConfigurator();
 
         private static readonly Dictionary<BuildTarget, IProjectConfigurator> projectConfigurators = new Dictionary<BuildTarget, IProjectConfigurator>()
         {
             { BuildTarget.Android, new AndroidProjectConfigurator()},
             { BuildTarget.iOS, new IOSProjectConfigurator()},
-            { BuildTarget.StandaloneWindows, new WindowsProjectConfigurator()},
-            { BuildTarget.StandaloneWindows64, new WindowsProjectConfigurator()},
+            { BuildTarget.StandaloneWindows, sharedWindowsProjectConfigurator},
+            { BuildTarget.StandaloneWindows64, sharedWindowsProjectConfigurator},
             { BuildTarget.WebGL, new WebGLProjectConfigurator()}
         };
 
@@ -78,6 +88,11 @@ namespace ParrotCode.Platforms
 
         private static void ApplyProjectSettings(Build build)
         {
+            string warningMessage = string.Format(ProjectConfigurationWarningPopUpMessage, build.ToString());
+
+            if (!EditorUtility.DisplayDialog(ProjectConfigurationWarningPopUpTitle, warningMessage, ProjectConfigurationWarningPopUpConfirmButtonTitle, ProjectConfigurationWarningPopUpCancelButtonTitle))
+                return;
+
             BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
 
             var projectSettings = GetBuildProjectConfigForBuild(target, build);
@@ -106,14 +121,14 @@ namespace ParrotCode.Platforms
 
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
-            string[] projectConfigGuids = AssetDatabase.FindAssets(ProjectBuildConfigGroupConfigFilterName);
-            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid => AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
-            ProjectBuildConfigGroup[] matchedConfigs = projectConfigs.Where(x => x.BuildTarget == target && x.ProjectBuild == build).ToArray();
+            string[] projectConfigGuids = AssetDatabase.FindAssets(ProjectBuildConfigGroupConfigSearchFilter);
+            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid => AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).Where(x => x.BuildTarget == target &&
+            x.ProjectBuild == build).ToArray();
 
-            if (matchedConfigs.Length == 1)
-                return (matchedConfigs[0], string.Empty);
+            if (projectConfigs.Length == 1)
+                return (projectConfigs[0], string.Empty);
 
-            return (null, $"Get build project config for build: {build} targeting: {target} failed. There are {matchedConfigs.Length} build project config(s) found for target.");
+            return (null, $"Get build project config for build: {build} targeting: {target} failed. There are {projectConfigs.Length} build project config(s) found for target.");
         }
 
         #endregion

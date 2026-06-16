@@ -27,15 +27,30 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Build;
+using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    public sealed class IOSProjectConfigurator : IProjectConfigurator
+    [CreateAssetMenu(fileName = "Project Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Project Settings")]
+    public sealed class GeneralProjectBuildConfig: ProjectBuildConfig
     {
-        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
+        [Header("General Settings")]
+        [SerializeField, Space(5)]
+        private NamedBuildTarget buildTarget;
+
+        [SerializeField, Space(5)]
+        private ScriptingImplementation scriptingBackend;
+
+        #region General Settings
+        public ScriptingImplementation ScriptingBackend => scriptingBackend;
+        public NamedBuildTarget BuildTarget => buildTarget;
+        #endregion
+
+        public override void ApplySettings()
         {
-           
+            PlayerSettings.SetScriptingBackend(BuildTarget, ScriptingBackend);
         }
     }
 }

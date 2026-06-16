@@ -27,13 +27,32 @@ licensing@sludgyparrot.com
 
 */
 
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Screen Resolution Settings")]
-    public sealed class ScreenResolutionProjectBuildConfig: ProjectBuildConfig
+    [CreateAssetMenu(fileName = "Project Configuration", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Project Configuration")]
+    public sealed class ProjectBuildConfigGroup: ScriptableObject
     {
+        [SerializeField]
+        private BuildTarget buildTarget;
 
+        [SerializeField, Space(5)]
+        private Build projectBuild;
+
+        [Header("Project Settings")]
+        [SerializeField, Space(5)]
+        private List<ProjectBuildConfig> buildConfigs;
+
+        public BuildTarget BuildTarget => buildTarget;
+        public Build ProjectBuild => projectBuild;
+
+        public IReadOnlyList<ProjectBuildConfig> ProjectBuildConfigs => buildConfigs;
+
+        #region Validations
+
+        #endregion
     }
 }

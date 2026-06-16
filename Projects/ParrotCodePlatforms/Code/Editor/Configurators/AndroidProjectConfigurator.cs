@@ -27,12 +27,23 @@ licensing@sludgyparrot.com
 
 */
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    public abstract class ProjectBuildConfig: ScriptableObject
+    public sealed class AndroidProjectConfigurator : IProjectConfigurator
     {
+        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
+        {
+            if(buildConfigs == null ||  buildConfigs.Count == 0)
+            {
+                Debug.LogError($"AndroidProjectConfigurator configure function failed. '{nameof(buildConfigs)}' value cannot be null/empty. At least '1' build config file is required.");
+                return;
+            }
 
+            foreach(ProjectBuildConfig buildConfig in buildConfigs)
+                buildConfig.ApplySettings();
+        }
     }
 }

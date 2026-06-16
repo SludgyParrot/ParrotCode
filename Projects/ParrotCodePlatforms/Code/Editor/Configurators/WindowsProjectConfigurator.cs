@@ -27,13 +27,23 @@ licensing@sludgyparrot.com
 
 */
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Windows Rendering Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Windows Rendering Settings")]
-    public sealed class WindowsRenderingProjectBuildConfig: RenderingProjectBuildConfig
+    public sealed class WindowsProjectConfigurator : IProjectConfigurator
     {
+        public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
+        {
+            if (buildConfigs == null || buildConfigs.Count == 0)
+            {
+                Debug.LogError($"WindowsProjectConfigurator configure function failed. '{nameof(buildConfigs)}' value cannot be null/empty. At least '1' build config file is required.");
+                return;
+            }
 
+            foreach (ProjectBuildConfig buildConfig in buildConfigs)
+                buildConfig.ApplySettings();
+        }
     }
 }
