@@ -8,14 +8,30 @@
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
       "ParrotCodeMultiplayer/1.0.0": {
+        "dependencies": {
+          "ParrotNativeCode": "1.0.0"
+        },
         "runtime": {
           "ParrotCodeMultiplayer.dll": {}
+        }
+      },
+      "ParrotNativeCode/1.0.0": {
+        "runtime": {
+          "ParrotNativeCode.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "ParrotCodeMultiplayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotNativeCode/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
