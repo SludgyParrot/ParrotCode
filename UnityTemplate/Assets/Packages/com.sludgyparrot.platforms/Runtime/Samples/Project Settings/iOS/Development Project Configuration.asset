@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: -952252640, guid: f38a1d01f7fe9564e91e95b26a661808, type: 3}
   m_Name: Development Project Configuration
   m_EditorClassIdentifier: 
-  buildTarget: 13
+  buildTarget: 9
   projectBuild: 0
   buildConfigs:
-  - {fileID: 11400000, guid: 42d996da15e4fb74ba06e8139f54a46d, type: 2}
+  - {fileID: 11400000, guid: 88a294e8025d50848852cec32e3e11d5, type: 2}

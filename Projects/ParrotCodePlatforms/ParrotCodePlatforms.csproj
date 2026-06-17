@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.IMGUIModule.dll</HintPath>
+    <Private>False</Private>
     </Reference>
   </ItemGroup>
 
