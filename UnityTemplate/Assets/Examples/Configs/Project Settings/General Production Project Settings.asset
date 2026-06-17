@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1591944671, guid: f38a1d01f7fe9564e91e95b26a661808, type: 3}
-  m_Name: Project Settings
+  m_Name: General Production Project Settings
   m_EditorClassIdentifier: 
   scriptingBackend: 1

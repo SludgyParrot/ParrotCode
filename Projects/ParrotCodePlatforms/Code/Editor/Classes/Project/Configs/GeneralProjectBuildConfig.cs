@@ -28,8 +28,8 @@ licensing@sludgyparrot.com
 */
 
 using UnityEditor;
-using UnityEditor.Build;
 using UnityEngine;
+using ParrotCode.Extensions;
 
 namespace ParrotCode.Platforms
 {
@@ -38,19 +38,15 @@ namespace ParrotCode.Platforms
     {
         [Header("General Settings")]
         [SerializeField, Space(5)]
-        private NamedBuildTarget buildTarget;
-
-        [SerializeField, Space(5)]
         private ScriptingImplementation scriptingBackend;
 
         #region General Settings
         public ScriptingImplementation ScriptingBackend => scriptingBackend;
-        public NamedBuildTarget BuildTarget => buildTarget;
         #endregion
 
         public override void ApplySettings()
         {
-            PlayerSettings.SetScriptingBackend(BuildTarget, ScriptingBackend);
+            PlayerSettings.SetScriptingBackend(EditorUserBuildSettings.activeBuildTarget.ToNamedBuildTarget(), ScriptingBackend);
         }
     }
 }
