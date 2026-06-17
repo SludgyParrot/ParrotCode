@@ -28,6 +28,7 @@ licensing@sludgyparrot.com
 */
 
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 
 namespace ParrotCode.Platforms
@@ -35,10 +36,24 @@ namespace ParrotCode.Platforms
     public static class CustomInspectorValidations
     {
 
-        public static void Validate(Func<bool> validation, HelpBoxMessage helpBox) 
+        public static bool OnValidationFailed<T>(T arg, Func<T, bool> validation, HelpBoxMessage helpBox) where T : class
         {
-            if (!validation.Invoke())
+            bool validationFailed = !validation(arg);
+
+            if (validationFailed)
                 DrawHelpBoxMessage(helpBox);
+
+            return validationFailed;
+        }
+
+        public static bool OnValidationFailed<T>(IReadOnlyList<T> arg, Func<IReadOnlyList<T>, bool> validation, HelpBoxMessage helpBox) where T : class
+        {
+            bool validationFailed = !validation(arg);
+
+            if (validationFailed)
+                DrawHelpBoxMessage(helpBox);
+
+            return validationFailed;
         }
 
         public static void DrawHelpBoxMessage(HelpBoxMessage helpBox)

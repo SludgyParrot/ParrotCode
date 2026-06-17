@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -506832898, guid: f38a1d01f7fe9564e91e95b26a661808, type: 3}
-  m_Name: Network Settings
+  m_Script: {fileID: -952252640, guid: f38a1d01f7fe9564e91e95b26a661808, type: 3}
+  m_Name: ProductionProject Configuration
   m_EditorClassIdentifier: 
-  allowHTTPDownload: 1
+  buildTarget: 13
+  projectBuild: 1
+  buildConfigs:
+  - {fileID: 11400000, guid: b65441fe137c5ba4eb9114240e8272c6, type: 2}

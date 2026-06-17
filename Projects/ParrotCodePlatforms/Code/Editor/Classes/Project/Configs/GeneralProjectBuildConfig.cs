@@ -27,8 +27,9 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.Build;
 using ParrotCode.Extensions;
 
 namespace ParrotCode.Platforms
@@ -40,13 +41,24 @@ namespace ParrotCode.Platforms
         [SerializeField, Space(5)]
         private ScriptingImplementation scriptingBackend;
 
+        [SerializeField, Space(5)]
+        private Il2CppCodeGeneration il2CppCodeGeneration;
+
         #region General Settings
         public ScriptingImplementation ScriptingBackend => scriptingBackend;
         #endregion
 
         public override void ApplySettings()
         {
-            PlayerSettings.SetScriptingBackend(EditorUserBuildSettings.activeBuildTarget.ToNamedBuildTarget(), ScriptingBackend);
+            NamedBuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget.ToNamedBuildTarget();
+
+            PlayerSettings.SetScriptingBackend(buildTarget, ScriptingBackend);
+
+            if(scriptingBackend == ScriptingImplementation.IL2CPP)
+            {
+                PlayerSettings.SetIl2CppCodeGeneration(buildTarget, il2CppCodeGeneration);
+            }
+
         }
     }
 }

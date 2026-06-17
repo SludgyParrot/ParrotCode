@@ -121,9 +121,7 @@ namespace ParrotCode.Platforms
 
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
-            string[] projectConfigGuids = AssetDatabase.FindAssets(ProjectBuildConfigGroupConfigSearchFilter);
-            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid => AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).Where(x => x.BuildTarget == target &&
-            x.ProjectBuild == build).ToArray();
+            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs().Where(x => x.BuildTarget == target && x.ProjectBuild == build).ToArray();
 
             if (projectConfigs.Length == 1)
                 return (projectConfigs[0], string.Empty);
@@ -131,6 +129,24 @@ namespace ParrotCode.Platforms
             return (null, $"Get build project config for build: {build} targeting: {target} failed. There are {projectConfigs.Length} build project config(s) found for target.");
         }
 
+        private static ProjectBuildConfigGroup[] GetBuildProjectConfigs()
+        {
+            string[] projectConfigGuids = AssetDatabase.FindAssets(ProjectBuildConfigGroupConfigSearchFilter);
+            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid => AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
+            return projectConfigs;
+        }
+
+        #endregion
+
+        #region Configs
+        public static (bool hasCopies, string[] paths) GetProjectBuildConfigGroupDuplicatesCount(ProjectBuildConfigGroup configGroup)
+        {
+            var duplicatePaths = GetBuildProjectConfigs().Where(x => x.BuildTarget == configGroup.BuildTarget && x.ProjectBuild == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
+
+            int count = duplicatePaths.Length;
+            bool hasCopies = count > 0;
+            return (hasCopies, duplicatePaths);
+        }
         #endregion
     }
 }

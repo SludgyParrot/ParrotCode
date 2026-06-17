@@ -50,9 +50,5 @@ namespace ParrotCode.Platforms
         public Build ProjectBuild => projectBuild;
 
         public IReadOnlyList<ProjectBuildConfig> ProjectBuildConfigs => buildConfigs;
-
-        #region Validations
-
-        #endregion
     }
 }
