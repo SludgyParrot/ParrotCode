@@ -46,8 +46,11 @@ using System;
 namespace ParrotCode.Platforms
 {
     [Serializable]
-    public readonly struct IOSRenderingProjectBuildConfig
+    public sealed class IOSRenderingProjectBuildConfig : IRenderingProjectBuildConfig
     {
-
+        public void ApplySettings()
+        {
+           
+        }
     }
 }

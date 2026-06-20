@@ -113,7 +113,7 @@ namespace ParrotCode.Platforms
             #endregion
 
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
 
 

@@ -32,7 +32,11 @@ using System;
 namespace ParrotCode.Platforms
 {
     [Serializable]
-    public readonly struct WebGLRenderingProjectBuildConfig
+    public sealed class WebGLRenderingProjectBuildConfig : IRenderingProjectBuildConfig
     {
+        public void ApplySettings()
+        {
+            
+        }
     }
 }

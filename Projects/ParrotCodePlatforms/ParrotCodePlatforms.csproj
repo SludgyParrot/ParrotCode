@@ -7,6 +7,7 @@
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configurations)'=='Unity2022'">
@@ -29,15 +30,15 @@
   <ItemGroup>
     <Reference Include="UnityEditor.CoreModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.IMGUIModule.dll</HintPath>
-    <Private>False</Private>
+    <Private>false</Private>
     </Reference>
   </ItemGroup>
 

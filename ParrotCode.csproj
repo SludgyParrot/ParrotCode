@@ -7,6 +7,7 @@
     <Configurations>Debug;Release;Unity2022;Unity2023</Configurations>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,40 +24,40 @@
   <ItemGroup>
     <Reference Include="Unity.InputSystem">
       <HintPath>..\..\UnityDLL\2023.1.20f1\Unity.InputSystem.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Unity.Localization">
       <HintPath>UnityDLL\6000.4.0f1\Unity.Localization.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEditor.CoreModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>UnityDLL\2022.3.62f3\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEngine.AudioModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>UnityDLL\2022.3.62f3\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
       <EmbedInteropTypes></EmbedInteropTypes>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
       <HintPath>UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
-      <Private>False</Private>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 

@@ -32,7 +32,11 @@ using System;
 namespace ParrotCode.Platforms
 {
     [Serializable]
-    public readonly struct WindowsRenderingProjectBuildConfig
+    public sealed class WindowsRenderingProjectBuildConfig : IRenderingProjectBuildConfig
     {
+        public void ApplySettings()
+        {
+          
+        }
     }
 }

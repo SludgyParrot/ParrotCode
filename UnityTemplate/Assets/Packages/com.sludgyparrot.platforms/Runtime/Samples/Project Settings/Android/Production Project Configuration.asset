@@ -16,3 +16,4 @@ MonoBehaviour:
   projectBuild: 1
   buildConfigs:
   - {fileID: 11400000, guid: d0eb1e0086ddfce409d66664a532a8c5, type: 2}
+  - {fileID: 11400000, guid: 62135c1374a131348877536a77ec4305, type: 2}
