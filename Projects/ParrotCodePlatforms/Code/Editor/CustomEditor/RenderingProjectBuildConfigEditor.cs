@@ -36,9 +36,7 @@ namespace ParrotCode.Platforms
     [CustomEditor(typeof(RenderingProjectBuildConfig))]
     public sealed class RenderingProjectBuildConfigEditor: Editor
     {
-        private const bool IsWideHelpBox = false;
-
-        private SerializedProperty buildTarget;
+        private const bool IsWideHelpBox = true;
         private const string BuildTargetPropertyFieldName = "buildTarget";
 
         #region Platform Settings
@@ -70,8 +68,6 @@ namespace ParrotCode.Platforms
 
         private void InitializeProperies()
         {
-            buildTarget = serializedObject.FindProperty(BuildTargetPropertyFieldName);
-
             platformSettingsPropertyFields[BuildTarget.Android] = serializedObject.FindProperty(AndroidSettingsPropertyFieldName);
             platformSettingsPropertyFields[BuildTarget.iOS] = serializedObject.FindProperty(IOSSettingsPropertyFieldName);
             platformSettingsPropertyFields[BuildTarget.WebGL] = serializedObject.FindProperty(WebGLSettingsPropertyFieldName);
@@ -87,10 +83,33 @@ namespace ParrotCode.Platforms
             serializedObject.Update();
             DrawPropertiesExcluding(serializedObject, excludedProperties);
 
-            BuildTarget target = (BuildTarget)buildTarget.intValue;
+            BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
 
             if (platformSettingsPropertyFields.TryGetValue(target, out SerializedProperty property))
+            {
                 EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsPropertyFieldName));
+
+                if(target == BuildTarget.Android)
+                {
+                    AndroidRenderingProjectBuildConfig androidSettings = (AndroidRenderingProjectBuildConfig)property.boxedValue;
+
+                    var validateConfigsResults = androidSettings.UnsupportedAPICheckResults();
+
+                    if(validateConfigsResults.hasUnsupportedAPI)
+                    {
+                        foreach (var api in validateConfigsResults.graphicAPIs)
+                        {
+                            if (api == UnityEngine.Rendering.GraphicsDeviceType.Vulkan || api == UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3)
+                                continue;
+
+                            if(api == UnityEngine.Rendering.GraphicsDeviceType.OpenGLES2)
+                                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Graphics API: {api} is for target build: {target} is deprecated. Please use Andoid supported APIs like (Vulkan, OpenGLES2 etc).", MessageType.Warning, IsWideHelpBox));
+                            else
+                                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Graphics API: {api} is not supported for build target build: {target}.", MessageType.Error, IsWideHelpBox));
+                        }
+                    }
+                }
+            }
             else
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {target}.", MessageType.Warning, IsWideHelpBox));
 

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ParrotCodeUserInterface</name>
+    </assembly>
+    <members>
+        <member name="T:ParrotCode.UI.Selectable">
+            <summary>
+            Base class for selectable UI components.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.UI.Selectable.Select">
+            <summary>
+            This function is triggered during a selection.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.UI.Selectable.Deselect">
+            <summary>
+            This function is triggered during unselect event.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.UI.Selectable.Submit">
+            <summary>
+            This function is triggered during a submission.
+            </summary>
+        </member>
+    </members>
+</doc>

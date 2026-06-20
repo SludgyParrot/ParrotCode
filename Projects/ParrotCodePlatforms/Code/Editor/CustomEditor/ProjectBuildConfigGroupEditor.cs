@@ -48,7 +48,7 @@ namespace ParrotCode.Platforms
 
             if(CustomInspectorValidations.OnValidationFailed(projectBuildConfigGroup,
                 ValidateAssignedProjectBuildConfigs, 
-                new HelpBoxMessage($"There are no build settings assigned for '{projectBuildConfigGroup.BuildTarget}'. This config group might be ignored.", MessageType.Warning)))
+                new HelpBoxMessage($"There are no build settings assigned for '{projectBuildConfigGroup.BuildTarget}'. This config group might be ignored.", MessageType.Warning, IsWideHelpBox)))
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace ParrotCode.Platforms
 
             if (nullReferenceProjectBuildConfigsCount > 0)
             {
-                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {projectBuildConfigGroup.name}.", MessageType.Error));
+                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {projectBuildConfigGroup.name}.", MessageType.Error, IsWideHelpBox));
                 return;
             }
 

@@ -10,8 +10,7 @@
       "ParrotCodePlatforms/1.0.0": {
         "dependencies": {
           "ParrotCodeExtensions": "1.0.0",
-          "ParrotNativeCode": "1.0.0",
-          "UnityEngine.IMGUIModule": "0.0.0.0"
+          "ParrotNativeCode": "1.0.0"
         },
         "runtime": {
           "ParrotCodePlatforms.dll": {}
@@ -35,14 +34,6 @@
             "fileVersion": "0.0.0.0"
           }
         }
-      },
-      "UnityEngine.IMGUIModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.IMGUIModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
       }
     }
   },
@@ -59,11 +50,6 @@
     },
     "ParrotNativeCode/1.0.0": {
       "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.IMGUIModule/0.0.0.0": {
-      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ParrotCodePlatforms</name>
+    </assembly>
+    <members>
+        <member name="T:ParrotCode.Platforms.AndroidPlatformSelector">
+            <summary>
+            Custom editor for the Android build target configuration. 
+            This editor provides a user-friendly interface for configuring Android projects in the Unity Editor. 
+            It allows developers to easily set up build enviroment for ANdroid development, including options for mobile VR,
+            By using this custom editor, 
+            developers can streamline the process of creating and maintaining Android projects, 
+            ensuring a smoother development experience and better system outcomes.
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Platforms.RenderingProjectBuildConfig">
+            <summary>
+            This class 
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Platforms.RenderingProjectBuildConfig.GeneralSettings">
+            <summary>
+            General rendering settings for configuring general platform rendering settings
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Platforms.AndroidRenderingProjectBuildConfig">
+            <summary>
+            This class encapsulates a collection of common Android specific rendering settings.
+            </summary>
+        </member>
+    </members>
+</doc>

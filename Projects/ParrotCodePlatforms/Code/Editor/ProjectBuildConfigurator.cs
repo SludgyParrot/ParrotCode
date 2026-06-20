@@ -113,7 +113,7 @@ namespace ParrotCode.Platforms
             #endregion
 
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
 
 
@@ -144,7 +144,7 @@ namespace ParrotCode.Platforms
             var duplicatePaths = GetBuildProjectConfigs().Where(x => x.BuildTarget == configGroup.BuildTarget && x.ProjectBuild == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
 
             int count = duplicatePaths.Length;
-            bool hasCopies = count > 0;
+            bool hasCopies = count > 1;
             return (hasCopies, duplicatePaths);
         }
         #endregion

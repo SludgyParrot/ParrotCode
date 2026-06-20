@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ParrotCodeEventSystem</name>
+    </assembly>
+    <members>
+        <member name="T:ParrotCode.EventSystem.EventBus">
+            <summary>
+            This class handles global events across the Sludgy Parrot Code framework.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.EventSystem.EventBus.AddListener``1(System.Action{``0})">
+            <summary>
+            Adds function callback to the event bus's events list.
+            </summary>
+            <typeparam name="T">Event data type.</typeparam>
+            <param name="eventCallback">The function that listens to callbacks from the event.</param>
+        </member>
+        <member name="M:ParrotCode.EventSystem.EventBus.InvokeEvent``1(``0)">
+            <summary>
+            Sends action event to subscribed functions.
+            </summary>
+            <typeparam name="T">Event data type.</typeparam>
+            <param name="eventData">The event data parameter to be sent to the listening functions.</param>
+        </member>
+        <member name="M:ParrotCode.EventSystem.EventBus.RemoveListener``1(System.Action{``0})">
+            <summary>
+            Removes function callback from the event bus's events list.
+            </summary>
+            <typeparam name="T">Event data type.</typeparam>
+            <param name="eventCallback">The function that listens to callbacks from the event.</param>
+        </member>
+    </members>
+</doc>
