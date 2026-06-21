@@ -1,6 +1,5 @@
+![Logo](../Resources/images/Logo.png)
 # Introduction
-
-![Logo](images/Logo.png)
 
 Welcome to **Parrot Code**, a modular framework designed to accelerate Unity application and game development through reusable systems, platform abstractions, and editor tooling.
 

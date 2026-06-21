@@ -28,16 +28,27 @@ licensing@sludgyparrot.com
 */
 
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// This is a custom editor class for <see cref="RenderingProjectBuildConfig"/>
+    /// </summary>
     [CustomEditor(typeof(RenderingProjectBuildConfig))]
     public sealed class RenderingProjectBuildConfigEditor: Editor
     {
         private const bool IsWideHelpBox = true;
-        private const string BuildTargetPropertyFieldName = "buildTarget";
+
+        private const string ApplySettingsButtonLabel = "Apply Settings";
+
+        private  string ProjectConfigurationWarningPopUpTitle = $"Parrot Code: Configure Project Rendering Settings";
+
+        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity platform specific project's rendering settings. " +
+            "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
 
         #region Platform Settings
 
@@ -46,14 +57,14 @@ namespace ParrotCode.Platforms
         private const string WindowsSettingsPropertyFieldName = "windowsSettings";
         private const string WebGLSettingsPropertyFieldName = "webGLSettings";
 
-        private readonly Dictionary<BuildTarget, SerializedProperty> platformSettingsPropertyFields 
+        private readonly Dictionary<BuildTarget, SerializedProperty> platformSettingsProperties 
             = new Dictionary<BuildTarget, SerializedProperty>();
 
         #endregion
 
-        private const string RenderingSettingsPropertyFieldName = "Rendering Settings";
+        private const string RenderingSettingsFieldLabel = "Platform Settings";
 
-        private string[] excludedProperties = 
+        private static readonly string[] excludedProperties = 
         {
             AndroidSettingsPropertyFieldName,
             IOSSettingsPropertyFieldName,
@@ -63,19 +74,19 @@ namespace ParrotCode.Platforms
 
         private void OnEnable()
         {
-            InitializeProperies();
+            InitializeProperties();
         }
 
-        private void InitializeProperies()
+        private void InitializeProperties()
         {
-            platformSettingsPropertyFields[BuildTarget.Android] = serializedObject.FindProperty(AndroidSettingsPropertyFieldName);
-            platformSettingsPropertyFields[BuildTarget.iOS] = serializedObject.FindProperty(IOSSettingsPropertyFieldName);
-            platformSettingsPropertyFields[BuildTarget.WebGL] = serializedObject.FindProperty(WebGLSettingsPropertyFieldName);
+            platformSettingsProperties[BuildTarget.Android] = serializedObject.FindProperty(AndroidSettingsPropertyFieldName);
+            platformSettingsProperties[BuildTarget.iOS] = serializedObject.FindProperty(IOSSettingsPropertyFieldName);
+            platformSettingsProperties[BuildTarget.WebGL] = serializedObject.FindProperty(WebGLSettingsPropertyFieldName);
 
             var windowsSettingsPropertyField = serializedObject.FindProperty(WindowsSettingsPropertyFieldName);
 
-            platformSettingsPropertyFields[BuildTarget.StandaloneWindows] = windowsSettingsPropertyField;
-            platformSettingsPropertyFields[BuildTarget.StandaloneWindows64] = windowsSettingsPropertyField;
+            platformSettingsProperties[BuildTarget.StandaloneWindows] = windowsSettingsPropertyField;
+            platformSettingsProperties[BuildTarget.StandaloneWindows64] = windowsSettingsPropertyField;
         }
 
         public override void OnInspectorGUI()
@@ -83,37 +94,93 @@ namespace ParrotCode.Platforms
             serializedObject.Update();
             DrawPropertiesExcluding(serializedObject, excludedProperties);
 
-            BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
+            RenderingProjectBuildConfig renderingProjectBuildConfig = (RenderingProjectBuildConfig)target;
 
-            if (platformSettingsPropertyFields.TryGetValue(target, out SerializedProperty property))
+            #region General Settings
+
+            #endregion
+
+            #region Platform Specific Settings
+
+            BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
+
+            if (platformSettingsProperties.TryGetValue(buildTarget, out SerializedProperty property))
             {
-                EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsPropertyFieldName));
+                EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
 
-                if(target == BuildTarget.Android)
+                if(property.boxedValue is IRenderingProjectBuildConfig settings)
                 {
-                    AndroidRenderingProjectBuildConfig androidSettings = (AndroidRenderingProjectBuildConfig)property.boxedValue;
-
-                    var validateConfigsResults = androidSettings.UnsupportedAPICheckResults();
-
-                    if(validateConfigsResults.hasUnsupportedAPI)
-                    {
-                        foreach (var api in validateConfigsResults.graphicAPIs)
-                        {
-                            if (api == UnityEngine.Rendering.GraphicsDeviceType.Vulkan || api == UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3)
-                                continue;
-
-                            if(api == UnityEngine.Rendering.GraphicsDeviceType.OpenGLES2)
-                                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Graphics API: {api} is for target build: {target} is deprecated. Please use Andoid supported APIs like (Vulkan, OpenGLES2 etc).", MessageType.Warning, IsWideHelpBox));
-                            else
-                                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Graphics API: {api} is not supported for build target build: {target}.", MessageType.Error, IsWideHelpBox));
-                        }
-                    }
+                    EditorGUILayout.Space();
+                    ValidatePlatformConfigurations(renderingProjectBuildConfig, settings, buildTarget);
                 }
             }
             else
-                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {target}.", MessageType.Warning, IsWideHelpBox));
+                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {buildTarget}.", MessageType.Warning, IsWideHelpBox));
+
+            #endregion
+
+            #region Apply Settings
+            if(GUILayout.Button(new GUIContent(ApplySettingsButtonLabel)))
+            {
+                if(CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
+                    renderingProjectBuildConfig.ApplySettings();
+            }
+            #endregion
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ValidatePlatformConfigurations(RenderingProjectBuildConfig projectBuildConfig, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
+        {
+            IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPI = projectBuildConfig.GraphicsAPI;
+
+            if (selectedGraphicsAPI == null || selectedGraphicsAPI.Count == 0)
+            {
+                string supportedGraphicsAPIs = string.Join("\n", renderingProjectBuild.SupportedGraphicsAPI.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
+                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"There are no graphics APIs defined for build target: {buildTarget}." +
+                    $" \nUnity will automatically select one of the following supported graphics API(s) for {buildTarget}: \n\n{supportedGraphicsAPIs}\n", MessageType.Info, IsWideHelpBox));
+                return;
+            }
+
+            #region Validate Unsupported Graphic APIs
+            if(!ValidateUnsupportedGraphicsAPIs(projectBuildConfig.GraphicsAPI, renderingProjectBuild, buildTarget))
+            {
+                return;
+            }
+            #endregion
+
+            #region Validate Deprecated Graphic APIs
+            ValidateDeprecatedGraphicsAPIs(projectBuildConfig.GraphicsAPI, renderingProjectBuild, buildTarget);
+            #endregion
+        }
+
+        private bool ValidateUnsupportedGraphicsAPIs(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
+        {
+            GraphicsDeviceType[] unsupportedGraphicsAPIs = (renderingProjectBuild.UnsupportedGraphicsAPIFound(selectedGraphicsAPIs)).ToArray();
+
+            if (unsupportedGraphicsAPIs.Length == 0)
+                return true;
+
+            string unsupportedGraphicsAPINames = string.Join("\n", unsupportedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
+
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Unsupported graphics API detected] This configuration contains unsupported graphic API(s) for build target:" +
+                $" {buildTarget}. \nPlease remove the following unsupported graphics API(s) from the graphics API list: \n\n{unsupportedGraphicsAPINames}\n", MessageType.Error, IsWideHelpBox));
+
+            return false;
+        }
+
+        private void ValidateDeprecatedGraphicsAPIs(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
+        {
+            IReadOnlyList<GraphicsDeviceType> deprecatedGraphicsAPIs = renderingProjectBuild.DeprecatedGraphicsAPIFound(selectedGraphicsAPIs);
+
+            if (deprecatedGraphicsAPIs.Count == 0)
+            {
+                return;
+            }
+
+            string deprecatedGraphicsAPINames = string.Join("\n", deprecatedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Deprecated graphics API detected] This configuration contains a deprecated graphic API(s) for build target: " +
+                $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{deprecatedGraphicsAPINames}\n", MessageType.Warning, IsWideHelpBox));
         }
     }
 }

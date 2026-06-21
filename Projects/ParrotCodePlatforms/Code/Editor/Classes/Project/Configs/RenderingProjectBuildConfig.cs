@@ -30,26 +30,29 @@ licensing@sludgyparrot.com
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// This class 
+    /// This class contains rendering project configurators for cross platforms.
     /// </summary>
     /// <remarks>
-    /// 
+    /// This is a scriptable object component that derives from <href>UnityEngine</href> 
     /// </remarks>
     [CreateAssetMenu(fileName = "Rendering Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Rendering Settings")]
     public sealed class RenderingProjectBuildConfig : ProjectSpecificBuildConfig
     {
         #region General Rendering Settings
-        [SerializeField, Space(5)]
-        private GeneralRenderingProjectBuildConfig generalSettings = new GeneralRenderingProjectBuildConfig();
+        [Header("General Settings")]
 
-        /// <summary>
-        /// General rendering settings for configuring general platform rendering settings
-        /// </summary>
-        public GeneralRenderingProjectBuildConfig GeneralSettings => generalSettings;
+        [SerializeField, Space(5), Tooltip("Specify a list of graphics API " +
+            "(DirectX, Vulkan, Metal, OpenGL, etc.) to use for the selected platform. If the order is not explicitly defined," +
+            " Unity will automatically selects the graphics backend for the selected platform (DirectX, Vulkan, Metal, OpenGL, etc.)")]
+        private GraphicsDeviceType[] graphicsAPI;
+
+        public IReadOnlyList<GraphicsDeviceType> GraphicsAPI => graphicsAPI;
+
         #endregion
 
         #region Android Rendering Settings
@@ -81,6 +84,12 @@ namespace ParrotCode.Platforms
             = new Dictionary<BuildTarget, IRenderingProjectBuildConfig>();
         #endregion
 
+        /// <summary>
+        /// A build target for the active editor.
+        /// </summary>
+        /// <return>
+        /// The active build target <see cref="BuildTarget"/>.
+        /// </return>
         public override BuildTarget BuildTarget => EditorUserBuildSettings.activeBuildTarget;
 
         private void OnEnable()
@@ -105,6 +114,9 @@ namespace ParrotCode.Platforms
             renderingSettings.Clear();
         }
 
+        /// <summary>
+        /// Applies user specified configuration to the ploject.
+        /// </summary>
         public override void ApplySettings()
         {
             if(!renderingSettings.TryGetValue(BuildTarget, out IRenderingProjectBuildConfig settings))
@@ -114,8 +126,33 @@ namespace ParrotCode.Platforms
                 return;
             }
 
-            GeneralSettings.ApplySettings();
+            if(settings.UnsupportedGraphicsAPIFound(GraphicsAPI).Count > 0)
+            {
+                Debug.LogError($"[{name}] Apply project rendering settings for build target: {BuildTarget} failed. " +
+                   $"Config contains unsupported graphics API for build target: {BuildTarget}. Please resolve any pending issues for '{name}' at path: {AssetDatabase.GetAssetPath(this)}.");
+                return;
+            }
+
+            if(settings.DeprecatedGraphicsAPIFound(GraphicsAPI).Count > 0)
+            {
+                Debug.LogWarning($"[{name}] The applied project rendering settings for build target: {BuildTarget} contains deprected" +
+                    $" graphics API for runtime platform: {BuildTarget}. Please check rendering config asset '{name}' at path: {AssetDatabase.GetAssetPath(this)}.");
+            }
+
+            // Apply general platform rendering settings.
+            ApplyGeneralSettings();
+
+            // Apply platform specific configurations. e.g Android, Windows, WebGL etc.
             settings.ApplySettings();
+        }
+
+        private void ApplyGeneralSettings()
+        {
+            bool useAutoGraphicsAPI = GraphicsAPI.Count == 0;
+            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget, useAutoGraphicsAPI);
+
+            if(!useAutoGraphicsAPI)
+                PlayerSettings.SetGraphicsAPIs(BuildTarget, graphicsAPI);
         }
     }
 }

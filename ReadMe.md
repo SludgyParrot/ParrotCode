@@ -1,4 +1,4 @@
-![Logo](./Documentation/images/Logo.png)
+![Logo](./Resources/images/Logo.png)
 # Parrot Code
 
 <p align="center">
