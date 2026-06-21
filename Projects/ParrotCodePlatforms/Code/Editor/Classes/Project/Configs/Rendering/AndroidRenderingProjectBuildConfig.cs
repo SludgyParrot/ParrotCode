@@ -32,24 +32,16 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// This class encapsulates a collection of common Android specific rendering settings.
+    /// A configuration file for configuring Android platform project rendering settings.
     /// </summary>
     [Serializable]
-    public sealed class AndroidRenderingProjectBuildConfig : IRenderingProjectBuildConfig
+    public sealed class AndroidRenderingProjectBuildConfig : BaseRenderingProjectBuildConfig
     {
-        [SerializeField, Tooltip("Determines whether Unity automatically selects the graphics backend " +
-            "for a platform (DirectX, Vulkan, Metal, OpenGL, etc.) or whether you explicitly define the order.")]
-        private bool useAutoGraphicsAPI;
-
-        [SerializeField, Space(5), Tooltip("Specify a list of graphics API " +
-            "(DirectX, Vulkan, Metal, OpenGL, etc.) to use for the selected platform.")]
-        private GraphicsDeviceType[] graphicsAPI;
-
+        #region Platform Settings
         [SerializeField, Space(5), Tooltip("Determines if multi threaded reandering should be enabled or not.")]
         private bool enableMultiThreadedRendering;
 
@@ -58,23 +50,49 @@ namespace ParrotCode.Platforms
 
         private BuildTarget buildTarget = BuildTarget.Android;
 
-        public bool UseAutoGraphicsAPI => useAutoGraphicsAPI;
-        public IReadOnlyList<GraphicsDeviceType> GraphicsAPI => graphicsAPI;
         public bool EnableMultiThreadedRendering => enableMultiThreadedRendering;
         public bool EnableGraphicsJob => enableGraphicsJob;
         public BuildTarget BuildTarget => buildTarget;
+        #endregion
 
-        public (bool hasUnsupportedAPI, GraphicsDeviceType[] graphicAPIs) UnsupportedAPICheckResults()
+        #region Graphic API Validators
+        private IReadOnlyList<GraphicsDeviceType> supportedGraphicsAPI;
+        private IReadOnlyList<GraphicsDeviceType> deprecateddGraphicsAPI;
+
+        public override IReadOnlyList<GraphicsDeviceType>  SupportedGraphicsAPI
         {
-            var unsupportedAssignedGraphicsAPIs = GraphicsAPI.Select(x => x).Where(api => api != GraphicsDeviceType.Vulkan || api != GraphicsDeviceType.OpenGLES3).ToArray();
-            return (unsupportedAssignedGraphicsAPIs.Length > 0, unsupportedAssignedGraphicsAPIs);
+            get
+            {
+                if (supportedGraphicsAPI == null || supportedGraphicsAPI.Count == 0)
+                {
+                    supportedGraphicsAPI = new List<GraphicsDeviceType>()
+                    {
+                           GraphicsDeviceType.Vulkan,
+                           GraphicsDeviceType.OpenGLES3,
+                    };
+                }
+                return supportedGraphicsAPI;
+            }
         }
 
-        public void ApplySettings()
+        public override IReadOnlyList<GraphicsDeviceType> DeprecatedGraphicsAPI
         {
-            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget, UseAutoGraphicsAPI);
-            PlayerSettings.SetGraphicsAPIs(BuildTarget, graphicsAPI);
+            get
+            {
+                if (deprecateddGraphicsAPI == null || deprecateddGraphicsAPI.Count == 0)
+                {
+                    deprecateddGraphicsAPI = new List<GraphicsDeviceType>()
+                    {
+                           GraphicsDeviceType.OpenGLES2,
+                    };
+                }
+                return deprecateddGraphicsAPI;
+            }
+        }
+        #endregion
 
+        public override void ApplySettings()
+        {
             PlayerSettings.MTRendering = EnableMultiThreadedRendering;
             PlayerSettings.graphicsJobs = EnableGraphicsJob;
         }

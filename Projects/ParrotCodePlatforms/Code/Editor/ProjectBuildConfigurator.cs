@@ -39,15 +39,14 @@ namespace ParrotCode.Platforms
         private const string DevelopmentSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot + "Development";
         private const string ProductionSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot + "Production";
 
-        private const string ProjectConfigurationWarningPopUpTitle = "Parrot Code: Configure Project Settings";
+        private static string ProjectConfigurationWarningPopUpTitle = $"Parrot Code: Configure {BuildTarget.ToString()} Project Settings";
 
-        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity project's settings to a predefined {0} configuration data. " +
+        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity {BuildTarget.ToString()} project's settings to a predefined {0} configuration data. " +
             "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
 
-        private const string ProjectConfigurationWarningPopUpConfirmButtonTitle = "Yes Please!";
-        private const string ProjectConfigurationWarningPopUpCancelButtonTitle = "No Thanks!";
-
         private const string ProjectBuildConfigGroupConfigSearchFilter = "t:ProjectBuildConfigGroup";
+
+        private static BuildTarget BuildTarget => EditorUserBuildSettings.activeBuildTarget;
 
         private static WindowsProjectConfigurator sharedWindowsProjectConfigurator = new WindowsProjectConfigurator();
 
@@ -90,12 +89,10 @@ namespace ParrotCode.Platforms
         {
             string warningMessage = string.Format(ProjectConfigurationWarningPopUpMessage, build.ToString());
 
-            if (!EditorUtility.DisplayDialog(ProjectConfigurationWarningPopUpTitle, warningMessage, ProjectConfigurationWarningPopUpConfirmButtonTitle, ProjectConfigurationWarningPopUpCancelButtonTitle))
+            if (!CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, warningMessage))
                 return;
 
-            BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
-
-            var projectSettings = GetBuildProjectConfigForBuild(target, build);
+            var projectSettings = GetBuildProjectConfigForBuild(BuildTarget, build);
 
             if (!string.IsNullOrEmpty(projectSettings.errorMessage))
             {
@@ -121,9 +118,9 @@ namespace ParrotCode.Platforms
 
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
-            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs().Where(x => x.BuildTarget == target && x.ProjectBuild == build).ToArray();
+            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(x => x.BuildTarget == target && x.ProjectBuild == build).ToArray();
 
-            if (projectConfigs.Length == 1)
+            if (projectConfigs?.Length == 1)
                 return (projectConfigs[0], string.Empty);
 
             return (null, $"Get build project config for build: {build} targeting: {target} failed. There are {projectConfigs.Length} build project config(s) found for target.");

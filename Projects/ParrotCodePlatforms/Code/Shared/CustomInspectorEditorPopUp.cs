@@ -27,20 +27,13 @@ licensing@sludgyparrot.com
 
 */
 
-using System;
-using UnityEngine;
+using UnityEditor;
 
 namespace ParrotCode.Platforms
 {
-    [Serializable]
-    public sealed class GeneralRenderingProjectBuildConfig: IRenderingProjectBuildConfig
+    public static class CustomInspectorEditorPopUp
     {
-        [SerializeField]
-        private string name;
-
-        public void ApplySettings()
-        {
-           
-        }
+        public static bool ApplySettingsPopUpConfirmed(string popUpTitle, string popUpMessage, string confirmButtonTitle = "Yes Please!", string cancelButtonTitle = "No Thanks!")
+            => EditorUtility.DisplayDialog(popUpTitle, popUpMessage, confirmButtonTitle, cancelButtonTitle);
     }
 }

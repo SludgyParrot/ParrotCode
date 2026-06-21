@@ -27,10 +27,36 @@ licensing@sludgyparrot.com
 
 */
 
+using System.Collections.Generic;
+using UnityEngine.Rendering;
+
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// An interface for <see cref="RenderingProjectBuildConfig"/>
+    /// </summary>
     public interface IRenderingProjectBuildConfig
     {
+        IReadOnlyList<GraphicsDeviceType> SupportedGraphicsAPI { get; }
+        IReadOnlyList<GraphicsDeviceType> DeprecatedGraphicsAPI { get; }
+
+        /// <summary>
+        /// A list of detected unsupported graphics APIs.
+        /// </summary>
+        /// <param name="selectedGraphicsAPIs">A readonly list of explicitly selected graphics APIs.</param>
+        /// <returns>A readonly list of unsupported graphics APIs.</returns>
+        IReadOnlyList<GraphicsDeviceType> UnsupportedGraphicsAPIFound(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs);
+
+        /// <summary>
+        /// A list of detected deprecated graphics APIs.
+        /// </summary>
+        /// <param name="selectedGraphicsAPIs">A readonly list of explicitly selected graphics APIs.</param>
+        /// <returns>A readonly list of deprecated graphics APIs</returns>
+        IReadOnlyList<GraphicsDeviceType> DeprecatedGraphicsAPIFound(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs);
+
+        /// <summary>
+        /// Applies the configurations to the target platform. e.g Android, Windows, WebGL etc.
+        /// </summary>
         void ApplySettings();
     }
 }

@@ -42,13 +42,50 @@ licensing@sludgyparrot.com
 */
 
 using System;
+using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// A configuration file for configuring iOS platform project rendering settings.
+    /// </summary>
     [Serializable]
-    public sealed class IOSRenderingProjectBuildConfig : IRenderingProjectBuildConfig
+    public sealed class IOSRenderingProjectBuildConfig : BaseRenderingProjectBuildConfig
     {
-        public void ApplySettings()
+        #region Graphic API Validators
+        private IReadOnlyList<GraphicsDeviceType> supportedGraphicsAPI;
+        private IReadOnlyList<GraphicsDeviceType> deprecateddGraphicsAPI;
+
+        public override IReadOnlyList<GraphicsDeviceType> SupportedGraphicsAPI
+        {
+            get
+            {
+                if (supportedGraphicsAPI == null || supportedGraphicsAPI.Count == 0)
+                {
+                    supportedGraphicsAPI = new List<GraphicsDeviceType>()
+                    {
+                           GraphicsDeviceType.Metal,
+                    };
+                }
+                return supportedGraphicsAPI;
+            }
+        }
+
+        public override IReadOnlyList<GraphicsDeviceType> DeprecatedGraphicsAPI
+        {
+            get
+            {
+                if (deprecateddGraphicsAPI == null || deprecateddGraphicsAPI.Count == 0)
+                {
+                    deprecateddGraphicsAPI = new List<GraphicsDeviceType>();
+                }
+                return deprecateddGraphicsAPI;
+            }
+        }
+        #endregion
+
+        public override void ApplySettings()
         {
            
         }

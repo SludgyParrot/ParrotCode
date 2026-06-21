@@ -28,13 +28,53 @@ licensing@sludgyparrot.com
 */
 
 using System;
+using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// This class contains platform specific settings for standalone windows/64Bit.
+    /// </summary>
     [Serializable]
-    public sealed class WindowsRenderingProjectBuildConfig : IRenderingProjectBuildConfig
+    public sealed class WindowsRenderingProjectBuildConfig : BaseRenderingProjectBuildConfig
     {
-        public void ApplySettings()
+        #region Graphic API Validators
+        private IReadOnlyList<GraphicsDeviceType> supportedGraphicsAPI;
+        private IReadOnlyList<GraphicsDeviceType> deprecateddGraphicsAPI;
+
+        public override IReadOnlyList<GraphicsDeviceType> SupportedGraphicsAPI
+        {
+            get
+            {
+                if (supportedGraphicsAPI == null || supportedGraphicsAPI.Count == 0)
+                {
+                    supportedGraphicsAPI = new List<GraphicsDeviceType>()
+                    {
+                           GraphicsDeviceType.Direct3D11,
+                           GraphicsDeviceType.Direct3D12,
+                    };
+                }
+                return supportedGraphicsAPI;
+            }
+        }
+
+        public override IReadOnlyList<GraphicsDeviceType> DeprecatedGraphicsAPI
+        {
+            get
+            {
+                if (deprecateddGraphicsAPI == null || deprecateddGraphicsAPI.Count == 0)
+                {
+                    deprecateddGraphicsAPI = new List<GraphicsDeviceType>()
+                    {
+                        GraphicsDeviceType.Direct3D9 
+                    };
+                }
+                return deprecateddGraphicsAPI;
+            }
+        }
+        #endregion
+        public override void ApplySettings()
         {
           
         }

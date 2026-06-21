@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeExtensions", "Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeHelpers", "Projects\ParrotCodeHelpers\ParrotCodeHelpers.csproj", "{0E3814D4-0223-48B0-83B3-38072BC8B623}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodePlatforms", "Projects\ParrotCodePlatforms\ParrotCodePlatforms.csproj", "{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodePlatformEditor", "Projects\ParrotCodePlatforms\ParrotCodePlatformEditor.csproj", "{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeAndroid", "Projects\ParrotCodeAndroid\ParrotCodeAndroid.csproj", "{6A16D3D7-593E-4ADC-852D-650452E9BEAC}"
 EndProject
