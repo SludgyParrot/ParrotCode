@@ -28,6 +28,7 @@ licensing@sludgyparrot.com
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -140,19 +141,24 @@ namespace ParrotCode.Platforms
             }
 
             // Apply general platform rendering settings.
-            ApplyGeneralSettings();
+            GraphicsDeviceType[] varifiedGraphicsAPI = GraphicsAPI.Where(graphicsAPI => !settings.DeprecatedGraphicsAPI.Contains(graphicsAPI) && settings.SupportedGraphicsAPI.Contains(graphicsAPI)).ToArray();
+            ApplyGeneralSettings(varifiedGraphicsAPI);
 
             // Apply platform specific configurations. e.g Android, Windows, WebGL etc.
             settings.ApplySettings();
         }
 
-        private void ApplyGeneralSettings()
+        private void ApplyGeneralSettings(GraphicsDeviceType[] graphicsAPIs)
         {
-            bool useAutoGraphicsAPI = GraphicsAPI.Count == 0;
+            bool useAutoGraphicsAPI = graphicsAPIs?.Length == 0;
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget, useAutoGraphicsAPI);
 
             if(!useAutoGraphicsAPI)
-                PlayerSettings.SetGraphicsAPIs(BuildTarget, graphicsAPI);
+            {
+                PlayerSettings.SetGraphicsAPIs(BuildTarget, graphicsAPIs.ToArray());
+            }
+
+            Debug.Log($"[{name}] Successfully applied project rendering settings for build target: {BuildTarget}.");
         }
     }
 }

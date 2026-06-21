@@ -15,4 +15,4 @@ MonoBehaviour:
   buildTarget: 13
   projectBuild: 0
   buildConfigs:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: f600c72634d95c544bd499856c552dcb, type: 2}

@@ -46,9 +46,8 @@ namespace ParrotCode.Platforms
         private const string ApplySettingsButtonLabel = "Apply Settings";
         private const float ApplySettingsButtonLayoutHeight = 50.0f;
 
-        private  string ProjectConfigurationWarningPopUpTitle = $"Parrot Code: Configure Project Rendering Settings";
-
-        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity platform specific project's rendering settings. " +
+        private const string ProjectConfigurationWarningPopUpTitle = "Parrot Code: Configure Project Rendering Settings";
+        private const string ProjectConfigurationWarningPopUpMessage = "This operation will configure the Unity platform specific project's rendering settings. " +
             "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
 
         #region Platform Settings
@@ -97,11 +96,7 @@ namespace ParrotCode.Platforms
 
             RenderingProjectBuildConfig renderingProjectBuildConfig = (RenderingProjectBuildConfig)target;
 
-            #region General Settings
-
-            #endregion
-
-            #region Platform Specific Settings
+            #region Settings
 
             BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
 
@@ -110,29 +105,43 @@ namespace ParrotCode.Platforms
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {buildTarget}.", MessageType.Warning, IsWideHelpBox));
                 return;
             }
-                
-            if (property.boxedValue is IRenderingProjectBuildConfig settings)
-            {
-                ValidatePlatformConfigurations(renderingProjectBuildConfig, settings, buildTarget);
-                EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
-            }
-
-            EditorGUILayout.Space();
 
             #endregion
 
-            #region Apply Settings
-            if (GUILayout.Button(ApplySettingsButtonLabel, GUILayout.Height(ApplySettingsButtonLayoutHeight)))
-            {
-                if(CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
-                    renderingProjectBuildConfig.ApplySettings();
-            }
+            #region Platform Specific Settings
+            OnPlatformSpecificConfigInspectorGUI(renderingProjectBuildConfig, property, buildTarget);
             #endregion
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void ValidatePlatformConfigurations(RenderingProjectBuildConfig projectBuildConfig, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
+        private void OnPlatformSpecificConfigInspectorGUI(RenderingProjectBuildConfig renderingProjectBuildConfig, SerializedProperty property, BuildTarget buildTarget)
+        {
+            if (property.boxedValue is IRenderingProjectBuildConfig settings)
+            {
+                bool isValidConfigurations = ValidatePlatformConfigurations(renderingProjectBuildConfig, settings, buildTarget);
+                EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
+
+                GUI.enabled = isValidConfigurations;
+
+                EditorGUILayout.Space();
+                OnApplyRenderingSettingsInspectorGUI(renderingProjectBuildConfig);
+            }
+
+            EditorGUILayout.Space();
+        }
+
+        private void OnApplyRenderingSettingsInspectorGUI(RenderingProjectBuildConfig renderingProjectBuildConfig)
+        {
+            if (GUILayout.Button(ApplySettingsButtonLabel, GUILayout.Height(ApplySettingsButtonLayoutHeight)))
+            {
+                if (CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
+                    renderingProjectBuildConfig.ApplySettings();
+            }
+        }
+
+        #region Configuration Validations
+        private bool ValidatePlatformConfigurations(RenderingProjectBuildConfig projectBuildConfig, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
         {
             IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPI = projectBuildConfig.GraphicsAPI;
 
@@ -143,19 +152,28 @@ namespace ParrotCode.Platforms
                 string supportedGraphicsAPIs = string.Join("\n", renderingProjectBuild.SupportedGraphicsAPI.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"There are no graphics APIs defined for build target: {buildTarget}." +
                     $" \nUnity will automatically select one of the following supported graphics API(s) for {buildTarget}: \n\n{supportedGraphicsAPIs}\n", MessageType.Info, IsWideHelpBox));
-                return;
+                return false;
             }
 
             #region Validate Unsupported Graphic APIs
             if(!ValidateUnsupportedGraphicsAPIs(projectBuildConfig.GraphicsAPI, renderingProjectBuild, buildTarget))
             {
-                return;
+                return false;
+            }
+            #endregion
+
+            #region Validate Duplicated Graphic APIs
+            if (!ValidateSupportedGraphicsAPIDuplicates(projectBuildConfig.GraphicsAPI, buildTarget))
+            {
+                return false;
             }
             #endregion
 
             #region Validate Deprecated Graphic APIs
             ValidateDeprecatedGraphicsAPIs(projectBuildConfig.GraphicsAPI, renderingProjectBuild, buildTarget);
             #endregion
+
+            return true;
         }
 
         private bool ValidateUnsupportedGraphicsAPIs(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
@@ -175,6 +193,26 @@ namespace ParrotCode.Platforms
             return false;
         }
 
+        private bool ValidateSupportedGraphicsAPIDuplicates(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs, BuildTarget buildTarget)
+        {
+            var supportedGraphicsAPIDuplicates = selectedGraphicsAPIs.GroupBy(graphhicsAPI => graphhicsAPI).Where(graphicsAPIGroup => graphicsAPIGroup.Count() > 1).ToArray();
+
+            if(supportedGraphicsAPIDuplicates.Length == 0)
+            {
+                return true;
+            }
+
+            EditorGUILayout.Space();
+
+            string[] duplicatedGraphicsAPINameGroup = supportedGraphicsAPIDuplicates.Select(group => $"* {group.Key} [{group.Count()}]").ToArray();
+            string duplicatedGraphicsAPINames = string.Join("\n", duplicatedGraphicsAPINameGroup);
+
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Duplicate graphics API(s) detected] This configuration contains a duplicated graphic API(s) for build target: " +
+              $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{duplicatedGraphicsAPINames}\n", MessageType.Error, IsWideHelpBox));
+
+            return false;
+        }
+
         private void ValidateDeprecatedGraphicsAPIs(IReadOnlyList<GraphicsDeviceType> selectedGraphicsAPIs, IRenderingProjectBuildConfig renderingProjectBuild, BuildTarget buildTarget)
         {
             IReadOnlyList<GraphicsDeviceType> deprecatedGraphicsAPIs = renderingProjectBuild.DeprecatedGraphicsAPIFound(selectedGraphicsAPIs);
@@ -187,8 +225,9 @@ namespace ParrotCode.Platforms
             EditorGUILayout.Space();
 
             string deprecatedGraphicsAPINames = string.Join("\n", deprecatedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
-            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Deprecated graphics API detected] This configuration contains a deprecated graphic API(s) for build target: " +
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Deprecated graphics API(s) detected] This configuration contains a deprecated graphic API(s) for build target: " +
                 $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{deprecatedGraphicsAPINames}\n", MessageType.Warning, IsWideHelpBox));
         }
+        #endregion
     }
 }

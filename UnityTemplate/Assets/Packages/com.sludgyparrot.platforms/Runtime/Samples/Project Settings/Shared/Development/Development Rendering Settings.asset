@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 715025690, guid: e61ff314f57b5c54fb71e72af2a4e2aa, type: 3}
   m_Name: Development Rendering Settings
   m_EditorClassIdentifier: 
-  graphicsAPI: 0b00000008000000
+  graphicsAPI: 0800000016000000
   androidSettings:
     enableMultiThreadedRendering: 1
     enableGraphicsJob: 1
