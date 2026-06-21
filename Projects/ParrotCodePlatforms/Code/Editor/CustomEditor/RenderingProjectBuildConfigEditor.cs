@@ -44,6 +44,7 @@ namespace ParrotCode.Platforms
         private const bool IsWideHelpBox = true;
 
         private const string ApplySettingsButtonLabel = "Apply Settings";
+        private const float ApplySettingsButtonLayoutHeight = 50.0f;
 
         private  string ProjectConfigurationWarningPopUpTitle = $"Parrot Code: Configure Project Rendering Settings";
 
@@ -104,23 +105,24 @@ namespace ParrotCode.Platforms
 
             BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
 
-            if (platformSettingsProperties.TryGetValue(buildTarget, out SerializedProperty property))
+            if (!platformSettingsProperties.TryGetValue(buildTarget, out SerializedProperty property))
             {
-                EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
-
-                if(property.boxedValue is IRenderingProjectBuildConfig settings)
-                {
-                    EditorGUILayout.Space();
-                    ValidatePlatformConfigurations(renderingProjectBuildConfig, settings, buildTarget);
-                }
-            }
-            else
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {buildTarget}.", MessageType.Warning, IsWideHelpBox));
+                return;
+            }
+                
+            if (property.boxedValue is IRenderingProjectBuildConfig settings)
+            {
+                ValidatePlatformConfigurations(renderingProjectBuildConfig, settings, buildTarget);
+                EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
+            }
+
+            EditorGUILayout.Space();
 
             #endregion
 
             #region Apply Settings
-            if(GUILayout.Button(new GUIContent(ApplySettingsButtonLabel)))
+            if (GUILayout.Button(ApplySettingsButtonLabel, GUILayout.Height(ApplySettingsButtonLayoutHeight)))
             {
                 if(CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
                     renderingProjectBuildConfig.ApplySettings();
@@ -136,6 +138,8 @@ namespace ParrotCode.Platforms
 
             if (selectedGraphicsAPI == null || selectedGraphicsAPI.Count == 0)
             {
+                EditorGUILayout.Space();
+
                 string supportedGraphicsAPIs = string.Join("\n", renderingProjectBuild.SupportedGraphicsAPI.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"There are no graphics APIs defined for build target: {buildTarget}." +
                     $" \nUnity will automatically select one of the following supported graphics API(s) for {buildTarget}: \n\n{supportedGraphicsAPIs}\n", MessageType.Info, IsWideHelpBox));
@@ -161,6 +165,8 @@ namespace ParrotCode.Platforms
             if (unsupportedGraphicsAPIs.Length == 0)
                 return true;
 
+            EditorGUILayout.Space();
+
             string unsupportedGraphicsAPINames = string.Join("\n", unsupportedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
 
             CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Unsupported graphics API detected] This configuration contains unsupported graphic API(s) for build target:" +
@@ -177,6 +183,8 @@ namespace ParrotCode.Platforms
             {
                 return;
             }
+
+            EditorGUILayout.Space();
 
             string deprecatedGraphicsAPINames = string.Join("\n", deprecatedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
             CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Deprecated graphics API detected] This configuration contains a deprecated graphic API(s) for build target: " +
