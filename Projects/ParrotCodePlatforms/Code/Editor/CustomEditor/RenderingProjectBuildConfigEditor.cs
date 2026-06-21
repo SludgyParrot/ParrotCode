@@ -122,7 +122,7 @@ namespace ParrotCode.Platforms
                 bool isValidConfigurations = ValidatePlatformConfigurations(renderingProjectBuildConfig, settings, buildTarget);
                 EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
 
-                GUI.enabled = isValidConfigurations;
+                GUI.enabled = renderingProjectBuildConfig.GraphicsAPI.Count == 0 ? true: isValidConfigurations;
 
                 EditorGUILayout.Space();
                 OnApplyRenderingSettingsInspectorGUI(renderingProjectBuildConfig);
