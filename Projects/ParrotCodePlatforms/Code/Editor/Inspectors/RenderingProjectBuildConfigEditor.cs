@@ -41,14 +41,8 @@ namespace ParrotCode.Platforms
     [CustomEditor(typeof(RenderingProjectBuildConfig))]
     public sealed class RenderingProjectBuildConfigEditor: Editor
     {
-        private const bool IsWideHelpBox = true;
-
-        private const string ApplySettingsButtonLabel = "Apply Settings";
-        private const float ApplySettingsButtonLayoutHeight = 50.0f;
-
-        private const string ProjectConfigurationWarningPopUpTitle = "Parrot Code: Configure Project Rendering Settings";
-        private const string ProjectConfigurationWarningPopUpMessage = "This operation will configure the Unity platform specific project's rendering settings. " +
-            "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
+        private string ProjectConfigurationWarningPopUpTitle = string.Join(" ", CustomEditorSharedInfo.ProjectConfigurationPopUpTitle, CustomEditorSharedInfo.ProjectRenderingSettingsTitle);
+        private string ProjectConfigurationWarningPopUpMessage = string.Format(CustomEditorSharedInfo.ProjectConfigurationPopUpMessage, CustomEditorSharedInfo.ProjectRenderingSettingsTitle);
 
         #region Platform Settings
 
@@ -102,7 +96,7 @@ namespace ParrotCode.Platforms
 
             if (!platformSettingsProperties.TryGetValue(buildTarget, out SerializedProperty property))
             {
-                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {buildTarget}.", MessageType.Warning, IsWideHelpBox));
+                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build: {buildTarget}.", MessageType.Warning, CustomInspectorValidations.EnabledWideHelpBox));
                 return;
             }
 
@@ -133,7 +127,7 @@ namespace ParrotCode.Platforms
 
         private void OnApplyRenderingSettingsInspectorGUI(RenderingProjectBuildConfig renderingProjectBuildConfig)
         {
-            if (GUILayout.Button(ApplySettingsButtonLabel, GUILayout.Height(ApplySettingsButtonLayoutHeight)))
+            if (GUILayout.Button(CustomInspectorGUILayout.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
             {
                 if (CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
                     renderingProjectBuildConfig.ApplySettings();
@@ -151,7 +145,7 @@ namespace ParrotCode.Platforms
 
                 string supportedGraphicsAPIs = string.Join("\n", renderingProjectBuild.SupportedGraphicsAPI.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"There are no graphics APIs defined for build target: {buildTarget}." +
-                    $" \nUnity will automatically select one of the following supported graphics API(s) for {buildTarget}: \n\n{supportedGraphicsAPIs}\n", MessageType.Info, IsWideHelpBox));
+                    $" \nUnity will automatically select one of the following supported graphics API(s) for {buildTarget}: \n\n{supportedGraphicsAPIs}\n", MessageType.Info, CustomInspectorValidations.EnabledWideHelpBox));
                 return false;
             }
 
@@ -188,7 +182,7 @@ namespace ParrotCode.Platforms
             string unsupportedGraphicsAPINames = string.Join("\n", unsupportedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
 
             CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Unsupported graphics API detected] This configuration contains unsupported graphic API(s) for build target:" +
-                $" {buildTarget}. \nPlease remove the following unsupported graphics API(s) from the graphics API list: \n\n{unsupportedGraphicsAPINames}\n", MessageType.Error, IsWideHelpBox));
+                $" {buildTarget}. \nPlease remove the following unsupported graphics API(s) from the graphics API list: \n\n{unsupportedGraphicsAPINames}\n", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
 
             return false;
         }
@@ -207,8 +201,8 @@ namespace ParrotCode.Platforms
             string[] duplicatedGraphicsAPINameGroup = supportedGraphicsAPIDuplicates.Select(group => $"* {group.Key} [{group.Count()}]").ToArray();
             string duplicatedGraphicsAPINames = string.Join("\n", duplicatedGraphicsAPINameGroup);
 
-            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Duplicate graphics API(s) detected] This configuration contains a duplicated graphic API(s) for build target: " +
-              $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{duplicatedGraphicsAPINames}\n", MessageType.Error, IsWideHelpBox));
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Duplicate graphics API(s) detected] This configuration contains duplicated graphic API(s) for build target: " +
+              $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{duplicatedGraphicsAPINames}\n", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
 
             return false;
         }
@@ -226,7 +220,7 @@ namespace ParrotCode.Platforms
 
             string deprecatedGraphicsAPINames = string.Join("\n", deprecatedGraphicsAPIs.Select(graphicsAPI => $"* {graphicsAPI.ToString()}"));
             CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Deprecated graphics API(s) detected] This configuration contains a deprecated graphic API(s) for build target: " +
-                $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{deprecatedGraphicsAPINames}\n", MessageType.Warning, IsWideHelpBox));
+                $"{buildTarget}. \nPlease remove the following graphics API(s) from the graphics API list: \n\n{deprecatedGraphicsAPINames}\n", MessageType.Warning, CustomInspectorValidations.EnabledWideHelpBox));
         }
         #endregion
     }

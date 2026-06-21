@@ -27,33 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Project Configuration", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Project Configuration")]
-    public sealed class ProjectBuildConfigGroup: ScriptableObject
+    public static class CustomInspectorGUILayout
     {
-        [SerializeField]
-        private BuildTarget buildTarget;
+        #region GUI Labels
+        public const string ApplySettingsButtonLabel = "Apply Settings";
+        #endregion
 
-        [SerializeField, Space(5)]
-        private Build projectBuild;
-
-        [Header("Build Settings")]
-        [SerializeField, Space(5)]
-        private List<ProjectBuildConfig> projectBuildSettings;
-
-        public BuildTarget BuildTarget => buildTarget;
-        public Build ProjectBuild => projectBuild;
-
-        public IReadOnlyList<ProjectBuildConfig> ProjectBuildConfigs => projectBuildSettings;
-
-        public void ApplySettings()
-        {
-
-        }
+        #region GUI Layouts
+        public static GUILayoutOption ApplySettingsButtonLayoutHeight = GUILayout.Height(50.0f);
+        #endregion
     }
 }

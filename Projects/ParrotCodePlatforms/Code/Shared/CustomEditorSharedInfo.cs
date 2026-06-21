@@ -27,33 +27,22 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Project Configuration", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Project Configuration")]
-    public sealed class ProjectBuildConfigGroup: ScriptableObject
+    public static class CustomEditorSharedInfo
     {
-        [SerializeField]
-        private BuildTarget buildTarget;
+        #region Settings Titles
+        public const string ProjectRenderingSettingsTitle = "Rendering Settings";
+        #endregion
 
-        [SerializeField, Space(5)]
-        private Build projectBuild;
+        #region Shared Titles
+        public const string ProjectSettingsTitle = "Project Settings";
+        public const string ProjectConfigurationPopUpTitle = "Parrot Code: Apply";
+        #endregion
 
-        [Header("Build Settings")]
-        [SerializeField, Space(5)]
-        private List<ProjectBuildConfig> projectBuildSettings;
-
-        public BuildTarget BuildTarget => buildTarget;
-        public Build ProjectBuild => projectBuild;
-
-        public IReadOnlyList<ProjectBuildConfig> ProjectBuildConfigs => projectBuildSettings;
-
-        public void ApplySettings()
-        {
-
-        }
+        #region Messages
+        public static string ProjectConfigurationPopUpMessage = "This operation will configure the Unity platform specific {0}. " +
+            "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
+#endregion
     }
 }

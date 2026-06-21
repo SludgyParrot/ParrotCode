@@ -35,6 +35,7 @@ namespace ParrotCode.Platforms
 {
     public static class CustomInspectorValidations
     {
+        public const bool EnabledWideHelpBox = true;
 
         public static bool OnValidationFailed<T>(T arg, Func<T, bool> validation, HelpBoxMessage helpBox) where T : class
         {

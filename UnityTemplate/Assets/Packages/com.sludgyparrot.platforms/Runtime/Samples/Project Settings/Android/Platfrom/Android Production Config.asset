@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildTarget: 13
   projectBuild: 1
-  buildConfigs:
+  projectBuildSettings:
   - {fileID: 11400000, guid: 56ba436faedc46042a99d81154534087, type: 2}
