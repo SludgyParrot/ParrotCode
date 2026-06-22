@@ -27,13 +27,17 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.Native.Shared;
-
-namespace ParrotCode.Platforms
+namespace ParrotCode.Native.Shared
 {
-    public static class ProjectSharedDirectory
+    public static class ParrotHotKeys
     {
-        public const string PlatformConfigRootPath = ParrotCodeShared.ParrotCodeConfigRootPath + "Platforms/";
-        public const string ProjectSettingsToolsMenuRoot = ParrotCodeShared.ParrotCodeRootPath + "Project/Configurations/";
+        #region Project Hot Keys
+        public const string ProjectDevelopmentConfiguration = "#&D";
+        public const string ProjectProductionConfiguration = "#&P";
+        #endregion
+
+        #region Platform Hot Keys
+
+        #endregion
     }
 }
