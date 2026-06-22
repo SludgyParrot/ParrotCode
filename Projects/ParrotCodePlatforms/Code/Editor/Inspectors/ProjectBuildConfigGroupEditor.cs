@@ -29,6 +29,7 @@ licensing@sludgyparrot.com
 
 using UnityEditor;
 using UnityEngine;
+using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
@@ -47,7 +48,7 @@ namespace ParrotCode.Platforms
 
             GUI.enabled = Validate(buildConfigGroup);
 
-            if(GUILayout.Button(CustomInspectorGUILayout.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+            if(GUILayout.Button(CustomEditorSharedInfo.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
             {
                 if(!CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
                 {
@@ -64,12 +65,12 @@ namespace ParrotCode.Platforms
         {
             var validationResults = buildConfigGroup.Validate();
 
-            if(validationResults.isValid)
+            if(validationResults.Validated)
             {
                 return true;
             }
 
-            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage(validationResults.message, validationResults.messageType, CustomInspectorValidations.EnabledWideHelpBox));
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage(validationResults));
 
             return false;
         }

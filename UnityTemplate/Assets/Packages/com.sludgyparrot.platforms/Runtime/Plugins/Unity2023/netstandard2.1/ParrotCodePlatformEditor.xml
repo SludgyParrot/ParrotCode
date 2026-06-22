@@ -35,6 +35,13 @@
             Applies user specified configuration to the ploject.
             </summary>
         </member>
+        <member name="M:ParrotCode.Platforms.RenderingProjectBuildConfig.Validate(ParrotCode.Platforms.IRenderingProjectBuildConfig)">
+            <summary>
+            Validation for platform specific rendering settings.
+            </summary>
+            <param name="renderingProjectBuild">Specified platform settings.</param>
+            <returns></returns>
+        </member>
         <member name="T:ParrotCode.Platforms.AndroidRenderingProjectBuildConfig">
             <summary>
             A configuration file for configuring Android platform project rendering settings.

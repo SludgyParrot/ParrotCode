@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace ParrotCode.Platforms
+namespace ParrotCode.Native.SharedEditor
 {
     public static class CustomInspectorValidations
     {

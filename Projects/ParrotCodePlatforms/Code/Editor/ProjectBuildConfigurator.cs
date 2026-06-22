@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using ParrotCode.Native.Shared;
+using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
@@ -116,6 +116,10 @@ namespace ParrotCode.Platforms
                     $"Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
             #endregion
 
+            #region Build Platform
+            BuildPipeline.BuildPlayer(new BuildPlayerOptions());
+            #endregion
+
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
@@ -126,7 +130,7 @@ namespace ParrotCode.Platforms
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
             ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(projectConfig => projectConfig.BuildTarget == target
-            && projectConfig.ProjectBuild == build && projectConfig.Validate().isValid).ToArray();
+            && projectConfig.ProjectBuild == build && projectConfig.Validate().Validated).ToArray();
 
             if (projectConfigs?.Length == 1)
                 return (projectConfigs[0], string.Empty);
@@ -157,6 +161,7 @@ namespace ParrotCode.Platforms
             bool hasCopies = count > 1;
             return (hasCopies, duplicatedProjectBuildConfigGroups);
         }
+
         #endregion
     }
 }

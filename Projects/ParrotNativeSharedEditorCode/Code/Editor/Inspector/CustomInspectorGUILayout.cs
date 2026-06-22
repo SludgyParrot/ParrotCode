@@ -29,14 +29,10 @@ licensing@sludgyparrot.com
 
 using UnityEngine;
 
-namespace ParrotCode.Platforms
+namespace ParrotCode.Native.SharedEditor
 {
     public static class CustomInspectorGUILayout
     {
-        #region GUI Labels
-        public const string ApplySettingsButtonLabel = "Apply Settings";
-        #endregion
-
         #region GUI Layouts
         public static GUILayoutOption ApplySettingsButtonLayoutHeight = GUILayout.Height(50.0f);
         #endregion

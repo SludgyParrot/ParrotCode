@@ -40,6 +40,10 @@ namespace ParrotCode.Platforms
         public const string ProjectConfigurationPopUpTitle = "Parrot Code: Apply";
         #endregion
 
+        #region GUI Button Labels
+        public const string ApplySettingsButtonLabel = "Apply Settings";
+        #endregion
+
         #region Messages
         public static string ProjectConfigurationPopUpMessage = "This operation will configure the Unity platform specific {0}. " +
             "This action will override existing settings and this action may not be undone. Do you wish to proceed?";

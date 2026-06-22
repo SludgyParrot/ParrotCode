@@ -27,6 +27,7 @@ licensing@sludgyparrot.com
 
 */
 
+using ParrotCode.Native.SharedEditor;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -65,44 +66,44 @@ namespace ParrotCode.Platforms
         /// Valid if this config's validation was successfull, and 
         /// False if the validation failed, along with a failed message 
         /// and message type e.g <see cref="MessageType"/>.</returns>
-        public (bool isValid, string message, MessageType messageType) Validate()
+        public InspectorValidationResults Validate()
         {
             #region Validate Project Build Config Group Duplicates
-            if (!ValidateDuplicateProjectBuildConfigGroup().isValid)
+            if (!ValidateDuplicateProjectBuildConfigGroup().Validated)
                 return ValidateDuplicateProjectBuildConfigGroup();
             #endregion
 
             #region Validate Assigned Project Build Configs
-            if (!ValidateAssignedProjectBuildConfigs().isValid)
+            if (!ValidateAssignedProjectBuildConfigs().Validated)
                 return ValidateAssignedProjectBuildConfigs();
             #endregion
 
             #region Validate Null References Project Build Configs
-            if (!ValidateNullReferencesProjectBuildConfigs().isValid)
+            if (!ValidateNullReferencesProjectBuildConfigs().Validated)
                 return ValidateNullReferencesProjectBuildConfigs();
             #endregion
 
             #region Validate Misconfigured Project Build Configs
-            if (!ValidateMisconfiguredProjectBuildConfigs().isValid)
+            if (!ValidateMisconfiguredProjectBuildConfigs().Validated)
                 return ValidateMisconfiguredProjectBuildConfigs();
             #endregion
 
             #region Validate Duplicate Project Build Configs
-            if (!ValidateDuplicateProjectBuildConfigs().isValid)
+            if (!ValidateDuplicateProjectBuildConfigs().Validated)
                 return ValidateDuplicateProjectBuildConfigs();
             #endregion
 
-            return (true, string.Empty, MessageType.None);
+            return new InspectorValidationResults(true, string.Empty, MessageType.None);
         }
 
         #region Config Validations
-        private (bool isValid, string message, MessageType messageType) ValidateDuplicateProjectBuildConfigGroup()
+        private InspectorValidationResults ValidateDuplicateProjectBuildConfigGroup()
         {
             var foundProjectBuildConfigDuplicatesResults = ProjectBuildConfigurator.GetProjectBuildConfigGroupDuplicatePaths(this);
 
             if (!foundProjectBuildConfigDuplicatesResults.hasCopies)
             {
-                return (true, string.Empty, MessageType.None);
+                return new InspectorValidationResults(true, string.Empty, MessageType.None);
             }
 
             string[] duplicatedProjectBuildConfigPaths = foundProjectBuildConfigDuplicatesResults.paths.Where(x => x != AssetDatabase.GetAssetPath(this)).ToArray();
@@ -113,16 +114,16 @@ namespace ParrotCode.Platforms
                    $"This config, along with '{duplicatedProjectBuildConfigPaths.Length - 1}' additional copy/copies, will not be applied, and the tools option for '{ProjectBuild}' will be disabled." +
                    $" Please remove this or any of the below listed files. \n\n Duplicated file(s): \n\n{duplicatedConfigPaths}\n";
 
-            return (false, validationErrorMessage, MessageType.Error);
+            return new InspectorValidationResults(false, validationErrorMessage, MessageType.Error);
         }
 
-        private (bool isValid, string message, MessageType messageType) ValidateDuplicateProjectBuildConfigs()
+        private InspectorValidationResults ValidateDuplicateProjectBuildConfigs()
         {
             var duplicatedProjectBuildConfigGroups = ProjectBuildConfigs.GroupBy(group => group.GetType()).Where(group => group.Skip(1).Any()).ToArray();
 
             if (duplicatedProjectBuildConfigGroups.Length == 0)
             {
-                return (true, string.Empty, MessageType.None);
+                return new InspectorValidationResults(true, string.Empty, MessageType.None);
             }
 
             List<string> validationErrorMessages = new List<string>();
@@ -142,34 +143,34 @@ namespace ParrotCode.Platforms
 
             string validationErrorMessage = string.Join ("\n", validationErrorMessages);
 
-            return (false, validationErrorMessage, MessageType.Error);
+            return new InspectorValidationResults(false, validationErrorMessage, MessageType.Error);
         }
 
-        private (bool isValid, string message, MessageType messageType) ValidateNullReferencesProjectBuildConfigs()
+        private InspectorValidationResults ValidateNullReferencesProjectBuildConfigs()
         {
             int nullReferenceProjectBuildConfigsCount = GetNullReferenceProjectBuildConfigsCount();
 
             if (nullReferenceProjectBuildConfigsCount == 0)
             {
-                return (true, string.Empty, MessageType.None);
+                return new InspectorValidationResults(true, string.Empty, MessageType.None);
             }
 
             string validationErrorMessage = $"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {name}.";
-            return (false, validationErrorMessage, MessageType.Error);
+            return new InspectorValidationResults(false, validationErrorMessage, MessageType.Error);
         }
 
-        private (bool isValid, string message, MessageType messageType) ValidateAssignedProjectBuildConfigs()
+        private InspectorValidationResults ValidateAssignedProjectBuildConfigs()
         {
             if(ProjectBuildConfigs != null && ProjectBuildConfigs.Count > 0)
             {
-                return (true, string.Empty, MessageType.None);
+                return new InspectorValidationResults(true, string.Empty, MessageType.None);
             }
 
             string validationErrorMessage = $"There are no build settings assigned for '{BuildTarget}'. This config group will be ignored by the project build configurator.";
-            return (false, validationErrorMessage, MessageType.Warning);
+            return new InspectorValidationResults(false, validationErrorMessage, MessageType.Warning);
         }
 
-        private (bool isValid, string message, MessageType messageType) ValidateMisconfiguredProjectBuildConfigs()
+        private InspectorValidationResults ValidateMisconfiguredProjectBuildConfigs()
         {
             var misconfiguredProjectBuildSettings = ProjectBuildConfigs.OfType<ProjectSpecificBuildConfig>();
 
@@ -182,7 +183,7 @@ namespace ParrotCode.Platforms
             //CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Build target '{BuildTarget}' contains a project build config file named" +
             //   $" '{misconfiguredConfig.name}' with an incorrect target build type: '{misconfiguredConfig.BuildTarget}'.", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
 
-            return (true, string.Empty, MessageType.None);
+            return new InspectorValidationResults(true, string.Empty, MessageType.None);
         }
         #endregion
 

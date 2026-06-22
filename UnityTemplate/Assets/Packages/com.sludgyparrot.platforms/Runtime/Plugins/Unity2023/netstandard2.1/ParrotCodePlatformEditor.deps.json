@@ -10,7 +10,8 @@
       "ParrotCodePlatformEditor/1.0.0": {
         "dependencies": {
           "ParrotCodeExtensions": "1.0.0",
-          "ParrotNativeCode": "1.0.0"
+          "ParrotNativeCode": "1.0.0",
+          "ParrotNativeSharedEditorCode": "1.0.0"
         },
         "runtime": {
           "ParrotCodePlatformEditor.dll": {}
@@ -34,6 +35,14 @@
             "fileVersion": "0.0.0.0"
           }
         }
+      },
+      "ParrotNativeSharedEditorCode/1.0.0": {
+        "runtime": {
+          "ParrotNativeSharedEditorCode.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
       }
     }
   },
@@ -49,6 +58,11 @@
       "sha512": ""
     },
     "ParrotNativeCode/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotNativeSharedEditorCode/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

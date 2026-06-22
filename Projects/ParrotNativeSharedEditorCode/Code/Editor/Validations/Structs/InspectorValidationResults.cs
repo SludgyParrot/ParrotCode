@@ -29,23 +29,45 @@ licensing@sludgyparrot.com
 
 using UnityEditor;
 
-namespace ParrotCode.Platforms
+namespace ParrotCode.Native.SharedEditor
 {
-    public readonly struct HelpBoxMessage
+    /// <summary>
+    /// This object stores validation results log information.
+    /// </summary>
+    public readonly struct InspectorValidationResults
     {
+        private readonly bool validated;
         private readonly string message;
-        private readonly MessageType messageType;
+        private readonly MessageType type;
         private readonly bool isWideHelpBox;
 
+        /// <summary>
+        /// Returns true is is valdated results.
+        /// </summary>
+        public bool Validated => validated;
+
+        /// <summary>
+        /// Returns a logged message. Ususally when the validation fails.
+        /// </summary>
         public string Message => message;
-        public MessageType MessageType => messageType;
+
+        /// <summary>
+        /// Returns the log type for the returned results.
+        /// </summary>
+        public MessageType Type => type;
+
+        /// <summary>
+        /// Defines whether the displayed helpbox should be wide or not.
+        /// Returns true by defualt.
+        /// </summary>
         public bool IsWideHelpBox => isWideHelpBox;
 
-        public HelpBoxMessage(string message, MessageType messageType, bool isWideHelpBox = false)
+        public InspectorValidationResults(bool validated, string message, MessageType type, bool isWideHelpBox = true)
         {
+            this.validated = validated;
             this.message = message;
-            this.messageType = messageType;             
-            this.isWideHelpBox = isWideHelpBox;         
+            this.type = type;
+            this.isWideHelpBox = isWideHelpBox;
         }
     }
 }

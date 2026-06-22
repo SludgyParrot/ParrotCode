@@ -27,17 +27,23 @@ licensing@sludgyparrot.com
 
 */
 
-namespace ParrotCode.Native.Shared
+using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
+using UnityEngine;
+
+namespace ParrotCode.Platforms
 {
-    public static class ParrotHotKeys
+    public class PlatformBuildPreProcessor : IPreprocessBuildWithReport
     {
-        #region Project Hot Keys
-        public const string ProjectDevelopmentConfiguration = "#&D";
-        public const string ProjectProductionConfiguration = "#&P";
-        #endregion
+        public int callbackOrder => 0;
 
-        #region Platform Hot Keys
+        public void OnPreprocessBuild(BuildReport report)
+        {
 
-        #endregion
+
+
+            Debug.Log("");
+        }
     }
 }
