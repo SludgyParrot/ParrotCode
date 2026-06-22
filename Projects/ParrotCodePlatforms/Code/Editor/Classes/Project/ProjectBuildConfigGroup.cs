@@ -28,8 +28,9 @@ licensing@sludgyparrot.com
 */
 
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
@@ -55,5 +56,138 @@ namespace ParrotCode.Platforms
         {
 
         }
+
+        #region Config Validations
+        /// <summary>
+        /// This function checks validations the ProjectBuildConfigGroup.
+        /// </summary>
+        /// <returns>A turple (bool isValid, string message, MessageType messageType) 
+        /// Valid if this config's validation was successfull, and 
+        /// False if the validation failed, along with a failed message 
+        /// and message type e.g <see cref="MessageType"/>.</returns>
+        public (bool isValid, string message, MessageType messageType) Validate()
+        {
+            #region Validate Project Build Config Group Duplicates
+            if (!ValidateDuplicateProjectBuildConfigGroup().isValid)
+                return ValidateDuplicateProjectBuildConfigGroup();
+            #endregion
+
+            #region Validate Assigned Project Build Configs
+            if (!ValidateAssignedProjectBuildConfigs().isValid)
+                return ValidateAssignedProjectBuildConfigs();
+            #endregion
+
+            #region Validate Null References Project Build Configs
+            if (!ValidateNullReferencesProjectBuildConfigs().isValid)
+                return ValidateNullReferencesProjectBuildConfigs();
+            #endregion
+
+            #region Validate Misconfigured Project Build Configs
+            if (!ValidateMisconfiguredProjectBuildConfigs().isValid)
+                return ValidateMisconfiguredProjectBuildConfigs();
+            #endregion
+
+            #region Validate Duplicate Project Build Configs
+            if (!ValidateDuplicateProjectBuildConfigs().isValid)
+                return ValidateDuplicateProjectBuildConfigs();
+            #endregion
+
+            return (true, string.Empty, MessageType.None);
+        }
+
+        #region Config Validations
+        private (bool isValid, string message, MessageType messageType) ValidateDuplicateProjectBuildConfigGroup()
+        {
+            var foundProjectBuildConfigDuplicatesResults = ProjectBuildConfigurator.GetProjectBuildConfigGroupDuplicatePaths(this);
+
+            if (!foundProjectBuildConfigDuplicatesResults.hasCopies)
+            {
+                return (true, string.Empty, MessageType.None);
+            }
+
+            string[] duplicatedProjectBuildConfigPaths = foundProjectBuildConfigDuplicatesResults.paths.Where(x => x != AssetDatabase.GetAssetPath(this)).ToArray();
+
+            string duplicatedConfigPaths = string.Join("\n", duplicatedProjectBuildConfigPaths);
+
+            string validationErrorMessage = $"Multiple copies detected! \n\nThere are {foundProjectBuildConfigDuplicatesResults.paths.Length} copies of this instance found in the project, and only '1' instance is allowed per project. " +
+                   $"This config, along with '{duplicatedProjectBuildConfigPaths.Length - 1}' additional copy/copies, will not be applied, and the tools option for '{ProjectBuild}' will be disabled." +
+                   $" Please remove this or any of the below listed files. \n\n Duplicated file(s): \n\n{duplicatedConfigPaths}\n";
+
+            return (false, validationErrorMessage, MessageType.Error);
+        }
+
+        private (bool isValid, string message, MessageType messageType) ValidateDuplicateProjectBuildConfigs()
+        {
+            var duplicatedProjectBuildConfigGroups = ProjectBuildConfigs.GroupBy(group => group.GetType()).Where(group => group.Skip(1).Any()).ToArray();
+
+            if (duplicatedProjectBuildConfigGroups.Length == 0)
+            {
+                return (true, string.Empty, MessageType.None);
+            }
+
+            List<string> validationErrorMessages = new List<string>();
+
+            foreach (var duplicatedProjectBuildConfigGroup in duplicatedProjectBuildConfigGroups)
+            {
+                int duplicatedProjectBuildConfigCount = duplicatedProjectBuildConfigGroup.Count();
+                var duplicatedProjectBuildConfigGroupNames = duplicatedProjectBuildConfigGroup.Select(x => $"* {x.name}").ToArray();
+                string duplicatedProjectBuildConfigNames = string.Join("\n", duplicatedProjectBuildConfigGroupNames);
+
+                string groupValidationErrorMessage = $"[Duplicated '{duplicatedProjectBuildConfigGroup.Key.Name}' detected] {name}" +
+                    $" contains {duplicatedProjectBuildConfigCount} copies of {duplicatedProjectBuildConfigGroup.Key.Name}. \nPlease remove one of the following listed {duplicatedProjectBuildConfigGroup.Key.Name} " +
+                    $"from the list: \n\n{duplicatedProjectBuildConfigNames}\n";
+
+                validationErrorMessages.Add(groupValidationErrorMessage);
+            }
+
+            string validationErrorMessage = string.Join ("\n", validationErrorMessages);
+
+            return (false, validationErrorMessage, MessageType.Error);
+        }
+
+        private (bool isValid, string message, MessageType messageType) ValidateNullReferencesProjectBuildConfigs()
+        {
+            int nullReferenceProjectBuildConfigsCount = GetNullReferenceProjectBuildConfigsCount();
+
+            if (nullReferenceProjectBuildConfigsCount == 0)
+            {
+                return (true, string.Empty, MessageType.None);
+            }
+
+            string validationErrorMessage = $"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {name}.";
+            return (false, validationErrorMessage, MessageType.Error);
+        }
+
+        private (bool isValid, string message, MessageType messageType) ValidateAssignedProjectBuildConfigs()
+        {
+            if(ProjectBuildConfigs != null && ProjectBuildConfigs.Count > 0)
+            {
+                return (true, string.Empty, MessageType.None);
+            }
+
+            string validationErrorMessage = $"There are no build settings assigned for '{BuildTarget}'. This config group will be ignored by the project build configurator.";
+            return (false, validationErrorMessage, MessageType.Warning);
+        }
+
+        private (bool isValid, string message, MessageType messageType) ValidateMisconfiguredProjectBuildConfigs()
+        {
+            var misconfiguredProjectBuildSettings = ProjectBuildConfigs.OfType<ProjectSpecificBuildConfig>();
+
+            foreach (ProjectSpecificBuildConfig misconfiguredConfig in misconfiguredProjectBuildSettings)
+            {
+                if (misconfiguredConfig.BuildTarget == BuildTarget)
+                    continue;
+            }
+
+            //CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Build target '{BuildTarget}' contains a project build config file named" +
+            //   $" '{misconfiguredConfig.name}' with an incorrect target build type: '{misconfiguredConfig.BuildTarget}'.", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
+
+            return (true, string.Empty, MessageType.None);
+        }
+        #endregion
+
+        private int GetNullReferenceProjectBuildConfigsCount()
+            => ProjectBuildConfigs.Count(x => x == null);
+        #endregion
     }
 }

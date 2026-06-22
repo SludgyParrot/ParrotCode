@@ -60,6 +60,15 @@
             This class contains platform specific settings for standalone windows/64Bit.
             </summary>
         </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfigGroup.Validate">
+            <summary>
+            This function checks validations the ProjectBuildConfigGroup.
+            </summary>
+            <returns>A turple (bool isValid, string message, MessageType messageType) 
+            Valid if this config's validation was successfull, and 
+            False if the validation failed, along with a failed message 
+            and message type e.g <see cref="T:UnityEditor.MessageType"/>.</returns>
+        </member>
         <member name="T:ParrotCode.Platforms.RenderingProjectBuildConfigEditor">
             <summary>
             This is a custom editor class for <see cref="T:ParrotCode.Platforms.RenderingProjectBuildConfig"/>

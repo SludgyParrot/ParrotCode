@@ -118,7 +118,7 @@ namespace ParrotCode.Platforms
 
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
-            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(x => x.BuildTarget == target && x.ProjectBuild == build).ToArray();
+            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(projectConfig => projectConfig.BuildTarget == target && projectConfig.ProjectBuild == build && projectConfig.Validate().isValid).ToArray();
 
             if (projectConfigs?.Length == 1)
                 return (projectConfigs[0], string.Empty);
@@ -136,13 +136,14 @@ namespace ParrotCode.Platforms
         #endregion
 
         #region Configs
-        public static (bool hasCopies, string[] paths) GetProjectBuildConfigGroupDuplicatesCount(ProjectBuildConfigGroup configGroup)
+        public static (bool hasCopies, string[] paths) GetProjectBuildConfigGroupDuplicatePaths(ProjectBuildConfigGroup configGroup)
         {
-            var duplicatePaths = GetBuildProjectConfigs().Where(x => x.BuildTarget == configGroup.BuildTarget && x.ProjectBuild == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
-
-            int count = duplicatePaths.Length;
+            var duplicatedProjectBuildConfigGroups = GetBuildProjectConfigs().Where(buildConfigGroup => buildConfigGroup.BuildTarget == configGroup.BuildTarget && buildConfigGroup.ProjectBuild
+            == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
+            
+            int count = duplicatedProjectBuildConfigGroups.Length;
             bool hasCopies = count > 1;
-            return (hasCopies, duplicatePaths);
+            return (hasCopies, duplicatedProjectBuildConfigGroups);
         }
         #endregion
     }

@@ -27,7 +27,6 @@ licensing@sludgyparrot.com
 
 */
 
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -61,97 +60,18 @@ namespace ParrotCode.Platforms
             serializedObject.ApplyModifiedProperties();
         }
 
-        private bool Validate(ProjectBuildConfigGroup projectBuildConfigGroup)
+        public bool Validate(ProjectBuildConfigGroup buildConfigGroup)
         {
+            var validationResults = buildConfigGroup.Validate();
 
-            if(CustomInspectorValidations.OnValidationFailed(projectBuildConfigGroup,
-                ValidateAssignedProjectBuildConfigs, 
-                new HelpBoxMessage($"There are no build settings assigned for '{projectBuildConfigGroup.BuildTarget}'. This config group might be ignored.", MessageType.Warning, CustomInspectorValidations.EnabledWideHelpBox)))
-            {
-                return false;
-            }
-
-            int nullReferenceProjectBuildConfigsCount = GetNullReferenceProjectBuildConfigsCount(projectBuildConfigGroup);
-
-            if (nullReferenceProjectBuildConfigsCount > 0)
-            {
-                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {projectBuildConfigGroup.name}.", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
-                return false;
-            }
-
-            if(!ValidateDuplicateProjectBuildConfigGroup(projectBuildConfigGroup))
-            {
-                return false;
-            }
-
-            ValidateMisconfiguredProjectBuildConfigs(projectBuildConfigGroup);
-            
-            if(!ValidateDuplicateProjectBuildConfigs(projectBuildConfigGroup))
-            {
-                return false; 
-            }
-
-            return true;
-        }
-
-
-        private bool ValidateAssignedProjectBuildConfigs(ProjectBuildConfigGroup projectBuildConfigGroup)
-        {
-            var projectBuildConfigs = projectBuildConfigGroup.ProjectBuildConfigs;
-            return projectBuildConfigs != null && projectBuildConfigs.Count > 0;
-        }
-
-        private void ValidateMisconfiguredProjectBuildConfigs(ProjectBuildConfigGroup projectBuildConfigGroup)
-        {
-            var misconfiguredProjectBuildSettings = projectBuildConfigGroup.ProjectBuildConfigs.OfType<ProjectSpecificBuildConfig>();
-
-            foreach (ProjectSpecificBuildConfig misconfiguredConfig in misconfiguredProjectBuildSettings)
-            {
-                if (misconfiguredConfig.BuildTarget == projectBuildConfigGroup.BuildTarget)
-                    continue;
-
-                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Build target '{projectBuildConfigGroup.BuildTarget}' contains a project build config file named" +
-                    $" '{misconfiguredConfig.name}' with an incorrect target build type: '{misconfiguredConfig.BuildTarget}'.", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
-            }
-        }
-
-        private bool ValidateDuplicateProjectBuildConfigGroup(ProjectBuildConfigGroup projectBuildConfigGroup)
-        {
-            var foundProjectBuildConfigDuplicatesResults = ProjectBuildConfigurator.GetProjectBuildConfigGroupDuplicatesCount(projectBuildConfigGroup);
-
-            if (!foundProjectBuildConfigDuplicatesResults.hasCopies)
+            if(validationResults.isValid)
             {
                 return true;
             }
 
-            string[] paths = foundProjectBuildConfigDuplicatesResults.paths;
-
-            string duplicatedConfigPaths = string.Join("\n", paths);
-
-            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Multiple copies detected! \n\nThere are {foundProjectBuildConfigDuplicatesResults.paths.Length} copies of this instance found in the project, and only '1' instance is allowed per project. " +
-                $"This config, along with '{paths.Length - 1}' additional copies, will not be applied, and the tools option for '{projectBuildConfigGroup.ProjectBuild}' will be disabled. Please remove this or any of the additional copies \n\n Duplicate files: \n\n{duplicatedConfigPaths}", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
+            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage(validationResults.message, validationResults.messageType, CustomInspectorValidations.EnabledWideHelpBox));
 
             return false;
         }
-
-        private bool ValidateDuplicateProjectBuildConfigs(ProjectBuildConfigGroup projectBuildConfigGroup)
-        {
-            var duplicatedProjectBuildConfigGroups = projectBuildConfigGroup.ProjectBuildConfigs.GroupBy(group => group.GetType()).Where(group => group.Skip(1).Any()).ToArray();
-
-            if(duplicatedProjectBuildConfigGroups.Length == 0)
-            {
-                return true;
-            }
-
-            string[] duplicatedProjectBuildConfigGroupNames = duplicatedProjectBuildConfigGroups.Select(duplicatedProjectBuildConfigGroup => $"* {duplicatedProjectBuildConfigGroup.Key} [{duplicatedProjectBuildConfigGroup.Count()}]").ToArray();
-            string duplicatedProjectBuildConfigNames = string.Join("\n", duplicatedProjectBuildConfigGroupNames);
-
-            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"[Duplicate ProjectBuildConfig(s) detected] {name} contains duplicated project build config(s). \nPlease remove the following duplicated project build config(s) from the list: \n\n{duplicatedProjectBuildConfigNames}\n", MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox));
-
-            return false;
-        }
-
-        private int GetNullReferenceProjectBuildConfigsCount(ProjectBuildConfigGroup projectBuildConfigGroup)
-            => projectBuildConfigGroup.ProjectBuildConfigs.Count(x => x == null);
     }
 }
