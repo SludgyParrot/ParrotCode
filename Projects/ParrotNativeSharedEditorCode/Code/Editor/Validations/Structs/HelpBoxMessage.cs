@@ -66,15 +66,8 @@ namespace ParrotCode.Native.SharedEditor
         }
 
         /// <summary>
-        /// Constructor for building a <see cref="HelpBoxMessage"/> 
-        /// from a <see cref="InspectorValidationResults"/>
+        /// Returns a new default instance of <see cref="HelpBoxMessage"/>.
         /// </summary>
-        /// <param name="validationResults">Validation results to store as helpbox message.</param>
-        public HelpBoxMessage(InspectorValidationResults validationResults)
-        {
-            this.message = validationResults.Message;
-            this.messageType = validationResults.Type;
-            this.isWideHelpBox = validationResults.IsWideHelpBox;
-        }
+        public static HelpBoxMessage Empty = new HelpBoxMessage(string.Empty, MessageType.None);
     }
 }

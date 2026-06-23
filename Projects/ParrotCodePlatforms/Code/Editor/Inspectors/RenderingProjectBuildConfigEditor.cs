@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using ParrotCode.Native.SharedEditor;
+using ParrotCode.Extensions;
 
 namespace ParrotCode.Platforms
 {
@@ -66,9 +67,7 @@ namespace ParrotCode.Platforms
         };
 
         private void OnEnable()
-        {
-            InitializeProperties();
-        }
+            => InitializeProperties();
 
         private void InitializeProperties()
         {
@@ -96,40 +95,37 @@ namespace ParrotCode.Platforms
             if (!platformSettingsProperties.TryGetValue(buildTarget, out SerializedProperty property))
             {
                 CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build:" +
-                    $" {buildTarget}.", MessageType.Warning, CustomInspectorValidations.EnabledWideHelpBox));
+                    $" {buildTarget}.", MessageType.Warning));
                 return;
             }
 
             #endregion
 
             #region Platform Specific Settings
-            OnPlatformSpecificConfigInspectorGUI(renderingProjectBuildConfig, property, buildTarget);
+            OnPlatformSpecificConfigInspectorGUI(renderingProjectBuildConfig, property);
             #endregion
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void OnPlatformSpecificConfigInspectorGUI(RenderingProjectBuildConfig renderingProjectBuildConfig, SerializedProperty property, BuildTarget buildTarget)
+        private void OnPlatformSpecificConfigInspectorGUI(RenderingProjectBuildConfig renderingProjectBuildConfig, SerializedProperty property)
         {
-            if (property.boxedValue is IRenderingProjectBuildConfig settings)
+            var validationResults = renderingProjectBuildConfig.Validate();
+
+            EditorGUILayout.Space();
+            CustomInspectorValidations.DrawHelpBoxMessage(validationResults);
+
+            EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
+
+            using (new EditorGUI.DisabledScope(validationResults.Failed()))
             {
-                var validationResults = renderingProjectBuildConfig.Validate(settings);
-
-                if (!validationResults.Validated)
-                {
-                    EditorGUILayout.Space();
-                    CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage(validationResults));
-                }
-
-               EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
-
-                GUI.enabled = renderingProjectBuildConfig.GraphicsAPI.Count == 0 ? true: validationResults.Validated;
+                GUI.backgroundColor = CustomInspectorGUILayout.ApplySettingsButtonBackgroundColor;
 
                 EditorGUILayout.Space();
                 OnApplyRenderingSettingsInspectorGUI(renderingProjectBuildConfig);
-            }
 
-            EditorGUILayout.Space();
+                EditorGUILayout.Space();
+            }
         }
 
         private void OnApplyRenderingSettingsInspectorGUI(RenderingProjectBuildConfig renderingProjectBuildConfig)

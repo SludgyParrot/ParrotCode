@@ -4,5 +4,23 @@
         <name>ParrotCodeExtensions</name>
     </assembly>
     <members>
+        <member name="M:ParrotCode.Extensions.EditorInspectorExtensions.Success(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Returns True if <see cref="T:UnityEditor.MessageType"/> is not message type Error.
+            Else returns False.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Extensions.EditorInspectorExtensions.Failed(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Returns True if <see cref="T:UnityEditor.MessageType"/> is message type Error.
+            Else returns False.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Extensions.EditorInspectorExtensions.ContainsLog(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Returns True if <see cref="T:UnityEditor.MessageType"/> is none.
+            Else returns False.
+            </summary>
+        </member>
     </members>
 </doc>

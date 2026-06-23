@@ -57,7 +57,16 @@ namespace ParrotCode.Native.SharedEditor
             return validationFailed;
         }
 
+        /// <summary>
+        /// Draws an inspector helpbox.
+        /// </summary>
+        /// <param name="helpBox"></param>
         public static void DrawHelpBoxMessage(HelpBoxMessage helpBox)
-            => EditorGUILayout.HelpBox(helpBox.Message, helpBox.MessageType, helpBox.IsWideHelpBox);
+        {
+            if (helpBox.MessageType == MessageType.None)
+                return;
+
+            EditorGUILayout.HelpBox(helpBox.Message, helpBox.MessageType, helpBox.IsWideHelpBox);
+        }
     }
 }

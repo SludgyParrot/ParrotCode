@@ -27,11 +27,20 @@ licensing@sludgyparrot.com
 
 */
 
+#region System
 using System.Collections.Generic;
 using System.Linq;
+#endregion
+
+#region Unity
 using UnityEditor;
 using UnityEngine;
+#endregion
+
+#region Parrot Code
 using ParrotCode.Native.SharedEditor;
+using ParrotCode.Extensions;
+#endregion
 
 namespace ParrotCode.Platforms
 {
@@ -130,7 +139,7 @@ namespace ParrotCode.Platforms
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
             ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(projectConfig => projectConfig.BuildTarget == target
-            && projectConfig.ProjectBuild == build && projectConfig.Validate().Validated).ToArray();
+            && projectConfig.ProjectBuild == build && projectConfig.Validate().Success()).ToArray();
 
             if (projectConfigs?.Length == 1)
                 return (projectConfigs[0], string.Empty);

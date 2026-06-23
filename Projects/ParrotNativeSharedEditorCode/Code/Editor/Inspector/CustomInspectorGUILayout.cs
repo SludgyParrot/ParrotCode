@@ -36,5 +36,10 @@ namespace ParrotCode.Native.SharedEditor
         #region GUI Layouts
         public static GUILayoutOption ApplySettingsButtonLayoutHeight = GUILayout.Height(50.0f);
         #endregion
+
+        #region GUI Styles
+        public static Color ApplySettingsButtonColor = Color.white;
+        public static Color ApplySettingsButtonBackgroundColor = Color.gray;
+        #endregion
     }
 }

@@ -4,6 +4,12 @@
         <name>ParrotNativeSharedEditorCode</name>
     </assembly>
     <members>
+        <member name="M:ParrotCode.Native.SharedEditor.CustomInspectorValidations.DrawHelpBoxMessage(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Draws an inspector helpbox.
+            </summary>
+            <param name="helpBox"></param>
+        </member>
         <member name="T:ParrotCode.Native.SharedEditor.HelpBoxMessage">
             <summary>
             This objects stores a help box messages and a type
@@ -26,37 +32,9 @@
             <param name="messageType">The log message type <see cref="P:ParrotCode.Native.SharedEditor.HelpBoxMessage.MessageType"/></param>.
             <param name="isWideHelpBox">Defines if the helpbox should be widely displayed.</param>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.HelpBoxMessage.#ctor(ParrotCode.Native.SharedEditor.InspectorValidationResults)">
+        <member name="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty">
             <summary>
-            Constructor for building a <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> 
-            from a <see cref="T:ParrotCode.Native.SharedEditor.InspectorValidationResults"/>
-            </summary>
-            <param name="validationResults">Validation results to store as helpbox message.</param>
-        </member>
-        <member name="T:ParrotCode.Native.SharedEditor.InspectorValidationResults">
-            <summary>
-            This object stores validation results log information.
-            </summary>
-        </member>
-        <member name="P:ParrotCode.Native.SharedEditor.InspectorValidationResults.Validated">
-            <summary>
-            Returns true is is valdated results.
-            </summary>
-        </member>
-        <member name="P:ParrotCode.Native.SharedEditor.InspectorValidationResults.Message">
-            <summary>
-            Returns a logged message. Ususally when the validation fails.
-            </summary>
-        </member>
-        <member name="P:ParrotCode.Native.SharedEditor.InspectorValidationResults.Type">
-            <summary>
-            Returns the log type for the returned results.
-            </summary>
-        </member>
-        <member name="P:ParrotCode.Native.SharedEditor.InspectorValidationResults.IsWideHelpBox">
-            <summary>
-            Defines whether the displayed helpbox should be wide or not.
-            Returns true by defualt.
+            Returns a new default instance of <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/>.
             </summary>
         </member>
     </members>

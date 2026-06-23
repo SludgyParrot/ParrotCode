@@ -30,15 +30,13 @@ licensing@sludgyparrot.com
 using UnityEditor;
 using UnityEngine;
 using ParrotCode.Native.SharedEditor;
+using ParrotCode.Extensions;
 
 namespace ParrotCode.Platforms
 {
     [CustomEditor(typeof(ProjectBuildConfigGroup))]
     public sealed class ProjectBuildConfigGroupEditor: Editor
     {
-        private string ProjectConfigurationWarningPopUpTitle = string.Join(" ", CustomEditorSharedInfo.ProjectConfigurationPopUpTitle, CustomEditorSharedInfo.ProjectSettingsTitle);
-        private string ProjectConfigurationWarningPopUpMessage = string.Format(CustomEditorSharedInfo.ProjectConfigurationPopUpMessage, CustomEditorSharedInfo.ProjectSettingsTitle);
-
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -46,33 +44,25 @@ namespace ParrotCode.Platforms
 
             ProjectBuildConfigGroup buildConfigGroup = (ProjectBuildConfigGroup)target;
 
-            GUI.enabled = Validate(buildConfigGroup);
+            var validationResults = Validate(buildConfigGroup);
 
-            if(GUILayout.Button(CustomEditorSharedInfo.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+            CustomInspectorValidations.DrawHelpBoxMessage(validationResults);
+
+            using (new EditorGUI.DisabledScope(validationResults.Failed()))
             {
-                if(!CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
-                {
-                    return;
-                }
+                GUI.backgroundColor = CustomInspectorGUILayout.ApplySettingsButtonBackgroundColor;
 
-                buildConfigGroup.ApplySettings();
+                if (GUILayout.Button(CustomEditorSharedInfo.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+                    buildConfigGroup.ApplySettings();
             }
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        public bool Validate(ProjectBuildConfigGroup buildConfigGroup)
+        private HelpBoxMessage Validate(ProjectBuildConfigGroup buildConfigGroup)
         {
             var validationResults = buildConfigGroup.Validate();
-
-            if(validationResults.Validated)
-            {
-                return true;
-            }
-
-            CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage(validationResults));
-
-            return false;
+            return validationResults;
         }
     }
 }

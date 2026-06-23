@@ -28,11 +28,14 @@ licensing@sludgyparrot.com
 */
 
 using UnityEditor;
+using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
     public interface IProjectBuildConfig
     {
         BuildTarget BuildTarget { get; }
+
+        HelpBoxMessage Validate();
     }
 }

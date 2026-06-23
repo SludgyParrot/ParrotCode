@@ -27,6 +27,7 @@ licensing@sludgyparrot.com
 
 */
 
+using ParrotCode.Native.SharedEditor;
 using UnityEditor;
 
 namespace ParrotCode.Platforms
@@ -34,5 +35,7 @@ namespace ParrotCode.Platforms
     public abstract class ProjectSpecificBuildConfig : ProjectBuildConfig, IProjectBuildConfig
     {
         public abstract BuildTarget BuildTarget { get; }
+
+        public abstract HelpBoxMessage Validate();
     }
 }

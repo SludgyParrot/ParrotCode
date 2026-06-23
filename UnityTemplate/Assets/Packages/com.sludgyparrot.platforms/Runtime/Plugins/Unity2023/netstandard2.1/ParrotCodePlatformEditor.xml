@@ -35,12 +35,11 @@
             Applies user specified configuration to the ploject.
             </summary>
         </member>
-        <member name="M:ParrotCode.Platforms.RenderingProjectBuildConfig.Validate(ParrotCode.Platforms.IRenderingProjectBuildConfig)">
+        <member name="M:ParrotCode.Platforms.RenderingProjectBuildConfig.Validate">
             <summary>
             Validation for platform specific rendering settings.
             </summary>
-            <param name="renderingProjectBuild">Specified platform settings.</param>
-            <returns></returns>
+            <returns>Return InspectorValidationResults <see cref="!:InspectorValidationResults"/></returns>
         </member>
         <member name="T:ParrotCode.Platforms.AndroidRenderingProjectBuildConfig">
             <summary>

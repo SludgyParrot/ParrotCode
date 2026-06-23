@@ -27,44 +27,34 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.Native.SharedEditor;
 using UnityEditor;
-using UnityEngine;
+using ParrotCode.Native.SharedEditor;
 
-namespace ParrotCode.Platforms
+namespace ParrotCode.Extensions
 {
-    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Screen Resolution Settings")]
-    public sealed class ScreenResolutionProjectBuildConfig: ProjectSpecificBuildConfig
+    public static class EditorInspectorExtensions
     {
-        [SerializeField]
-        private BuildTarget buildTarget;
+        #region Validations
+        /// <summary>
+        /// Returns True if <see cref="MessageType"/> is not message type Error.
+        /// Else returns False.
+        /// </summary>
+        public static bool Success (this HelpBoxMessage helpBox) 
+            => helpBox.MessageType != MessageType.Error;
 
-        public override BuildTarget BuildTarget => buildTarget;
+        /// <summary>
+        /// Returns True if <see cref="MessageType"/> is message type Error.
+        /// Else returns False.
+        /// </summary>
+        public static bool Failed(this HelpBoxMessage helpBox)
+           => helpBox.MessageType == MessageType.Error;
 
-        #region Android Resolution Settings
-
+        /// <summary>
+        /// Returns True if <see cref="MessageType"/> is none.
+        /// Else returns False.
+        /// </summary>
+        public static bool ContainsLog(this HelpBoxMessage helpBox)
+            => helpBox.MessageType != MessageType.None;
         #endregion
-
-        #region IOS Resolution Settings
-
-        #endregion
-
-        #region Windows Resolution Settings
-
-        #endregion
-
-        #region WebGL Resolution Settings
-
-        #endregion
-
-        public override void ApplySettings()
-        {
-           
-        }
-
-        public override HelpBoxMessage Validate()
-        {
-           return HelpBoxMessage.Empty;
-        }
     }
 }
