@@ -27,13 +27,45 @@ Before using Parrot Code, ensure you have:
 
 # Installation
 
-## Install via Package Manager
+## Available Packages
 
-Open the Unity Package Manager and add the Parrot Code package to your project.
+Browse the Parrot Code package collection on npm:
 
-Once installed, Unity will automatically import all required assemblies and assets.
+* Parrot Code Native
+* Parrot Code Extensions
+* Parrot Code Shared Editor Utilities
+* Parrot Code Runtime Platform Builder
+
+Additional packages and documentation will be added over time.
+
+## Install via Unity Package Manager
+
+1. Open the Unity Editor.
+2. Navigate to **Edit → Project Settings → Package Manager**.
+3. Add the Parrot Code scoped registry:
+
+```json
+{
+  "scopedRegistries": [
+    {
+      "name": "Parrot Code",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.sludgyparrot"
+      ]
+    }
+  ]
+}
+```
+
+4. Open **Window → Package Manager**.
+5. Select **My Registries** from the package source dropdown.
+6. Install the desired Parrot Code package.
+
+Once installed, Unity will automatically resolve and import all required package dependencies.
 
 ---
+
 
 # Verify Installation
 
