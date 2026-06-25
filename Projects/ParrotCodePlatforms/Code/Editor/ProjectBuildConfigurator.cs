@@ -40,6 +40,7 @@ using UnityEngine;
 #region Parrot Code
 using ParrotCode.Native.SharedEditor;
 using ParrotCode.Extensions;
+using UnityEditor.SceneManagement;
 #endregion
 
 namespace ParrotCode.Platforms
@@ -104,7 +105,10 @@ namespace ParrotCode.Platforms
         {
             string warningMessage = string.Format(ProjectConfigurationWarningPopUpMessage, build.ToString());
 
-            if (!CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, warningMessage))
+            if (!CustomInspectorEditorPopup.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, warningMessage))
+                return;
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 return;
 
             var projectSettings = GetBuildProjectConfigForBuild(BuildTarget, build);
@@ -126,7 +130,12 @@ namespace ParrotCode.Platforms
             #endregion
 
             #region Build Platform
-            BuildPipeline.BuildPlayer(new BuildPlayerOptions());
+            string buildPaths = EditorUtility.SaveFilePanel($"Build {Application.productName}", "", Application.productName, "apk");
+
+            if(string.IsNullOrEmpty(buildPaths))
+                return;
+                
+            RuntimePlatformBuilder.Build(buildPaths);
             #endregion
 
             AssetDatabase.SaveAssets();

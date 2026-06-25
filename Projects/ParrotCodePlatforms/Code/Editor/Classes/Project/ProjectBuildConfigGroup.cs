@@ -67,7 +67,7 @@ namespace ParrotCode.Platforms
 
         public void ApplySettings()
         {
-            if (!CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
+            if (!CustomInspectorEditorPopup.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
                 return;
         }
 

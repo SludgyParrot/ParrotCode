@@ -132,7 +132,7 @@ namespace ParrotCode.Platforms
         {
             if (GUILayout.Button(CustomEditorSharedInfo.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
             {
-                if (CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
+                if (CustomInspectorEditorPopup.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
                     renderingProjectBuildConfig.ApplySettings();
             }
         }
