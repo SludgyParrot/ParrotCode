@@ -27,6 +27,7 @@ licensing@sludgyparrot.com
 
 */
 
+using ParrotCode.Native.SharedEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,6 +60,11 @@ namespace ParrotCode.Platforms
         public override void ApplySettings()
         {
            
+        }
+
+        public override HelpBoxMessage Validate()
+        {
+           return HelpBoxMessage.Empty;
         }
     }
 }

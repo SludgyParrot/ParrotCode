@@ -1,19 +1,24 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
-    "keywords": [
-        "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
-    ],
-    "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+"name": "com.sludgyparrot.native",
+"version": "1.0.0",
+"displayName": "Parrot Code Native",
+"unity": "2022.3",
+"description": "Core runtime framework containing common utilities, logging systems, debugging tools, extensions, and foundational components shared across Parrot Code Unity packages.",
+"keywords": [
+    "Parrot Code",
+    "Sludgy Parrot",
+    "Native",
+    "Runtime",
+    "Utilities",
+    "Logging",
+    "Debugging",
+    "Framework",
+    "Unity"
+],
+"author": {
+"name": "Sludgy Parrot",
+"email": "[Sludgy Parrot](mailto:sludgyparrot@gmail.com)"
+},
+"license": "Proprietary",
+"hideInEditor": false
 }

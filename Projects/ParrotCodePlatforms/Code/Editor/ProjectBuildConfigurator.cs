@@ -27,21 +27,37 @@ licensing@sludgyparrot.com
 
 */
 
+#region System
 using System.Collections.Generic;
 using System.Linq;
+#endregion
+
+#region Unity
 using UnityEditor;
 using UnityEngine;
+#endregion
+
+#region Parrot Code
+using ParrotCode.Native.SharedEditor;
+using ParrotCode.Extensions;
+using UnityEditor.SceneManagement;
+#endregion
 
 namespace ParrotCode.Platforms
 {
     public static class ProjectBuildConfigurator
     {
-        private const string DevelopmentSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot + "Development";
-        private const string ProductionSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot + "Production";
+        private const string DevelopmentSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot 
+            + "Development " + ParrotHotKeys.ProjectDevelopmentConfiguration;
+
+
+        private const string ProductionSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot 
+            + "Production " + ParrotHotKeys.ProjectProductionConfiguration;
 
         private static string ProjectConfigurationWarningPopUpTitle = $"Parrot Code: Configure {BuildTarget.ToString()} Project Settings";
 
-        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity {BuildTarget.ToString()} project's settings to a predefined {0} configuration data. " +
+        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity " +
+            $"{BuildTarget.ToString()} project's settings to a predefined {0} configuration data. " +
             "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
 
         private const string ProjectBuildConfigGroupConfigSearchFilter = "t:ProjectBuildConfigGroup";
@@ -89,7 +105,10 @@ namespace ParrotCode.Platforms
         {
             string warningMessage = string.Format(ProjectConfigurationWarningPopUpMessage, build.ToString());
 
-            if (!CustomInspectorEditorPopUp.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, warningMessage))
+            if (!CustomInspectorEditorPopup.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, warningMessage))
+                return;
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 return;
 
             var projectSettings = GetBuildProjectConfigForBuild(BuildTarget, build);
@@ -106,7 +125,17 @@ namespace ParrotCode.Platforms
             if (projectConfigurators.TryGetValue(settingsGroup.BuildTarget, out IProjectConfigurator projectConfigurator))
                 projectConfigurator.Configure(settingsGroup.ProjectBuildConfigs);
             else
-                Debug.LogError($"Apply target specific settings for: {settingsGroup.BuildTarget} failed. Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
+                Debug.LogError($"Apply target specific settings for: {settingsGroup.BuildTarget} failed. " +
+                    $"Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
+            #endregion
+
+            #region Build Platform
+            string buildPaths = EditorUtility.SaveFilePanel($"Build {Application.productName}", "", Application.productName, "apk");
+
+            if(string.IsNullOrEmpty(buildPaths))
+                return;
+                
+            RuntimePlatformBuilder.Build(buildPaths);
             #endregion
 
             AssetDatabase.SaveAssets();
@@ -118,32 +147,39 @@ namespace ParrotCode.Platforms
 
         private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
         {
-            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(x => x.BuildTarget == target && x.ProjectBuild == build).ToArray();
+            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(projectConfig => projectConfig.BuildTarget == target
+            && projectConfig.ProjectBuild == build && projectConfig.Validate().Success()).ToArray();
 
             if (projectConfigs?.Length == 1)
                 return (projectConfigs[0], string.Empty);
 
-            return (null, $"Get build project config for build: {build} targeting: {target} failed. There are {projectConfigs.Length} build project config(s) found for target.");
+            return (null, $"Get build project config for build: {build} targeting: {target}" +
+                $" failed. There are {projectConfigs.Length} build project config(s) found for target.");
         }
 
         private static ProjectBuildConfigGroup[] GetBuildProjectConfigs()
         {
             string[] projectConfigGuids = AssetDatabase.FindAssets(ProjectBuildConfigGroupConfigSearchFilter);
-            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid => AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
+            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid =>
+            AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
+
             return projectConfigs;
         }
 
         #endregion
 
         #region Configs
-        public static (bool hasCopies, string[] paths) GetProjectBuildConfigGroupDuplicatesCount(ProjectBuildConfigGroup configGroup)
+        public static (bool hasCopies, string[] paths) GetProjectBuildConfigGroupDuplicatePaths(ProjectBuildConfigGroup configGroup)
         {
-            var duplicatePaths = GetBuildProjectConfigs().Where(x => x.BuildTarget == configGroup.BuildTarget && x.ProjectBuild == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
-
-            int count = duplicatePaths.Length;
+            var duplicatedProjectBuildConfigGroups = GetBuildProjectConfigs().Where(buildConfigGroup =>
+            buildConfigGroup.BuildTarget == configGroup.BuildTarget && buildConfigGroup.ProjectBuild
+            == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
+            
+            int count = duplicatedProjectBuildConfigGroups.Length;
             bool hasCopies = count > 1;
-            return (hasCopies, duplicatePaths);
+            return (hasCopies, duplicatedProjectBuildConfigGroups);
         }
+
         #endregion
     }
 }

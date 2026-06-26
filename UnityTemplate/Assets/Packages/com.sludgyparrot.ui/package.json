@@ -1,21 +1,29 @@
 {
     "name": "com.sludgyparrot.ui",
-    "version": "0.0.4",
-    "displayName": "User Interface",
-    "Unity": "2022.3",
-    "description": "A collection of UI classes that contains custom UI buttons, text [TextMeshPro based], image displayers, input fields, virtual inputs and more.",
+    "version": "1.0.0",
+    "displayName": "Parrot Code UI",
+    "unity": "2022.3",
+    "description": "A comprehensive UI framework for Unity providing reusable controls, theming, layout utilities, animation helpers, virtual input components, and TextMeshPro integration for building modern, responsive user interfaces.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
         "UI",
-        "User Interface"
+        "User Interface",
+        "TextMeshPro",
+        "Unity",
+        "Widgets",
+        "Controls",
+        "Themes"
     ],
     "dependencies": {
-        "com.sludgyparrot.native": "0.0.3",
-        "com.unity.textmeshpro": "3.0.9",
-        "com.unity.inputsystem": "1.7.0"
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0",
+    "com.unity.textmeshpro": "3.0.9"
     },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

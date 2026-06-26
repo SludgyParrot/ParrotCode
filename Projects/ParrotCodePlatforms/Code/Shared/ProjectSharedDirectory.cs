@@ -34,6 +34,6 @@ namespace ParrotCode.Platforms
     public static class ProjectSharedDirectory
     {
         public const string PlatformConfigRootPath = ParrotCodeShared.ParrotCodeConfigRootPath + "Platforms/";
-        public const string ProjectSettingsToolsMenuRoot = ParrotCodeShared.ParrotCodeRootPath + "Project Configuration/";
+        public const string ProjectSettingsToolsMenuRoot = ParrotCodeShared.ParrotCodeRootPath + "Project/Build/";
     }
 }

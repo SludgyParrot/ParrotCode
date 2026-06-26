@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeMultiplayer", "Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotNativeCode", "Projects\ParrotNativeCode\ParrotNativeCode.csproj", "{C2E037D4-B86D-45C9-AE45-AFA530D9B070}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotNativeSharedEditorCode", "Projects\ParrotNativeSharedEditorCode\ParrotNativeSharedEditorCode.csproj", "{BBBED6C2-D4CB-4468-8A95-F20C51B43569}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeExtensions", "Projects\ParrotCodeExtensions\ParrotCodeExtensions.csproj", "{B8929A20-51CC-4435-8722-53DB1EDBCF86}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeHelpers", "Projects\ParrotCodeHelpers\ParrotCodeHelpers.csproj", "{0E3814D4-0223-48B0-83B3-38072BC8B623}"
@@ -113,6 +115,14 @@ Global
 		{C2E037D4-B86D-45C9-AE45-AFA530D9B070}.Unity2022|Any CPU.Build.0 = Unity2022|Any CPU
 		{C2E037D4-B86D-45C9-AE45-AFA530D9B070}.Unity2023|Any CPU.ActiveCfg = Unity2023|Any CPU
 		{C2E037D4-B86D-45C9-AE45-AFA530D9B070}.Unity2023|Any CPU.Build.0 = Unity2023|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Unity2022|Any CPU.ActiveCfg = Unity2022|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Unity2022|Any CPU.Build.0 = Unity2022|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Unity2023|Any CPU.ActiveCfg = Unity2023|Any CPU
+		{BBBED6C2-D4CB-4468-8A95-F20C51B43569}.Unity2023|Any CPU.Build.0 = Unity2023|Any CPU
 		{B8929A20-51CC-4435-8722-53DB1EDBCF86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8929A20-51CC-4435-8722-53DB1EDBCF86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8929A20-51CC-4435-8722-53DB1EDBCF86}.Release|Any CPU.ActiveCfg = Release|Any CPU

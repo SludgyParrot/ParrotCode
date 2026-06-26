@@ -1,19 +1,27 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "name": "com.sludgyparrot.standalone",
+    "version": "1.0.0",
+    "displayName": "Parrot Code Standalone",
+    "unity": "2022.3",
+    "description": "A collection of standalone platform utilities, native integrations, build configuration tools, and runtime APIs for developing Unity applications targeting Windows, macOS, Linux, and other standalone platforms. Designed to support desktop and console platform integrations through a unified API.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
+        "Standalone",
+        "Desktop",
+        "Windows",
+        "macOS",
+        "Linux",
+        "Unity"
     ],
+    "dependencies": {
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0"
+    },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

@@ -1,15 +1,22 @@
 {
   "name": "com.sludgyparrot.extensions",
-  "version": "0.0.1",
-  "displayName": "Extensions",
-  "description": "A collection of extension classes for use during an application development in Unity.",
- "keywords": [
+  "version": "1.0.0",
+  "displayName": "Parrot Code Extensions",
+  "unity": "2022.3",
+  "description": "A collection of reusable extension methods, helper utilities, and quality-of-life APIs designed to simplify Unity application development and improve code readability.",
+  "keywords": [
+    "Parrot Code",
+    "Sludgy Parrot",
     "Extensions",
     "Utilities",
-    "Tools"
+    "Helpers",
+    "Tools",
+    "Unity"
   ],
   "author": {
-    "name": "Sludgy Parrot",
-    "email": "sludgyparrot@gmail.com"
-  }
+  "name": "Sludgy Parrot",
+  "email": "[Sludgy Parrot](mailto:sludgyparrot@gmail.com)"
+  },
+  "license": "Proprietary",
+  "hideInEditor": false
 }

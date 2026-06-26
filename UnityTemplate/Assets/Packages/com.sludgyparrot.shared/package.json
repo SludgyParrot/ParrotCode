@@ -1,0 +1,23 @@
+{
+    "name": "com.sludgyparrot.sharededitor",
+    "version": "1.0.0",
+    "displayName": "Parrot Code Shared Editor Utilities",
+    "unity": "2022.3",
+    "description": "A collection of shared editor utilities, inspector tooling, property drawers, validation systems, and reusable editor components used throughout the Parrot Code ecosystem.",
+    "keywords": [
+        "Parrot Code",
+        "Sludgy Parrot",
+        "Editor",
+        "Inspector",
+        "Property Drawer",
+        "Validation",
+        "Tools",
+        "Unity"
+    ],
+    "author": {
+    "name": "Sludgy Parrot",
+    "email": "[Sludgy Parrot](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": true
+}

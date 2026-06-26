@@ -1,19 +1,27 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "name": "com.sludgyparrot.webgl",
+    "version": "1.0.0",
+    "displayName": "Parrot Code WebGL",
+    "unity": "2022.3",
+    "description": "A collection of WebGL-specific utilities, build configurations, browser integrations, JavaScript interoperability, and development tools for building and deploying Unity WebGL applications.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
+        "WebGL",
+        "Unity",
+        "Browser",
+        "JavaScript",
+        "Build",
+        "Utilities"
     ],
+    "dependencies": {
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0"
+    },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

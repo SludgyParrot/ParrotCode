@@ -1,19 +1,29 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "name": "com.sludgyparrot.ai",
+    "version": "1.0.0",
+    "displayName": "Parrot Code AI",
+    "unity": "2022.3",
+    "description": "A collection of AI utilities, inference pipelines, and development tools for building intelligent Unity applications using Unity Sentis, ONNX models, and custom machine learning workflows.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
+        "AI",
+        "Machine Learning",
+        "ML",
+        "Agents",
+        "ONNX",
+        "Sentis",
+        "Inference",
+        "Unity"
     ],
+    "dependencies": {
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0"
+    },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

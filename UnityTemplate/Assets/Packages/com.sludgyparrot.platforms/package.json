@@ -1,19 +1,27 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "name": "com.sludgyparrot.platforms",
+    "version": "1.0.0",
+    "displayName": "Parrot Code Runtime Platform Builder",
+    "unity": "2022.3",
+    "description": "Parrot Code Runtime Platform Builder streamlines project configuration and platform-specific build management for Unity projects. Features automated headless build execution in a separate Unity process, enabling developers to keep working uninterrupted while builds are generated in the background.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
+        "Build",
+        "Configurator",
+        "Platform",
+        "Settings",
+        "Unity"
     ],
+    "dependencies": {
+        "com.sludgyparrot.extensions": "1.0.0",
+        "com.sludgyparrot.native": "1.0.0",
+        "com.sludgyparrot.sharededitor": "1.0.0"
+    },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+        "name": "Sludgy Parrot",
+        "email": "[Sludgy Parrot](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

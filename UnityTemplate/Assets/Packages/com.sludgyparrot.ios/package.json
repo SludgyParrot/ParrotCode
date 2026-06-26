@@ -1,19 +1,28 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "name": "com.sludgyparrot.ios",
+    "version": "1.0.0",
+    "displayName": "Parrot Code iOS",
+    "unity": "2022.3",
+    "description": "A collection of iOS utilities, native Objective-C and Swift plugins, Xcode project configuration tools, and runtime APIs for developing Unity iOS applications. Includes helpers for permissions, native device features, build customization, and Apple platform integration.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
+        "iOS",
+        "Apple",
+        "Xcode",
+        "Swift",
+        "Objective-C",
+        "Unity",
+        "Mobile"
     ],
+    "dependencies": {
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0"
+    },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

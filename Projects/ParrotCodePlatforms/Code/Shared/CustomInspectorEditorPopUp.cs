@@ -28,12 +28,16 @@ licensing@sludgyparrot.com
 */
 
 using UnityEditor;
+using UnityEditor.SceneManagement;
 
 namespace ParrotCode.Platforms
 {
-    public static class CustomInspectorEditorPopUp
+    public static class CustomInspectorEditorPopup
     {
         public static bool ApplySettingsPopUpConfirmed(string popUpTitle, string popUpMessage, string confirmButtonTitle = "Yes Please!", string cancelButtonTitle = "No Thanks!")
             => EditorUtility.DisplayDialog(popUpTitle, popUpMessage, confirmButtonTitle, cancelButtonTitle);
+
+        public static bool CancelledDuringUserSceneChangesSaveRequest()
+            => !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
     }
 }
