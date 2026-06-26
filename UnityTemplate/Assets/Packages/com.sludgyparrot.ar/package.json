@@ -1,19 +1,28 @@
 {
-    "name": "com.sludgyparrot.native",
-    "version": "0.0.3",
-    "displayName": "Native",
-    "Unity": "2022.3",
-    "description": "A collection of common and logging [Debugging] classes for use in Unity applications development environment.",
+    "name": "com.sludgyparrot.ar",
+    "version": "1.0.0",
+    "displayName": "Parrot Code AR",
+    "unity": "2022.3",
+    "description": "A collection of augmented reality utilities, AR Foundation extensions, and development tools for building immersive AR and mixed reality applications. Includes helpers for spatial interaction, tracking, image recognition, and optional AI-powered experiences.",
     "keywords": [
+    "Parrot Code",
         "Sludgy Parrot",
-        "Native",
-        "Common",
-        "Logging",
-        "Logs",
-        "Debug"
+        "AR",
+        "Augmented Reality",
+        "Mixed Reality",
+        "AR Foundation",
+        "XR",
+        "Unity"
     ],
+    "dependencies": {
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0",
+    "com.sludgyparrot.ai": "1.0.0"
+    },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

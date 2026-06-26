@@ -1,20 +1,26 @@
 {
     "name": "com.sludgyparrot.audio",
-    "version": "0.0.1",
-    "displayName": "User Interface",
-    "Unity": "2022.3",
-    "description": "A collection of audio managers, helpers classes, packages and more, for use in Unity software development.",
+    "version": "1.0.0",
+    "displayName": "Parrot Code Audio",
+    "unity": "2022.3",
+    "description": "A collection of audio managers, playback systems, mixers, utilities, and development tools for building rich audio experiences in Unity applications.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
         "Audio",
-        "Sound"
+        "Sound",
+        "Music",
+        "Mixer",
+        "Unity"
     ],
     "dependencies": {
-        "com.sludgyparrot.native": "0.0.3",
-        "com.unity.textmeshpro": "3.0.9"
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0"
     },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

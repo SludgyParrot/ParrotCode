@@ -1,21 +1,29 @@
 {
     "name": "com.sludgyparrot.vr",
-    "version": "0.0.1",
-    "displayName": "Virtual Reality",
-    "description": "A collection of VR specific tools for developing Unity applications.",
+    "version": "1.0.0",
+    "displayName": "Parrot Code VR",
+    "unity": "2022.3",
+    "description": "A collection of virtual reality utilities, XR Interaction Toolkit extensions, and development tools for building immersive VR experiences in Unity. Includes helpers for locomotion, interactions, input, performance, and platform integration.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
         "VR",
-        "Tools"
+        "Virtual Reality",
+        "XR",
+        "OpenXR",
+        "XR Interaction Toolkit",
+        "Unity"
     ],
     "dependencies": {
-        "com.unity.modules.vr": "1.0.0",
-        "com.unity.modules.xr": "1.0.0",
-        "com.unity.xr.management": "4.5.4",
-        "com.unity.xr.interaction.toolkit": "2.6.5"
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0",
+    "com.unity.xr.management": "4.5.4",
+    "com.unity.xr.interaction.toolkit": "2.6.5"
     },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }

@@ -16,3 +16,18 @@
 *.uxml text eol=lf
 *.xml text eol=lf
 *.html text eol=lf
+
+/UnityTemplate/*.cs text eol=lf
+/UnityTemplate/*.py text eol=lf
+/UnityTemplate/*.md text eol=lf
+/UnityTemplate/*.js text eol=lf
+/UnityTemplate/*.json text eol=lf
+/UnityTemplate/*.txt text eol=lf
+/UnityTemplate/*.asmdef text eol=lf
+/UnityTemplate/*.asmref text eol=lf
+/UnityTemplate/*.uss text eol=lf
+/UnityTemplate/*.ymal text eol=lf
+/UnityTemplate/*.yml text eol=lf
+/UnityTemplate/*.uxml text eol=lf
+/UnityTemplate/*.xml text eol=lf
+/UnityTemplate/*.html text eol=lf

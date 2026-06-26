@@ -1,13 +1,28 @@
 {
   "name": "com.sludgyparrot.multiplayer",
-  "version": "0.0.1",
-  "displayName": "Multiplayer",
-  "description": "A collection of helper classes for developing multiplayer applications in Unity.",
- "keywords": [
-    "Multiplayer"
+  "version": "1.0.0",
+  "displayName": "Parrot Code Multiplayer",
+  "unity": "2022.3",
+  "description": "A collection of multiplayer utilities, networking abstractions, and development tools for building online and local multiplayer Unity applications. Supports multiple networking frameworks through a unified API.",
+  "keywords": [
+    "Parrot Code",
+    "Sludgy Parrot",
+    "Multiplayer",
+    "Networking",
+    "Online",
+    "LAN",
+    "Co-op",
+    "Unity"
   ],
+  "dependencies": {
+  "com.sludgyparrot.native": "1.0.0",
+  "com.sludgyparrot.extensions": "1.0.0",
+  "com.sludgyparrot.eventsystem": "1.0.0"
+  },
   "author": {
-    "name": "Sludgy Parrot",
-    "email": "sludgyparrot@gmail.com"
-  }
+  "name": "Sludgy Parrot",
+  "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+  },
+  "license": "Proprietary",
+  "hideInEditor": false
 }

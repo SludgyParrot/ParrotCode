@@ -1,18 +1,26 @@
 {
     "name": "com.sludgyparrot.eventsystem",
-    "version": "0.0.1",
-    "displayName": "Event System",
-    "description": "A collection of event helper classes for developing Unity applications.",
+    "version": "1.0.0",
+    "displayName": "Parrot Code Event System",
+    "unity": "2022.3",
+    "description": "A lightweight event-driven framework providing an Event Bus, messaging utilities, and publish-subscribe patterns for building decoupled Unity applications.",
     "keywords": [
+        "Parrot Code",
         "Sludgy Parrot",
-        "Event",
-        "Event System"
+        "Event System",
+        "Event Bus",
+        "Messaging",
+        "Publish Subscribe",
+        "Unity"
     ],
     "dependencies": {
-        "com.sludgyparrot.native": "0.0.1"
+    "com.sludgyparrot.native": "1.0.0",
+    "com.sludgyparrot.extensions": "1.0.0"
     },
     "author": {
-        "name": "sludgy Parrot",
-        "email": "sludgyparrot@gmail.com"
-    }
+    "name": "Sludgy Parrot",
+    "email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+    },
+    "license": "Proprietary",
+    "hideInEditor": false
 }
