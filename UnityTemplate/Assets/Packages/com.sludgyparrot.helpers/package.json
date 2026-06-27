@@ -1,15 +1,26 @@
 {
-  "name": "com.sludgyparrot.helpers",
-  "version": "0.0.1",
-  "displayName": "Helpers",
-  "description": "A collection of helper classes for use during an application development in Unity.",
- "keywords": [
-    "Helpers",
-    "Utilities",
-    "Tools"
-  ],
-  "author": {
-    "name": "Sludgy Parrot",
-    "email": "sludgyparrot@gmail.com"
-  }
+"name": "com.sludgyparrot.helpers",
+"version": "1.0.0",
+"displayName": "Parrot Code Helpers",
+"unity": "2022.3",
+"description": "A collection of reusable helper classes, builders, utility APIs, and development helpers that simplify common programming tasks in Unity applications.",
+"keywords": [
+  "Parrot Code",
+  "Sludgy Parrot",
+  "Helpers",
+  "Utilities",
+  "Unity",
+  "Development",
+  "Tools"
+],
+"dependencies": {
+"com.sludgyparrot.native": "1.0.0",
+"com.sludgyparrot.extensions": "1.0.0"
+},
+"author": {
+"name": "Sludgy Parrot",
+"email": "[sludgyparrot@gmail.com](mailto:sludgyparrot@gmail.com)"
+},
+"license": "Proprietary",
+"hideInEditor": false
 }

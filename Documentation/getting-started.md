@@ -42,13 +42,13 @@ Additional packages and documentation will be added over time.
 
 1. Open the Unity Editor.
 2. Navigate to **Edit → Project Settings → Package Manager**.
-3. Add the Parrot Code scoped registry:
+3. Add the Sludgy Parrot scoped registry:
 
 ```json
 {
   "scopedRegistries": [
     {
-      "name": "Parrot Code",
+      "name": "Sludgy Parrot",
       "url": "https://registry.npmjs.org",
       "scopes": [
         "com.sludgyparrot"

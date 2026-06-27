@@ -116,21 +116,31 @@ Parrot Code
 
 ## Installation
 
-### Unity Package Manager
+### Install via Unity Package Manager
 
-Add the package to your project:
+1. Open the Unity Editor.
+2. Navigate to **Edit → Project Settings → Package Manager**.
+3. Add the Sludgy Parrot scoped registry:
 
 ```json
 {
-  "dependencies": {
-    "com.sludgyparrot.parrotcode": "1.0.0"
-  }
+  "scopedRegistries": [
+    {
+      "name": "Sludgy Parrot",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.sludgyparrot"
+      ]
+    }
+  ]
 }
 ```
 
-### Local Package
+4. Open **Window → Package Manager**.
+5. Select **My Registries** from the package source dropdown.
+6. Install the desired Parrot Code package.
 
-Clone or download the repository and add it through the Unity Package Manager.
+Once installed, Unity will automatically resolve and import all required package dependencies.
 
 ---
 
@@ -139,11 +149,11 @@ Clone or download the repository and add it through the Unity Package Manager.
 Example initialization:
 
 ```csharp
-public class GameBootstrap : MonoBehaviour
+public class GameBootstrap : BaseMonoBehaviour
 {
-    private void Start()
+    protected override void Init()
     {
-        Debug.Log("Parrot Code Initialized");
+        Log("Parrot Code Initialized", LogVerbosity.Debug, LogChannel.Events);
     }
 }
 ```
