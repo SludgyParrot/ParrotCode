@@ -188,14 +188,12 @@ https://sludgyparrot.github.io/ParrotCode
 
 ---
 
-## Compatibility
-
-| Unity Version   | Support     |
-| --------------- | ----------- |
-| 2021.3 LTS      | Supported   |
-| 2022 LTS        | Supported   |
-| 2023 LTS        | Supported   |
-| Future Versions | Best Effort |
+| Unity Version | Support |
+| -------------- | -------- |
+| 2022.3 LTS     | ✅ Supported |
+| 2023.2 LTS     | ✅ Supported |
+| Unity 6 LTS    | ✅ Supported |
+| Future Releases | 🟡 Best Effort |
 
 ---
 

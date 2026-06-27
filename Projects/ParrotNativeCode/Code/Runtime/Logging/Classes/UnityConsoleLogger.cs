@@ -66,19 +66,19 @@ namespace ParrotCode.Native.Common
             switch(verbosity)
             {
                 case LogVerbosity.Debug:
-                    Debug.Log(logMessage);
+                    Debug.Log(logMessage, this);
                     break;
                 case LogVerbosity.Warning:
-                    Debug.LogWarning(logMessage);
+                    Debug.LogWarning(logMessage, this);
                     break;
                 case LogVerbosity.Error:
-                    Debug.LogError(logMessage);
+                    Debug.LogError(logMessage, this);
                     break;
                 case LogVerbosity.Exception:
-                    Debug.LogException(new Exception(logMessage));
+                    Debug.LogException(new Exception(logMessage), this);
                     break;
                 case LogVerbosity.Assert:
-                    Debug.Assert(assert.Invoke(), logMessage);
+                    Debug.Assert(assert.Invoke(), logMessage, this);
                     break;
             }
         }

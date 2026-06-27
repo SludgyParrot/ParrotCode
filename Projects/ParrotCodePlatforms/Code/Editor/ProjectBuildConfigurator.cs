@@ -27,17 +27,17 @@ licensing@sludgyparrot.com
 
 */
 
-#region System
+#region Included System Assemblies
 using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-#region Unity
+#region Included Unity Assemblies
 using UnityEditor;
 using UnityEngine;
 #endregion
 
-#region Parrot Code
+#region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
 using ParrotCode.Extensions;
 using UnityEditor.SceneManagement;
@@ -105,9 +105,6 @@ namespace ParrotCode.Platforms
         {
             string warningMessage = string.Format(ProjectConfigurationWarningPopUpMessage, build.ToString());
 
-            if (!CustomInspectorEditorPopup.ApplySettingsPopUpConfirmed(ProjectConfigurationWarningPopUpTitle, warningMessage))
-                return;
-
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 return;
 
@@ -129,17 +126,12 @@ namespace ParrotCode.Platforms
                     $"Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
             #endregion
 
-            #region Build Platform
-            string buildPaths = EditorUtility.SaveFilePanel($"Build {Application.productName}", "", Application.productName, "apk");
-
-            if(string.IsNullOrEmpty(buildPaths))
-                return;
-                
-            RuntimePlatformBuilder.Build(buildPaths);
-            #endregion
-
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+
+            #region Build Platform
+            RuntimePlatformBuilder.ConfigureBuild(settingsGroup);
+            #endregion
         }
 
 

@@ -35,7 +35,7 @@ namespace ParrotCode.Platforms
         public const string ProjectRenderingSettingsTitle = "Rendering Settings";
         #endregion
 
-        #region Shared Titles
+        #region Shared Project Titles
         public const string ProjectSettingsTitle = "Project Settings";
         public const string ProjectConfigurationPopUpTitle = "Parrot Code: Apply";
         #endregion

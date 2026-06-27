@@ -27,50 +27,78 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEngine;
+#region Included Unity Assemblies
+using ParrotCode.Native.Shared;
 using UnityEditor;
 using UnityEditor.Build;
+#endregion
 
 namespace ParrotCode.Extensions
 {
+    /// <summary>
+    /// This class contains extensions for platform build specific settings.
+    /// </summary>
     public static class SharedPlatformExtensions
     {
-
+        /// <summary>
+        /// This function converts a <see cref="BuildTarget"/> into a <see cref="NamedBuildTarget"/>.
+        /// </summary>
+        /// <returns>A <see cref="NamedBuildTarget"/> for this <see cref="BuildTarget"/></returns>
         public static NamedBuildTarget ToNamedBuildTarget(this BuildTarget buildTarget)
         {
             BuildTargetGroup targetGroup = ToBuildTargetGroup(buildTarget);
             return NamedBuildTarget.FromBuildTargetGroup(targetGroup);
         }
 
+        /// <summary>
+        /// This function converts a <see cref="BuildTarget"/> into a <see cref="BuildTargetGroup"/>.
+        /// </summary>
+        /// <returns>A <see cref="BuildTargetGroup"/> matching this <see cref="BuildTarget"/> </returns>
         public static BuildTargetGroup ToBuildTargetGroup(this BuildTarget buildTarget)
         {
-            switch (buildTarget)
+            return buildTarget switch
+            {
+                BuildTarget.Android => BuildTargetGroup.Android,
+                BuildTarget.iOS => BuildTargetGroup.iOS,
+                BuildTarget.StandaloneLinux64 |
+                BuildTarget.StandaloneOSX |
+                BuildTarget.StandaloneWindows |
+                BuildTarget.StandaloneWindows64 => BuildTargetGroup.Standalone,
+                BuildTarget.WebGL => BuildTargetGroup.WebGL,
+                BuildTarget.PS5 => BuildTargetGroup.PS5,
+                BuildTarget.XboxOne => BuildTargetGroup.XboxOne,
+                BuildTarget.Switch => BuildTargetGroup.Switch,
+                BuildTarget.QNX => BuildTargetGroup.QNX,
+                _ => BuildTargetGroup.Unknown
+            };
+        }
+
+        /// <summary>
+        /// Returns the file extension associated with the specified build target.
+        /// </summary>
+        /// <returns>
+        /// The file extension (including the leading '.') if the build target
+        /// produces a single output file; otherwise, <see cref="string.Empty"/>.
+        /// </returns>
+        public static string ToBuildExtension(this BuildTarget buildTarget)
+        {
+            switch(buildTarget)
             {
                 case BuildTarget.Android:
-                    return BuildTargetGroup.Android;
-                case BuildTarget.iOS:
-                    return BuildTargetGroup.iOS;
-                case BuildTarget.StandaloneLinux64:
-                case BuildTarget.StandaloneOSX:
-                case BuildTarget.StandaloneWindows64:
+                    return ".apk";
                 case BuildTarget.StandaloneWindows:
-                    return BuildTargetGroup.Standalone;
-                case BuildTarget.WebGL:
-                    return BuildTargetGroup.WebGL;
-                case BuildTarget.XboxOne:
-                    return BuildTargetGroup.XboxOne;
-                case BuildTarget.Switch:
-                    return BuildTargetGroup.Switch;
-                case BuildTarget.PS4:
-                    return BuildTargetGroup.PS4;
-                case BuildTarget.PS5:
-                    return BuildTargetGroup.PS5;
-                case BuildTarget.QNX:
-                    return BuildTargetGroup.QNX;
+                case BuildTarget.StandaloneWindows64:
+                    return ".exe";
                 default:
-                    Debug.LogError($"GetBuildTargetGroup for build target: {buildTarget} failed. Build target is currently not supported in this version of Parrot Code.");
-                    return BuildTargetGroup.Unknown;
+                    return string.Empty;
             }
         }
+
+        /// <summary>
+        /// Used to check <see cref="BuildTarget"/>'s output type.
+        /// </summary>
+        /// <returns>File if <see cref="BuildTarget"/> has an associated file extension, else Folder.</returns>
+        public static BuildOutput GetBuildOutput(this BuildTarget buildTarget)
+            => string.IsNullOrEmpty(buildTarget.ToBuildExtension()) ? BuildOutput.Folder : BuildOutput.File;
     }
 }

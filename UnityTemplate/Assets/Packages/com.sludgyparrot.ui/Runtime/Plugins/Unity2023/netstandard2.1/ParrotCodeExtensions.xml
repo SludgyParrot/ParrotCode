@@ -22,5 +22,49 @@
             Else returns False.
             </summary>
         </member>
+        <member name="T:ParrotCode.Extensions.SharedPlatformExtensions">
+            <summary>
+            This class contains extensions for platform build specific settings.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Extensions.SharedPlatformExtensions.ToNamedBuildTarget(UnityEditor.BuildTarget)">
+            <summary>
+            This function converts a <see cref="T:UnityEditor.BuildTarget"/> into a <see cref="T:UnityEditor.Build.NamedBuildTarget"/>.
+            </summary>
+            <returns>A <see cref="T:UnityEditor.Build.NamedBuildTarget"/> for this <see cref="T:UnityEditor.BuildTarget"/></returns>
+        </member>
+        <member name="M:ParrotCode.Extensions.SharedPlatformExtensions.ToBuildTargetGroup(UnityEditor.BuildTarget)">
+            <summary>
+            This function converts a <see cref="T:UnityEditor.BuildTarget"/> into a <see cref="T:UnityEditor.BuildTargetGroup"/>.
+            </summary>
+            <returns>A <see cref="T:UnityEditor.BuildTargetGroup"/> matching this <see cref="T:UnityEditor.BuildTarget"/> </returns>
+        </member>
+        <member name="M:ParrotCode.Extensions.SharedPlatformExtensions.ToBuildExtension(UnityEditor.BuildTarget)">
+            <summary>
+            Returns the file extension associated with the specified build target.
+            </summary>
+            <returns>
+            The file extension (including the leading '.') if the build target
+            produces a single output file; otherwise, <see cref="F:System.String.Empty"/>.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Extensions.SharedPlatformExtensions.GetBuildOutput(UnityEditor.BuildTarget)">
+            <summary>
+            Used to check <see cref="T:UnityEditor.BuildTarget"/>'s output type.
+            </summary>
+            <returns>File if <see cref="T:UnityEditor.BuildTarget"/> has an associated file extension, else Folder.</returns>
+        </member>
+        <member name="T:ParrotCode.Extensions.StringExtensions">
+            <summary>
+            This class contains extension methods for <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Extensions.StringExtensions.AddWhiteSpace(System.String)">
+            <summary>
+            Adds white space between words that begins with an upper case letter.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

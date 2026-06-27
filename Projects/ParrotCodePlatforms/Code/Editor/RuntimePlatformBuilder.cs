@@ -27,58 +27,55 @@ licensing@sludgyparrot.com
 
 */
 
-#region System
-using System;
+#region Included System Assemblies
+using System.IO;
 #endregion
 
-#region Unity
+#region Included Unity Assemblies
 using UnityEditor;
 using UnityEngine;
 #endregion
 
-#region Parrot Code
+#region Included Parrot Code Assemblies
 using ParrotCode.Extensions;
-using System.Diagnostics;
+using ParrotCode.Native.Shared;
+using System;
+using JetBrains.Annotations;
 #endregion
 
 namespace ParrotCode.Platforms
 {
-    public static class RuntimePlatformBuilder
+    public class RuntimePlatformBuilder: IDisposable
     {
-        public static void Build(string buildPath)
+        public (BuildArguments arguments, string errorMessage) ConfigureBuild(ProjectBuildConfigGroup projectBuildConfig)
         {
             if (CustomInspectorEditorPopup.CancelledDuringUserSceneChangesSaveRequest())
-                return;
+                return (new BuildArguments(), "");
 
-            if(!IsCurrentBuildPlatformSupported())
-                return;
+            string buildWindowTitle = $"Build {projectBuildConfig.BuildTarget.ToString()} {projectBuildConfig.ProjectBuild} Player";
+            string applicationName = Application.productName.AddWhiteSpace();
 
-            Process.Start(new ProcessStartInfo
+            BuildOutput output = projectBuildConfig.BuildTarget.GetBuildOutput();
+
+            string buildPath = output == BuildOutput.File ? EditorUtility.SaveFilePanel(buildWindowTitle, string.Empty, applicationName, projectBuildConfig.BuildTarget.ToBuildExtension()) 
+                : EditorUtility.SaveFolderPanel(buildWindowTitle, string.Empty, applicationName);
+
+            string buildDirectory = Path.GetDirectoryName(buildWindowTitle);
+
+            if(!Directory.Exists(buildDirectory))
             {
-                FileName = CMDFileName(),
-                Arguments = BuildExecutionArgument(),
-                UseShellExecute = true,
-            });
-        }
-
-        public static string BuildExecutionArgument()
-            => $"@echo off\r\n\r\n\"C:\\Program Files\\Unity\\Hub\\Editor\\2023.2.20f1\\Editor\\Unity.exe\" ^\r\n    -batchmode ^\r\n    -quit ^\r\n    -projectPath \"%~dp0\" ^\r\n    -executeMethod BuildScript.PerformBuild\r\n\r\npause";
-
-        public static string CMDFileName()
-            => "cm.exe";
-
-        private static bool IsCurrentBuildPlatformSupported()
-        {
-            var buildTarget = EditorUserBuildSettings.activeBuildTarget;
-            var targetGroup = buildTarget.ToBuildTargetGroup();
-
-            if (!BuildPipeline.IsBuildTargetSupported(targetGroup, buildTarget))
-            {
-                UnityEngine.Debug.LogException(new NotSupportedException($"Build target: {buildTarget} of target group: {targetGroup} is currently not supported."));
+                Debug.LogWarning($"Configure build for target: {projectBuildConfig.BuildTarget} failed. " +
+                    $"Missing/invalid build {output.ToString()} directory: {buildPath} provided.");
+                string errorMessage = 
                 return false;
             }
 
             return true;
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

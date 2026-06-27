@@ -27,8 +27,10 @@ licensing@sludgyparrot.com
 
 */
 
+#region Unity
 using UnityEditor;
 using UnityEditor.SceneManagement;
+#endregion
 
 namespace ParrotCode.Platforms
 {

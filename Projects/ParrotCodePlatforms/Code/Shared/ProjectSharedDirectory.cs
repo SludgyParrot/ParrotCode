@@ -28,6 +28,7 @@ licensing@sludgyparrot.com
 */
 
 using ParrotCode.Native.Shared;
+using UnityEditor;
 
 namespace ParrotCode.Platforms
 {
@@ -35,5 +36,8 @@ namespace ParrotCode.Platforms
     {
         public const string PlatformConfigRootPath = ParrotCodeShared.ParrotCodeConfigRootPath + "Platforms/";
         public const string ProjectSettingsToolsMenuRoot = ParrotCodeShared.ParrotCodeRootPath + "Project/Build/";
+
+        public static string GetUnityEditorApplicationPath()
+            => EditorApplication.applicationPath;
     }
 }
