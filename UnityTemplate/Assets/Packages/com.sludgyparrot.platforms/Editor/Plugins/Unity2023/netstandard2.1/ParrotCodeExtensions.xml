@@ -4,24 +4,6 @@
         <name>ParrotCodeExtensions</name>
     </assembly>
     <members>
-        <member name="M:ParrotCode.Extensions.EditorInspectorExtensions.Success(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
-            <summary>
-            Returns True if <see cref="T:UnityEditor.MessageType"/> is not message type Error.
-            Else returns False.
-            </summary>
-        </member>
-        <member name="M:ParrotCode.Extensions.EditorInspectorExtensions.Failed(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
-            <summary>
-            Returns True if <see cref="T:UnityEditor.MessageType"/> is message type Error.
-            Else returns False.
-            </summary>
-        </member>
-        <member name="M:ParrotCode.Extensions.EditorInspectorExtensions.ContainsLog(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
-            <summary>
-            Returns True if <see cref="T:UnityEditor.MessageType"/> is none.
-            Else returns False.
-            </summary>
-        </member>
         <member name="T:ParrotCode.Extensions.SharedPlatformExtensions">
             <summary>
             This class contains extensions for platform build specific settings.
@@ -61,10 +43,31 @@
         </member>
         <member name="M:ParrotCode.Extensions.StringExtensions.AddWhiteSpace(System.String)">
             <summary>
-            Adds white space between words that begins with an upper case letter.
+            Adds white space between words that begins with an upper case letter,
+            excluding the first word.
             </summary>
-            <param name="str"></param>
-            <returns></returns>
+            <returns>A formatted string with white spaces between 
+            words that begins with an upper case letter.</returns>
+        </member>
+        <member name="M:ParrotCode.Extensions.StringExtensions.RemoveWhiteSpace(System.String)">
+            <summary>
+            Removes white space between words that begins with an upper case letter, 
+            excluding the first word.
+            </summary>
+            <returns>A formatted string with white spaces between 
+            words that begins with an upper case letter removed.</returns>
+        </member>
+        <member name="M:ParrotCode.Extensions.StringExtensions.IsNullOrEmpty(System.String)">
+            <summary>
+            This function checks if this <see cref="T:System.String"/> is null or empty.
+            </summary>
+            <returns>True if this <see cref="T:System.String"/> is null or empty, else False.</returns>
+        </member>
+        <member name="M:ParrotCode.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
+            <summary>
+            This function checks if this <see cref="T:System.String"/> is null or consist entirely of white space.
+            </summary>
+            <returns>True if this <see cref="T:System.String"/> is null or consist entirely of white space, else False.</returns>
         </member>
     </members>
 </doc>

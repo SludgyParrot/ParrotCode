@@ -27,9 +27,14 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Systems Assemblies
 using System;
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEditor;
+#endregion
 
 namespace ParrotCode.Native.SharedEditor
 {

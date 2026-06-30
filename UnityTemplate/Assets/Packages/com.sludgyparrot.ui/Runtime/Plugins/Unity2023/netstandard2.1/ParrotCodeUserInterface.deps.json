@@ -21,7 +21,8 @@
       },
       "ParrotCodeAudio/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0"
+          "ParrotNativeCode": "1.0.0",
+          "ParrotNativeSharedEditorCode": "1.0.0"
         },
         "runtime": {
           "ParrotCodeAudio.dll": {
@@ -43,8 +44,7 @@
       },
       "ParrotCodeExtensions/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0",
-          "ParrotNativeSharedEditorCode": "1.0.0"
+          "ParrotNativeCode": "1.0.0"
         },
         "runtime": {
           "ParrotCodeExtensions.dll": {
@@ -56,7 +56,8 @@
       "ParrotCodeInputSystem/1.0.0": {
         "dependencies": {
           "ParrotCodeEventSystem": "1.0.0",
-          "ParrotNativeCode": "1.0.0"
+          "ParrotNativeCode": "1.0.0",
+          "ParrotNativeSharedEditorCode": "1.0.0"
         },
         "runtime": {
           "ParrotCodeInputSystem.dll": {
@@ -74,6 +75,10 @@
         }
       },
       "ParrotNativeSharedEditorCode/1.0.0": {
+        "dependencies": {
+          "ParrotCodeEventSystem": "1.0.0",
+          "ParrotCodeExtensions": "1.0.0"
+        },
         "runtime": {
           "ParrotNativeSharedEditorCode.dll": {
             "assemblyVersion": "0.0.0.0",

@@ -27,8 +27,13 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
 using ParrotCode.Native.Shared;
+#endregion
 
 namespace ParrotCode.Extensions
 {

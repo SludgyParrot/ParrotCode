@@ -27,14 +27,20 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build;
+#endregion
+
+#region Included Parrot Code Assemblies
 using ParrotCode.Extensions;
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Project Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Project Settings")]
+    [CreateAssetMenu(fileName = "Project Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Project Settings")]
     public sealed class GeneralProjectBuildConfig: ProjectBuildConfig
     {
         [Header("General Settings")]

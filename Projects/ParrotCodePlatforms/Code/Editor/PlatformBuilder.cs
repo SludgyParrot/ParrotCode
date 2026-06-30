@@ -28,7 +28,7 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
-using System.IO;
+using System.Diagnostics;
 #endregion
 
 #region Included Unity Assemblies
@@ -39,20 +39,21 @@ using UnityEngine;
 #region Included Parrot Code Assemblies
 using ParrotCode.Extensions;
 using ParrotCode.Native.Shared;
+
 #endregion
 
 namespace ParrotCode.Platforms
 {
     public static class PlatformBuilder
     {
+        public static void InitializeBuild(ProcessStartInfo buildProcess)
+            => Process.Start(buildProcess);
+
         public static void BuilPlayer()
         {
-
-
-
             BuildPlayerOptions buildOptions = new BuildPlayerOptions();
 
-
+            BuildPipeline.BuildPlayer(buildOptions);
         }
     }
 }

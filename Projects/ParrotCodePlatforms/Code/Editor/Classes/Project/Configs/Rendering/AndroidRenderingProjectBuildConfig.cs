@@ -27,11 +27,16 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System;
+using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEditor;
-using System.Collections.Generic;
+#endregion
 
 namespace ParrotCode.Platforms
 {

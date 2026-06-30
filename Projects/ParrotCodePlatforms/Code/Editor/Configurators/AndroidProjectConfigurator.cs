@@ -27,12 +27,17 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
+#endregion
 
 namespace ParrotCode.Platforms
 {
-    public sealed class AndroidProjectConfigurator : IProjectConfigurator
+    public sealed class AndroidProjectConfigurator : IProjectSpecificConfig
     {
         public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
         {

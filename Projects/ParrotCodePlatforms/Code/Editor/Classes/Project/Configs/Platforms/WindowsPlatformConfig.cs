@@ -27,12 +27,17 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.Native.Shared;
+#region Included Unity Assemblies
 using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Windows Platform Config", menuName = ParrotCodeShared.ParrotCodeConfigRootPath + "Platforms/Windows Platform Config")]
+    [CreateAssetMenu(fileName = "Windows Platform Config", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Platforms/Windows Platform Config")]
     public class WindowsPlatformConfig : PlatformConfig
     {
 

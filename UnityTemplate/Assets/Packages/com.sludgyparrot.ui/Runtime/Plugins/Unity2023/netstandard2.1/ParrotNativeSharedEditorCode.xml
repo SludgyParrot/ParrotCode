@@ -4,12 +4,548 @@
         <name>ParrotNativeSharedEditorCode</name>
     </assembly>
     <members>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorInspectorExtensions.Success(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Returns True if <see cref="T:UnityEditor.MessageType"/> is not message type Error.
+            Else returns False.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorInspectorExtensions.Failed(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Returns True if <see cref="T:UnityEditor.MessageType"/> is message type Error.
+            Else returns False.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorInspectorExtensions.ContainsLog(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
+            <summary>
+            Returns True if <see cref="T:UnityEditor.MessageType"/> is none.
+            Else returns False.
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo">
+            <summary>
+            Defines shared string resources used throughout the Parrot Code custom editor framework.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProjectRenderingSettingsTitle">
+            <summary>
+            Title displayed for the Rendering Settings section.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProjectSettingsTitle">
+            <summary>
+            Title displayed for the Project Settings section.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProjectConfigurationPopupTitle">
+            <summary>
+            Title displayed for the project configuration confirmation popup.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ApplySettingsButtonLabel">
+            <summary>
+            Label displayed on the button used to apply project settings.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ConfirmButtonTitle">
+            <summary>
+            Label displayed on a confirm action button.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.CancelButtonTitle">
+            <summary>
+            Label displayed on a cancel action button.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProjectConfigurationPopupMessage">
+            <summary>
+            Confirmation message displayed before applying platform-specific project settings.
+            The placeholder expects the platform configuration name.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProjectConfigurationWarningPopupMessage">
+            <summary>
+            Confirmation message displayed before applying a predefined project configuration.
+            The placeholder expects the configuration name.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.DevelopmentSettingsRootPath">
+            <summary>
+            Menu path used to apply the Development project configuration.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProductionSettingsRootPath">
+            <summary>
+            Menu path used to apply the Production project configuration.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.GetAssetDatabaseTypeFilter``1">
+            <summary>
+            Asset search filter used to locate a generic assets.
+            </summary>
+            <typeparam name="T">The asset type to be converted into a filter type.</typeparam>
+            <returns><see langword="string"/> with a type filter. i.e t:Type.</returns>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.Development">
+            <summary>
+            Development configuration keyword.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.Production">
+            <summary>
+            Production configuration keyword.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ProjectBuildConfigGroup">
+            <summary>
+            Type name used for project build configuration assets.
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.SharedCustomInspectorEditorPopup">
+            <summary>
+            Provides shared helper methods for displaying common Unity Editor confirmation dialogs
+            and handling user confirmation workflows.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCustomInspectorEditorPopup.ShowApplySettingsConfirmationPopup(System.String,System.String,System.String,System.String)">
+            <summary>
+            Displays a confirmation dialog and returns the user's selection.
+            </summary>
+            <param name="popUpTitle">
+            The title displayed in the confirmation dialog.
+            </param>
+            <param name="popUpMessage">
+            The message displayed in the confirmation dialog.
+            </param>
+            <param name="confirmButtonTitle">
+            The label displayed on the confirmation button. Defaults to <c>"Yes Please!"</c>.
+            </param>
+            <param name="cancelButtonTitle">
+            The label displayed on the cancel button. Defaults to <c>"No Thanks!"</c>.
+            </param>
+            <returns>
+            <see langword="true"/> if the user confirms the operation; otherwise,
+            <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.SharedProjectDirectory">
+            <summary>
+            Provides shared directory paths and utility methods used by the Parrot Code project configuration system.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedProjectDirectory.ParrotCodeRootPath">
+            <summary>
+            Root menu and asset path for the Parrot Code framework.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedProjectDirectory.ParrotCodeConfigRootPath">
+            <summary>
+            Root path containing Parrot Code configuration assets.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedProjectDirectory.PlatformConfigRootPath">
+            <summary>
+            Root path containing platform-specific project configuration assets.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedProjectDirectory.ProjectSettingsToolsMenuRoot">
+            <summary>
+            Root menu path used for Project Build commands in the Unity Editor.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedProjectDirectory.GetUnityEditorApplicationPath">
+            <summary>
+            Gets the installation path of the Unity Editor executable.
+            </summary>
+            <returns>
+            The absolute path to the currently running Unity Editor application.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.IProjectConfiguratorRepository">
+            <summary>
+            A config repository for retrieving a <see langword="IEnumerable"/> of <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/>
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.IProjectConfiguratorRepository.GetAll``1">
+            <summary>
+            Gets all <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/> in this repository.
+            </summary>
+            <typeparam name="T">The asset type to retrieve.</typeparam>
+            <returns><see langword="IEnumerable"/> of <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></returns>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.IProjectConfiguratorRepository.GetByBuild``1(UnityEditor.BuildTarget,ParrotCode.Native.SharedEditor.Build)">
+            <summary>
+            Gets a <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/> for <see cref="T:UnityEditor.BuildTarget"/> and <see cref="T:ParrotCode.Native.SharedEditor.Build"/>.
+            </summary>
+            <typeparam name="T">The asset type to retrieve.</typeparam>
+            <param name="buldTarget">The build target for the requested <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></param>
+            <param name="build">The build type for the requested <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></param>
+            <returns>A <see langword="IEnumerable"/> of <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.ProjectConfiguratorRepository">
+            <summary>
+            A repository for <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/>
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ProjectConfiguratorRepository.GetAll``1">
+            <summary>
+            Gets all <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/> in this repository.
+            </summary>
+            <typeparam name="T">The asset type to retrieve.</typeparam>
+            <returns><see langword="IEnumerable"/> of <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></returns>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ProjectConfiguratorRepository.GetByBuild``1(UnityEditor.BuildTarget,ParrotCode.Native.SharedEditor.Build)">
+            <summary>
+            Gets a <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/> for <see cref="T:UnityEditor.BuildTarget"/> and <see cref="T:ParrotCode.Native.SharedEditor.Build"/>.
+            </summary>
+            <typeparam name="T">The asset type to retrieve.</typeparam>
+            <param name="buldTarget">The build target for the requested <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></param>
+            <param name="build">The build type for the requested <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></param>
+            <returns>A <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/> for the defined type.</returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.UnityCommandLineBuildArguments">
+            <summary>
+            This struct contains build arguments for executing Unity build processes using batch.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ParrotCode.Native.SharedEditor.UnityCommandLineBuildArguments.#ctor(System.String,System.String,System.Boolean,System.Boolean,System.Boolean)" -->
+        <member name="M:ParrotCode.Native.SharedEditor.UnityCommandLineBuildArguments.ToProcessStartInfo(System.String[])">
+             <summary>
+             Converts a <see cref="T:ParrotCode.Native.SharedEditor.UnityCommandLineBuildArguments"/> into a <see cref="T:System.Diagnostics.ProcessStartInfo"/>
+             </summary>
+             <param name="additionalArguments">
+             Additional arguments to append to the Unity command line.
+             Each entry must be a single argument.
+            
+             Correct:
+             "-buildTarget", "Android, -customBuildName", "Parrot"
+            
+             Incorrect:
+             "-buildTarget Android, -customBuildName Parrot"
+             or "-buildTarget Android -customBuildName Parrot"
+             </param>
+             <returns><see cref="T:System.Diagnostics.ProcessStartInfo"/></returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.EditorAssetPostProcessor">
+            <summary>
+            Unity asset post-processor that broadcasts asset change events through the
+            Parrot Code event system.
+            </summary>
+            <remarks>
+            This class listens to Unity's <see cref="!:AssetPostprocessor.OnPostprocessAllAssets"/> callback
+            and forwards asset change information (added, removed, moved, and moved-from paths)
+            via <see cref="T:ParrotCode.Native.SharedEditor.EditorAssetPostProcessorEvent"/>.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorAssetPostProcessor.OnPostprocessAllAssets(System.String[],System.String[],System.String[],System.String[])">
+            <summary>
+            Called by Unity after assets have been imported, deleted, or moved.
+            </summary>
+            <param name="addedAssetPaths">
+            Paths of newly imported assets.
+            </param>
+            <param name="removedAssetPaths">
+            Paths of assets that were deleted.
+            </param>
+            <param name="newAssetPaths">
+            Paths of assets that were moved to new locations.
+            </param>
+            <param name="oldAssetPaths">
+            Previous paths of assets that were moved.
+            </param>
+            <remarks>
+            This method forwards asset change information to the <c>EventBus</c> by invoking
+            an <see cref="T:ParrotCode.Native.SharedEditor.EditorAssetPostProcessorEvent"/>.
+            </remarks>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.UnityCommandLineFlags">
+            <summary>
+            Defines Unity command-line argument names used when launching the Unity Editor.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.BatchMode">
+            <summary>
+            Flag for setting batch mode.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.Quit">
+            <summary>
+            Flag for quitting the application.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.ProjectPath">
+            <summary>
+            Flag for setting the target project path.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.ExecuteMethod">
+            <summary>
+            Flag for setting the method to execute.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.BuildTarget">
+            <summary>
+            Flag for setting the build target.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.NoGraphics">
+            <summary>
+            Flag for setting no graphics.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.AcceptAPIUpdate">
+            <summary>
+            Flag to accept API update.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.LogFile">
+            <summary>
+            Flag for setting an output log file name.
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.ConfigValidationRule`1">
+            <summary>
+            Base implementation for a configuration validation rule used in a
+            rule-based validation pipeline.
+            </summary>
+            <typeparam name="T">
+            The type of configuration object being validated.
+            </typeparam>
+            <remarks>
+            Derive from this class to implement strongly-typed validation rules that can
+            optionally use additional contextual data during validation.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.ConfigValidationRule`1.Order">
+            <summary>
+            Gets the execution order of this validation rule within the validation pipeline.
+            Lower values are executed first.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ConfigValidationRule`1.Validate(`0,System.Object)">
+            <summary>
+            Validates the specified configuration instance using optional contextual data.
+            </summary>
+            <param name="config">
+            The configuration object to validate.
+            </param>
+            <param name="data">
+            Optional contextual data that can influence validation logic.
+            This value may be <see langword="null"/>.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing validation results.
+            Return <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/> when no issues are found.
+            </returns>
+        </member>
         <member name="M:ParrotCode.Native.SharedEditor.CustomInspectorValidations.DrawHelpBoxMessage(ParrotCode.Native.SharedEditor.HelpBoxMessage)">
             <summary>
             Draws an inspector helpbox.
             </summary>
             <param name="helpBox"></param>
         </member>
+        <member name="T:ParrotCode.Native.SharedEditor.EditorValidationManager`1">
+            <summary>
+            Provides a base implementation for validating editor <see cref="T:UnityEngine.ScriptableObject"/> assets
+            while caching validation results to avoid unnecessary repeated validation.
+            </summary>
+            <typeparam name="TValidator">
+            The validator implementation responsible for validating editor assets.
+            </typeparam>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.EditorValidationManager`1._validationCache">
+            <summary>
+            Stores cached validation results indexed by the asset GUID.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.EditorValidationManager`1.Validator">
+            <summary>
+            Gets the validator used to validate editor assets.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Native.SharedEditor.EditorValidationManager`1"/> class
+            and subscribes to editor asset post-processing events so cached validation results can be
+            invalidated when assets change.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.Validate``1(``0)">
+            <summary>
+            Validates the specified configuration asset.
+            </summary>
+            <typeparam name="T">
+            The type of <see cref="T:UnityEngine.ScriptableObject"/> being validated.
+            </typeparam>
+            <param name="config">
+            The configuration asset to validate.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> containing the validation results.
+            Cached results are returned whenever possible.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.InvalidateCache">
+            <summary>
+            Marks every cached validation result as invalid, forcing assets to be
+            revalidated the next time they are requested.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.InvalidateCache``1(``0)">
+            <summary>
+            Marks the cached validation result for the specified asset as invalid.
+            </summary>
+            <typeparam name="T">
+            The type of <see cref="T:UnityEngine.ScriptableObject"/>.
+            </typeparam>
+            <param name="config">
+            The asset whose cached validation result should be invalidated.
+            </param>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.ClearCache">
+            <summary>
+            Removes all cached validation results.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.GetAssetGuid``1(``0)">
+            <summary>
+            Gets the Asset Database GUID for the specified configuration asset.
+            </summary>
+            <typeparam name="T">
+            The type of <see cref="T:UnityEngine.ScriptableObject"/>.
+            </typeparam>
+            <param name="config">
+            The asset whose GUID should be retrieved.
+            </param>
+            <returns>
+            The Asset Database GUID associated with the asset.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="config"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.OnEditorAssetPostProcessedEvent(ParrotCode.Native.SharedEditor.EditorAssetPostProcessorEvent)">
+            <summary>
+            Handles editor asset post-processing events by invalidating all cached
+            validation results.
+            </summary>
+            <param name="evt">
+            The asset post-processing event.
+            </param>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.Dispose">
+            <summary>
+            Releases the resources used by this instance.
+            </summary>
+            <remarks>
+            This method unsubscribes the validation manager from editor asset post-processing
+            events and suppresses finalization. Derived classes should override
+            <see cref="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.Dispose(System.Boolean)"/> to release additional managed resources.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.EditorValidationManager`1.Dispose(System.Boolean)">
+            <summary>
+            Releases the managed resources used by this instance.
+            </summary>
+            <param name="disposing">
+            <see langword="true"/> to release managed resources; otherwise,
+            <see langword="false"/>.
+            </param>
+            <remarks>
+            Derived classes overriding this method should release their managed resources
+            when <paramref name="disposing"/> is <see langword="true"/> and invoke the
+            base implementation.
+            </remarks>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.IConfigValidationRule`1">
+            <summary>
+            Represents a validation rule used in a configuration validation pipeline.
+            </summary>
+            <typeparam name="T">
+            The type of configuration object being validated.
+            </typeparam>
+            <remarks>
+            Validation rules are executed in order defined by <see cref="P:ParrotCode.Native.SharedEditor.IConfigValidationRule`1.Order"/>.
+            Each rule evaluates the provided configuration and returns a
+            <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing validation results.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.IConfigValidationRule`1.Order">
+            <summary>
+            Gets the execution order of this validation rule within the validation pipeline.
+            Lower values are executed first.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.IConfigValidationRule`1.Validate(`0,System.Object)">
+            <summary>
+            Validates the specified configuration instance using optional contextual data.
+            </summary>
+            <param name="config">
+            The configuration object to validate.
+            </param>
+            <param name="data">
+            Optional contextual data that can influence validation logic.
+            This parameter may be <see langword="null"/>.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing validation results.
+            Returns <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/> when no issues are found.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.IEditorAssetValidator">
+            <summary>
+            Defines a contract for validating editor configuration objects.
+            </summary>
+            <typeparam name="T">
+            The type of configuration object to validate.
+            </typeparam>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.IEditorAssetValidator.Validate``1(``0)">
+            <summary>
+            Validates the specified configuration.
+            </summary>
+            <param name="config">
+            The configuration instance to validate.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the validation result, including
+            any informational messages, warnings, or errors.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.IProjectConfigurator">
+            <summary>
+            Defines a contract for project configuration providers that supply build target information,
+            build type, and validation logic for project setup.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.IProjectConfigurator.BuildTarget">
+            <summary>
+            Gets the Unity build target associated with this configurator.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.IProjectConfigurator.ProjectBuild">
+            <summary>
+            Gets the build type (e.g. Development or Production) for this configuration.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ParrotCode.Native.SharedEditor.ConfigValidationResults`1" -->
+        <member name="P:ParrotCode.Native.SharedEditor.ConfigValidationResults`1.MessageType">
+            <summary>
+            Results message type.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.ConfigValidationResults`1.Message">
+            <summary>
+            Results message.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.ConfigValidationResults`1.Value">
+            <summary>
+            Results config value.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ParrotCode.Native.SharedEditor.ConfigValidationResults`1.#ctor(UnityEditor.MessageType,System.String,`0)" -->
+        <!-- Badly formed XML comment ignored for member "F:ParrotCode.Native.SharedEditor.ConfigValidationResults`1.Empty" -->
         <member name="T:ParrotCode.Native.SharedEditor.HelpBoxMessage">
             <summary>
             This objects stores a help box messages and a type

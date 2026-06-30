@@ -27,12 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using UnityEditor;
 using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Network Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Network Settings")]
+    [CreateAssetMenu(fileName = "Network Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Network Settings")]
     public sealed class NetworkProjectBuildConfig : ProjectBuildConfig
     {
         [Header("Network Settings")]

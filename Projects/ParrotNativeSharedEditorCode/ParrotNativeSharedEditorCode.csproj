@@ -26,6 +26,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\ParotCodeEventSystem\ParrotCodeEventSystem.csproj" />
+    <ProjectReference Include="..\ParrotCodeExtensions\ParrotCodeExtensions.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Reference Include="UnityEditor.CoreModule">
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
       <Private>false</Private>

@@ -29,11 +29,11 @@ licensing@sludgyparrot.com
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-using ParrotCode.Native.Shared;
+using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.InputSystem
 {
-    [CreateAssetMenu(fileName = "Input Action", menuName = ParrotCodeShared.ParrotCodeConfigRootPath + "Input Action")]
+    [CreateAssetMenu(fileName = "Input Action", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Input Action")]
     public sealed class InputActionConfig: ScriptableObject
     {
         [SerializeField]

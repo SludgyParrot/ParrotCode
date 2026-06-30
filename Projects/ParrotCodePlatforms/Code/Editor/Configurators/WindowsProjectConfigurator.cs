@@ -27,12 +27,17 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
+#endregion
 
 namespace ParrotCode.Platforms
 {
-    public sealed class WindowsProjectConfigurator : IProjectConfigurator
+    public sealed class WindowsProjectConfigurator : IProjectSpecificConfig
     {
         public void Configure(IReadOnlyList<ProjectBuildConfig> buildConfigs)
         {

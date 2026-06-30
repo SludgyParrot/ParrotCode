@@ -27,11 +27,20 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System;
 using System.Linq;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
@@ -50,6 +59,7 @@ namespace ParrotCode.Platforms
             }
 
             Debug.Log($"Successfully switched from: {previousTarget} platform to: {newTarget}. Configuring platform.");
+            ProjectAssetsDatabaseUtility.ClearCache();
             ConfigurePlatform(platformConfig);
         }
 
@@ -75,6 +85,6 @@ namespace ParrotCode.Platforms
             => GetPlatformConfigs()?.FirstOrDefault(x => x.Platform == buildTarget);
 
         private PlatformConfig[] GetPlatformConfigs()
-            => AssetImporter.FindObjectsByType<PlatformConfig>(UnityEngine.FindObjectsInactive.Include, UnityEngine.FindObjectsSortMode.InstanceID);
+            => AssetImporter.FindObjectsByType<PlatformConfig>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
     }
 }

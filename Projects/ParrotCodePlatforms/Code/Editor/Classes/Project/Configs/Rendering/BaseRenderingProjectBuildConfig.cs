@@ -27,15 +27,20 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System;
-using UnityEngine.Rendering;
 using System.Linq;
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
+using UnityEngine.Rendering;
+#endregion
 
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// A base abstract class for <see cref="RenderingProjectBuildConfig"/>
+    /// A base abstract class for <see cref="ProjectBuildRenderingConfig"/>
     /// </summary>
     public abstract class BaseRenderingProjectBuildConfig : IRenderingProjectBuildConfig
     {

@@ -27,13 +27,21 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
-using ParrotCode.Native.Shared;
+#endregion
+
+#region Included PArrot Code Assemblies
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.UI
 {
-    [CreateAssetMenu(fileName = "UITheme", menuName = ParrotCodeShared.ParrotCodeConfigRootPath + "UI/Theme")]
+    [CreateAssetMenu(fileName = "UITheme", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "UI/Theme")]
     public sealed class UITheme: ScriptableObject
     {
         [SerializeField]

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ParotCodeEventSystem\ParrotCodeEventSystem.csproj" />
     <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
+    <ProjectReference Include="..\ParrotNativeSharedEditorCode\ParrotNativeSharedEditorCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>

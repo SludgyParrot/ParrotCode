@@ -27,8 +27,13 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.Native.Shared;
+#region Included Unity Assemblies
 using UnityEditor;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
@@ -42,7 +47,7 @@ namespace ParrotCode.Platforms
     /// </summary>
     public sealed class AndroidPlatformSelector : EditorWindow
     {
-        private const string WindowMenuPath = ParrotCodeShared.ParrotCodeRootPath + "Android/Configure Project Environment";
+        private const string WindowMenuPath = SharedProjectDirectory.ParrotCodeRootPath + "Android/Configure Project Environment";
 
         [MenuItem(WindowMenuPath)]
         private static void ConfigureAndroidProjectEnvironment()

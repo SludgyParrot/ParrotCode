@@ -39,43 +39,57 @@ using UnityEngine;
 #region Included Parrot Code Assemblies
 using ParrotCode.Extensions;
 using ParrotCode.Native.Shared;
-using System;
-using JetBrains.Annotations;
+using System.Diagnostics;
+using ParrotCode.Native.SharedEditor;
 #endregion
 
 namespace ParrotCode.Platforms
 {
-    public class RuntimePlatformBuilder: IDisposable
+    /// <summary>
+    /// This is a runtime platform build configurator.
+    /// </summary>
+    public static class RuntimePlatformBuilder
     {
-        public (BuildArguments arguments, string errorMessage) ConfigureBuild(ProjectBuildConfigGroup projectBuildConfig)
+        /// <summary>
+        /// This 
+        /// </summary>
+        /// <param name="projectBuildConfig"></param>
+        /// <returns></returns>
+        public static (BuildPlayerOptions options, ProcessStartInfo info, HelpBoxMessage results) GetBuildConfiguration(ProjectBuildConfigGroup projectBuildConfig)
         {
-            if (CustomInspectorEditorPopup.CancelledDuringUserSceneChangesSaveRequest())
-                return (new BuildArguments(), "");
-
-            string buildWindowTitle = $"Build {projectBuildConfig.BuildTarget.ToString()} {projectBuildConfig.ProjectBuild} Player";
             string applicationName = Application.productName.AddWhiteSpace();
+            string buildWindowTitle = $"{applicationName} {projectBuildConfig.BuildTarget.ToString()} {projectBuildConfig.ProjectBuild} Build";
 
             BuildOutput output = projectBuildConfig.BuildTarget.GetBuildOutput();
 
             string buildPath = output == BuildOutput.File ? EditorUtility.SaveFilePanel(buildWindowTitle, string.Empty, applicationName, projectBuildConfig.BuildTarget.ToBuildExtension()) 
                 : EditorUtility.SaveFolderPanel(buildWindowTitle, string.Empty, applicationName);
 
-            string buildDirectory = Path.GetDirectoryName(buildWindowTitle);
+            if(buildPath.IsNullOrWhiteSpace())
+                return (new BuildPlayerOptions(), null, new HelpBoxMessage($"Build {buildWindowTitle} canceled by user.", MessageType.Warning));
+
+            string buildDirectory = output == BuildOutput.File? Path.GetDirectoryName(buildPath) : buildPath;
 
             if(!Directory.Exists(buildDirectory))
             {
-                Debug.LogWarning($"Configure build for target: {projectBuildConfig.BuildTarget} failed. " +
-                    $"Missing/invalid build {output.ToString()} directory: {buildPath} provided.");
-                string errorMessage = 
-                return false;
+                string errorMessage = $"Configure build for target: {projectBuildConfig.BuildTarget} failed. " +
+                    $"Missing/invalid build {output.ToString()} directory: {buildPath} provided.";
+
+                return (new BuildPlayerOptions(), null, new HelpBoxMessage(errorMessage, MessageType.Error));
             }
 
-            return true;
-        }
+            BuildPlayerOptions options = new BuildPlayerOptions();
 
-        public void Dispose()
-        {
-            
+            // Add configuration for these settings.
+            BuildOptions buildOptions = projectBuildConfig.ProjectBuild == Build.Development? BuildOptions.Development | BuildOptions.EnableDeepProfilingSupport : BuildOptions.None;
+
+            options.locationPathName = buildPath;
+            options.targetGroup = projectBuildConfig.BuildTarget.ToBuildTargetGroup();
+            options.options = buildOptions;
+
+            ProcessStartInfo info = new UnityCommandLineBuildArguments(nameof(PlatformBuilder.BuilPlayer)).ToProcessStartInfo(UnityCommandLineFlags.BuildTarget, projectBuildConfig.BuildTarget.ToString());
+
+            return (options, info, HelpBoxMessage.Empty);
         }
     }
 }

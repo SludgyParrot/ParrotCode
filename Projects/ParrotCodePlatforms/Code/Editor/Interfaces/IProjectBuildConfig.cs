@@ -27,15 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using UnityEditor;
+#endregion
+
+#region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
     public interface IProjectBuildConfig
     {
         BuildTarget BuildTarget { get; }
-
-        HelpBoxMessage Validate();
     }
 }

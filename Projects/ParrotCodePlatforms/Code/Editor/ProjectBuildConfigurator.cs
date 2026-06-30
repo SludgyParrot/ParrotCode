@@ -29,44 +29,27 @@ licensing@sludgyparrot.com
 
 #region Included System Assemblies
 using System.Collections.Generic;
-using System.Linq;
 #endregion
 
 #region Included Unity Assemblies
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 #endregion
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
-using ParrotCode.Extensions;
-using UnityEditor.SceneManagement;
 #endregion
 
 namespace ParrotCode.Platforms
 {
     public static class ProjectBuildConfigurator
     {
-        private const string DevelopmentSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot 
-            + "Development " + ParrotHotKeys.ProjectDevelopmentConfiguration;
-
-
-        private const string ProductionSettingsRootPath = ProjectSharedDirectory.ProjectSettingsToolsMenuRoot 
-            + "Production " + ParrotHotKeys.ProjectProductionConfiguration;
-
-        private static string ProjectConfigurationWarningPopUpTitle = $"Parrot Code: Configure {BuildTarget.ToString()} Project Settings";
-
-        private static string ProjectConfigurationWarningPopUpMessage = $"This operation will configure the Unity " +
-            $"{BuildTarget.ToString()} project's settings to a predefined {0} configuration data. " +
-            "This action will override existing settings and this action may not be undone. Do you wish to proceed?";
-
-        private const string ProjectBuildConfigGroupConfigSearchFilter = "t:ProjectBuildConfigGroup";
-
-        private static BuildTarget BuildTarget => EditorUserBuildSettings.activeBuildTarget;
+        #region Project Build Configurators
 
         private static WindowsProjectConfigurator sharedWindowsProjectConfigurator = new WindowsProjectConfigurator();
 
-        private static readonly Dictionary<BuildTarget, IProjectConfigurator> projectConfigurators = new Dictionary<BuildTarget, IProjectConfigurator>()
+        private static readonly Dictionary<BuildTarget, IProjectSpecificConfig> projectConfigurators = new Dictionary<BuildTarget, IProjectSpecificConfig>()
         {
             { BuildTarget.Android, new AndroidProjectConfigurator()},
             { BuildTarget.iOS, new IOSProjectConfigurator()},
@@ -75,103 +58,40 @@ namespace ParrotCode.Platforms
             { BuildTarget.WebGL, new WebGLProjectConfigurator()}
         };
 
-        #region Configuration Menu
-
-        [MenuItem(DevelopmentSettingsRootPath)]
-        private static void ConfigureProjectDevelopmentSettings()
-            => ApplyProjectSettings(Build.Development);
-
-        [MenuItem(ProductionSettingsRootPath)]
-        private static void ConfigureProjectProductionSettings()
-            => ApplyProjectSettings(Build.Production);
-
-        [MenuItem(DevelopmentSettingsRootPath, true)]
-        private static bool ValidateProjectDevelopmentSettings()
-        {
-            var projectSettings = GetBuildProjectConfigForBuild(EditorUserBuildSettings.activeBuildTarget, Build.Development);
-            return string.IsNullOrEmpty(projectSettings.errorMessage);
-        }
-
-        [MenuItem(ProductionSettingsRootPath, true)]
-        private static bool ValidateProjectProductionSettings()
-        {
-            var projectSettings = GetBuildProjectConfigForBuild(EditorUserBuildSettings.activeBuildTarget, Build.Production);
-            return string.IsNullOrEmpty(projectSettings.errorMessage);
-        }
-
         #endregion
 
-        private static void ApplyProjectSettings(Build build)
+        public static void ApplyProjectSettingsAndBuild(ProjectBuildConfigGroup settingsGroup)
         {
-            string warningMessage = string.Format(ProjectConfigurationWarningPopUpMessage, build.ToString());
-
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 return;
 
-            var projectSettings = GetBuildProjectConfigForBuild(BuildTarget, build);
+            #region Apply Target Specific Settings
 
-            if (!string.IsNullOrEmpty(projectSettings.errorMessage))
+            if (!projectConfigurators.TryGetValue(settingsGroup.BuildTarget, out IProjectSpecificConfig projectConfigurator))
             {
-                Debug.LogError(projectSettings.errorMessage);
+                Debug.LogWarning($"Apply target specific settings for: {settingsGroup.BuildTarget} failed. " +
+                   $"Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
+
                 return;
             }
 
-            ProjectBuildConfigGroup settingsGroup = projectSettings.config;
-
-            #region Apply Target Specific Settings
-            if (projectConfigurators.TryGetValue(settingsGroup.BuildTarget, out IProjectConfigurator projectConfigurator))
-                projectConfigurator.Configure(settingsGroup.ProjectBuildConfigs);
-            else
-                Debug.LogError($"Apply target specific settings for: {settingsGroup.BuildTarget} failed. " +
-                    $"Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
-            #endregion
-
+            projectConfigurator.Configure(settingsGroup.ProjectBuildConfigs);
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 
-            #region Build Platform
-            RuntimePlatformBuilder.ConfigureBuild(settingsGroup);
+            #endregion
+
+            #region Initialize Build
+
+            var buildConfiguration = RuntimePlatformBuilder.GetBuildConfiguration(settingsGroup);
+
+            if (buildConfiguration.results.ContainsLog())
+            {
+                Debug.LogWarning(buildConfiguration.results.Message);
+                return;
+            }
+
+            PlatformBuilder.InitializeBuild(buildConfiguration.info);
             #endregion
         }
-
-
-        #region Build Project Configs
-
-        private static (ProjectBuildConfigGroup config, string errorMessage) GetBuildProjectConfigForBuild(BuildTarget target, Build build)
-        {
-            ProjectBuildConfigGroup[] projectConfigs = GetBuildProjectConfigs()?.Where(projectConfig => projectConfig.BuildTarget == target
-            && projectConfig.ProjectBuild == build && projectConfig.Validate().Success()).ToArray();
-
-            if (projectConfigs?.Length == 1)
-                return (projectConfigs[0], string.Empty);
-
-            return (null, $"Get build project config for build: {build} targeting: {target}" +
-                $" failed. There are {projectConfigs.Length} build project config(s) found for target.");
-        }
-
-        private static ProjectBuildConfigGroup[] GetBuildProjectConfigs()
-        {
-            string[] projectConfigGuids = AssetDatabase.FindAssets(ProjectBuildConfigGroupConfigSearchFilter);
-            ProjectBuildConfigGroup[] projectConfigs = projectConfigGuids.Select(guid =>
-            AssetDatabase.LoadAssetAtPath<ProjectBuildConfigGroup>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
-
-            return projectConfigs;
-        }
-
-        #endregion
-
-        #region Configs
-        public static (bool hasCopies, string[] paths) GetProjectBuildConfigGroupDuplicatePaths(ProjectBuildConfigGroup configGroup)
-        {
-            var duplicatedProjectBuildConfigGroups = GetBuildProjectConfigs().Where(buildConfigGroup =>
-            buildConfigGroup.BuildTarget == configGroup.BuildTarget && buildConfigGroup.ProjectBuild
-            == configGroup.ProjectBuild).Select(x => AssetDatabase.GetAssetPath(x)).ToArray();
-            
-            int count = duplicatedProjectBuildConfigGroups.Length;
-            bool hasCopies = count > 1;
-            return (hasCopies, duplicatedProjectBuildConfigGroups);
-        }
-
-        #endregion
     }
 }

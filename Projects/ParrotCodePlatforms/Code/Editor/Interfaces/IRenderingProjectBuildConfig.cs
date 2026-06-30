@@ -27,13 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine.Rendering;
+#endregion
 
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// An interface for <see cref="RenderingProjectBuildConfig"/>
+    /// An interface for <see cref="ProjectBuildRenderingConfig"/>
     /// </summary>
     public interface IRenderingProjectBuildConfig
     {

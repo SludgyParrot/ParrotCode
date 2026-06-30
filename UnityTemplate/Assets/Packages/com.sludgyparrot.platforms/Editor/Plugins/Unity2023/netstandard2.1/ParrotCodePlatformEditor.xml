@@ -14,33 +14,6 @@
             ensuring a smoother development experience and better system outcomes.
             </summary>
         </member>
-        <member name="T:ParrotCode.Platforms.RenderingProjectBuildConfig">
-            <summary>
-            This class contains rendering project configurators for cross platforms.
-            </summary>
-            <remarks>
-            This is a scriptable object component that derives from <href>UnityEngine</href> 
-            </remarks>
-        </member>
-        <member name="P:ParrotCode.Platforms.RenderingProjectBuildConfig.BuildTarget">
-            <summary>
-            A build target for the active editor.
-            </summary>
-            <return>
-            The active build target <see cref="P:ParrotCode.Platforms.RenderingProjectBuildConfig.BuildTarget"/>.
-            </return>
-        </member>
-        <member name="M:ParrotCode.Platforms.RenderingProjectBuildConfig.ApplySettings">
-            <summary>
-            Applies user specified configuration to the ploject.
-            </summary>
-        </member>
-        <member name="M:ParrotCode.Platforms.RenderingProjectBuildConfig.Validate">
-            <summary>
-            Validation for platform specific rendering settings.
-            </summary>
-            <returns>Return InspectorValidationResults <see cref="!:InspectorValidationResults"/></returns>
-        </member>
         <member name="T:ParrotCode.Platforms.AndroidRenderingProjectBuildConfig">
             <summary>
             A configuration file for configuring Android platform project rendering settings.
@@ -48,7 +21,7 @@
         </member>
         <member name="T:ParrotCode.Platforms.BaseRenderingProjectBuildConfig">
             <summary>
-            A base abstract class for <see cref="T:ParrotCode.Platforms.RenderingProjectBuildConfig"/>
+            A base abstract class for <see cref="T:ParrotCode.Platforms.ProjectBuildRenderingConfig"/>
             </summary>
         </member>
         <member name="T:ParrotCode.Platforms.IOSRenderingProjectBuildConfig">
@@ -66,7 +39,62 @@
             This class contains platform specific settings for standalone windows/64Bit.
             </summary>
         </member>
-        <member name="M:ParrotCode.Platforms.ProjectBuildConfigGroup.Validate">
+        <member name="T:ParrotCode.Platforms.ProjectBuildConfig">
+            <summary>
+            Represents a base ScriptableObject for defining project build configuration data.
+            </summary>
+            <remarks>
+            Derived classes implement platform or environment-specific build configuration
+            logic that can be applied to a Unity project.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfig.ApplySettings">
+            <summary>
+            Applies this build configuration to the active Unity project.
+            </summary>
+            <remarks>
+            Intended for use in editor tooling to configure project settings
+            for a specific build environment or platform.
+            </remarks>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectSpecificBuildConfig">
+            <summary>
+            Represents a base implementation for project-specific build configuration assets
+            that define a Unity build target and validation logic.
+            </summary>
+            <remarks>
+            This class extends <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/> and implements
+            <see cref="T:ParrotCode.Platforms.IProjectBuildConfig"/> to provide a unified base for
+            platform-specific build configuration definitions.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Platforms.ProjectSpecificBuildConfig.BuildTarget">
+            <summary>
+            Gets the Unity build target associated with this configuration.
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildConfigGroupEditor">
+            <summary>
+            Custom inspector for <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> that integrates
+            validation feedback and provides an "Apply Settings" action.
+            </summary>
+            <remarks>
+            This editor uses <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroupValidationManager"/> to validate
+            configuration changes in real time and display validation results inside the inspector.
+            Cached validation results are invalidated whenever serialized properties change.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildConfigGroupEditor._validationsManager">
+            <summary>
+            Manages validation and caching of <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> editor data.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfigGroupEditor.OnInspectorGUI">
+            <summary>
+            Overrides the default inspector GUI to include validation feedback and custom actions.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfigGroupValidator.Validate``1(``0)">
             <summary>
             This function checks validations the ProjectBuildConfigGroup.
             </summary>
@@ -75,14 +103,55 @@
             False if the validation failed, along with a failed message 
             and message type e.g <see cref="T:UnityEditor.MessageType"/>.</returns>
         </member>
-        <member name="T:ParrotCode.Platforms.RenderingProjectBuildConfigEditor">
+        <member name="T:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor">
             <summary>
-            This is a custom editor class for <see cref="T:ParrotCode.Platforms.RenderingProjectBuildConfig"/>
+            This is a custom editor class for <see cref="T:ParrotCode.Platforms.ProjectBuildRenderingConfig"/>
             </summary>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildRenderingConfig">
+            <summary>
+            This class contains rendering project configurators for cross platforms.
+            </summary>
+            <remarks>
+            This is a scriptable object component that derives from <href>UnityEngine</href> 
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Platforms.ProjectBuildRenderingConfig.BuildTarget">
+            <summary>
+            A build target for the active editor.
+            </summary>
+            <return>
+            The active build target <see cref="P:ParrotCode.Platforms.ProjectBuildRenderingConfig.BuildTarget"/>.
+            </return>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfig.ApplySettings">
+            <summary>
+            Applies user specified configuration to the ploject.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfigValidator.Validate``1(``0)">
+            <summary>
+            Validation for platform specific rendering settings.
+            </summary>
+            <returns>Return InspectorValidationResults <see cref="!:InspectorValidationResults"/></returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.IProjectSpecificConfig">
+            <summary>
+            Defines a contract for applying project-specific configuration settings
+            using a collection of build configurations.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.IProjectSpecificConfig.Configure(System.Collections.Generic.IReadOnlyList{ParrotCode.Platforms.ProjectBuildConfig})">
+            <summary>
+            Applies the project-specific configuration using the provided build configurations.
+            </summary>
+            <param name="buildConfigs">
+            A read-only collection of build configurations used to configure the project.
+            </param>
         </member>
         <member name="T:ParrotCode.Platforms.IRenderingProjectBuildConfig">
             <summary>
-            An interface for <see cref="T:ParrotCode.Platforms.RenderingProjectBuildConfig"/>
+            An interface for <see cref="T:ParrotCode.Platforms.ProjectBuildRenderingConfig"/>
             </summary>
         </member>
         <member name="M:ParrotCode.Platforms.IRenderingProjectBuildConfig.UnsupportedGraphicsAPIFound(System.Collections.Generic.IReadOnlyList{UnityEngine.Rendering.GraphicsDeviceType})">
@@ -104,10 +173,50 @@
             Applies the configurations to the target platform. e.g Android, Windows, WebGL etc.
             </summary>
         </member>
-        <member name="T:ParrotCode.Platforms.PlatformBuildExtension">
+        <member name="T:ParrotCode.Platforms.RuntimePlatformBuilder">
             <summary>
-            
+            This is a runtime platform build configurator.
             </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.RuntimePlatformBuilder.GetBuildConfiguration(ParrotCode.Platforms.ProjectBuildConfigGroup)">
+            <summary>
+            This 
+            </summary>
+            <param name="projectBuildConfig"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildConfiguratorEditor">
+            <summary>
+            Provides Unity Editor menu commands for applying and validating Parrot Code project build configurations.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfiguratorEditor.ConfigureProjectDevelopmentSettings">
+            <summary>
+            Applies the Development project configuration for the active build target.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfiguratorEditor.ConfigureProjectProductionSettings">
+            <summary>
+            Applies the Production project configuration for the active build target.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfiguratorEditor.ValidateProjectDevelopmentSettings">
+            <summary>
+            Determines whether the Development project configuration can be applied for the active build target.
+            </summary>
+            <returns>
+            <see langword="true"/> if a valid Development configuration exists for the active build target; otherwise,
+            <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildConfiguratorEditor.ValidateProjectProductionSettings">
+            <summary>
+            Determines whether the Production project configuration can be applied for the active build target.
+            </summary>
+            <returns>
+            <see langword="true"/> if a valid Production configuration exists for the active build target; otherwise,
+            <see langword="false"/>.
+            </returns>
         </member>
     </members>
 </doc>

@@ -28,9 +28,12 @@ licensing@sludgyparrot.com
 */
 
 #region Included Unity Assemblies
-using ParrotCode.Native.Shared;
 using UnityEditor;
 using UnityEditor.Build;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native.Shared;
 #endregion
 
 namespace ParrotCode.Extensions
@@ -85,10 +88,10 @@ namespace ParrotCode.Extensions
             switch(buildTarget)
             {
                 case BuildTarget.Android:
-                    return ".apk";
+                    return "apk";
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
-                    return ".exe";
+                    return "exe";
                 default:
                     return string.Empty;
             }

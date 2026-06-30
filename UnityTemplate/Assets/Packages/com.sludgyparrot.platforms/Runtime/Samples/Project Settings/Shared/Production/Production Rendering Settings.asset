@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 715025690, guid: e61ff314f57b5c54fb71e72af2a4e2aa, type: 3}
+  m_Script: {fileID: -1688658782, guid: e61ff314f57b5c54fb71e72af2a4e2aa, type: 3}
   m_Name: Production Rendering Settings
   m_EditorClassIdentifier: 
-  graphicsAPI: 08000000
-  androidSettings:
-    enableMultiThreadedRendering: 1
-    enableGraphicsJob: 1

@@ -33,7 +33,7 @@ using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = ProjectSharedDirectory.PlatformConfigRootPath + "Screen Resolution Settings")]
+    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Screen Resolution Settings")]
     public sealed class ScreenResolutionProjectBuildConfig: ProjectSpecificBuildConfig
     {
         [SerializeField]
@@ -60,11 +60,6 @@ namespace ParrotCode.Platforms
         public override void ApplySettings()
         {
            
-        }
-
-        public override HelpBoxMessage Validate()
-        {
-           return HelpBoxMessage.Empty;
         }
     }
 }

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
+    <ProjectReference Include="..\ParrotNativeSharedEditorCode\ParrotNativeSharedEditorCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>

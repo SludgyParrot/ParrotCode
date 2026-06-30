@@ -15,4 +15,4 @@ MonoBehaviour:
   buildTarget: 13
   projectBuild: 1
   projectBuildSettings:
-  - {fileID: 11400000, guid: 56ba436faedc46042a99d81154534087, type: 2}
+  - {fileID: 0}

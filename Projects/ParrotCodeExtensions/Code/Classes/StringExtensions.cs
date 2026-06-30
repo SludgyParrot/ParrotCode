@@ -27,7 +27,9 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Text.RegularExpressions;
+#endregion
 
 namespace ParrotCode.Extensions
 {
@@ -37,15 +39,43 @@ namespace ParrotCode.Extensions
     public static class StringExtensions
     {
         /// <summary>
-        /// Adds white space between words that begins with an upper case letter.
+        /// Adds white space between words that begins with an upper case letter,
+        /// excluding the first word.
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
+        /// <returns>A formatted string with white spaces between 
+        /// words that begins with an upper case letter.</returns>
         public static string AddWhiteSpace(this string str)
         {
             string pattern = @"(?<!^)(?=[A-Z])";
             string results = Regex.Replace(str, pattern, " ");
             return results;
         }
+
+        /// <summary>
+        /// Removes white space between words that begins with an upper case letter, 
+        /// excluding the first word.
+        /// </summary>
+        /// <returns>A formatted string with white spaces between 
+        /// words that begins with an upper case letter removed.</returns>
+        public static string RemoveWhiteSpace(this string str)
+        {
+            string pattern = @"(?<!^)(?=[A-Z])";
+            string results = Regex.Replace(str, pattern, string.Empty);
+            return results;
+        }
+
+        /// <summary>
+        /// This function checks if this <see cref="string"/> is null or empty.
+        /// </summary>
+        /// <returns>True if this <see cref="string"/> is null or empty, else False.</returns>
+        public static bool IsNullOrEmpty(this string str)
+            => string.IsNullOrEmpty(str);
+
+        /// <summary>
+        /// This function checks if this <see cref="string"/> is null or consist entirely of white space.
+        /// </summary>
+        /// <returns>True if this <see cref="string"/> is null or consist entirely of white space, else False.</returns>
+        public static bool IsNullOrWhiteSpace(this string str)
+            => string.IsNullOrWhiteSpace(str);
     }
 }

@@ -27,12 +27,28 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using UnityEngine;
+#endregion
 
 namespace ParrotCode.Platforms
 {
-    public abstract class ProjectBuildConfig: ScriptableObject
+    /// <summary>
+    /// Represents a base ScriptableObject for defining project build configuration data.
+    /// </summary>
+    /// <remarks>
+    /// Derived classes implement platform or environment-specific build configuration
+    /// logic that can be applied to a Unity project.
+    /// </remarks>
+    public abstract class ProjectBuildConfig : ScriptableObject
     {
+        /// <summary>
+        /// Applies this build configuration to the active Unity project.
+        /// </summary>
+        /// <remarks>
+        /// Intended for use in editor tooling to configure project settings
+        /// for a specific build environment or platform.
+        /// </remarks>
         public abstract void ApplySettings();
     }
 }

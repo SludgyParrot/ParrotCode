@@ -27,15 +27,30 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEditor;
+#endregion
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// Represents a base implementation for project-specific build configuration assets
+    /// that define a Unity build target and validation logic.
+    /// </summary>
+    /// <remarks>
+    /// This class extends <see cref="ProjectBuildConfig"/> and implements
+    /// <see cref="IProjectBuildConfig"/> to provide a unified base for
+    /// platform-specific build configuration definitions.
+    /// </remarks>
     public abstract class ProjectSpecificBuildConfig : ProjectBuildConfig, IProjectBuildConfig
     {
+        /// <summary>
+        /// Gets the Unity build target associated with this configuration.
+        /// </summary>
         public abstract BuildTarget BuildTarget { get; }
-
-        public abstract HelpBoxMessage Validate();
     }
 }
