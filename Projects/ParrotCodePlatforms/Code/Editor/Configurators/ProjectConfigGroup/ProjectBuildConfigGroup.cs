@@ -39,7 +39,6 @@ using UnityEngine;
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
-using ParrotCode.Extensions;
 #endregion
 
 namespace ParrotCode.Platforms

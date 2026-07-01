@@ -27,27 +27,10 @@ licensing@sludgyparrot.com
 
 */
 
-#region Included System Assemblies
-using System.Collections.Generic;
-#endregion
-
-#region Included Parrot Code Assemblies
-using ParrotCode.Native.SharedEditor;
-#endregion
-
 namespace ParrotCode.Platforms
 {
-    public sealed class ProjectBuildConfigGroupValidationManager : EditorValidationManager<ProjectBuildConfigGroupValidator>
+    public static class SharedProjectNames
     {
-        private readonly List<IConfigValidationRule<ProjectBuildConfigGroup>> _validationRules = new List<IConfigValidationRule<ProjectBuildConfigGroup>> 
-        {
-            new AssignedProjectBuildConfigsValidationRule(),
-            new DuplicateProjectBuildConfigGroupValidationRule(),
-            new DuplicateProjectBuildConfigsValidationRule(),
-            new MisconfiguredProjectBuildConfigsValidationRule(),
-            new NullReferencesProjectBuildConfigsValidationRule()
-        };
-
-        protected override ProjectBuildConfigGroupValidator Validator => new ProjectBuildConfigGroupValidator(_validationRules.ToArray());
+        public static readonly string DefaultProjectBuildConfigName = "Project Build Config";
     }
 }

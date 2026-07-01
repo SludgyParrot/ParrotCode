@@ -28,26 +28,36 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
-using System.Collections.Generic;
+using System.Linq;
+#endregion
+
+#region Included Unity Assemblies
+using UnityEditor;
 #endregion
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+using JetBrains.Annotations;
 #endregion
 
 namespace ParrotCode.Platforms
 {
-    public sealed class ProjectBuildConfigGroupValidationManager : EditorValidationManager<ProjectBuildConfigGroupValidator>
+    public sealed class NullReferencesProjectBuildConfigsValidationRule : IConfigValidationRule<ProjectBuildConfigGroup>
     {
-        private readonly List<IConfigValidationRule<ProjectBuildConfigGroup>> _validationRules = new List<IConfigValidationRule<ProjectBuildConfigGroup>> 
-        {
-            new AssignedProjectBuildConfigsValidationRule(),
-            new DuplicateProjectBuildConfigGroupValidationRule(),
-            new DuplicateProjectBuildConfigsValidationRule(),
-            new MisconfiguredProjectBuildConfigsValidationRule(),
-            new NullReferencesProjectBuildConfigsValidationRule()
-        };
+        public int Order => 1;
 
-        protected override ProjectBuildConfigGroupValidator Validator => new ProjectBuildConfigGroupValidator(_validationRules.ToArray());
+        public HelpBoxMessage Validate(ProjectBuildConfigGroup config, [CanBeNull] object data = null)
+        {
+            int nullReferenceProjectBuildConfigsCount = GetNullReferenceProjectBuildConfigsCount(config);
+
+            if (nullReferenceProjectBuildConfigsCount == 0)
+                return HelpBoxMessage.Empty;
+
+            string validationErrorMessage = $"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {config.name}.";
+            return new HelpBoxMessage(validationErrorMessage, MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox);
+        }
+
+        private int GetNullReferenceProjectBuildConfigsCount(ProjectBuildConfigGroup configurator)
+          => configurator.ProjectBuildConfigs.Count(x => x == null);
     }
 }

@@ -27,27 +27,28 @@ licensing@sludgyparrot.com
 
 */
 
-#region Included System Assemblies
-using System.Collections.Generic;
+#region Included Unity Assemblies
+using UnityEditor;
 #endregion
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+using JetBrains.Annotations;
 #endregion
 
 namespace ParrotCode.Platforms
 {
-    public sealed class ProjectBuildConfigGroupValidationManager : EditorValidationManager<ProjectBuildConfigGroupValidator>
+    public sealed class AssignedProjectBuildConfigsValidationRule : IConfigValidationRule<ProjectBuildConfigGroup>
     {
-        private readonly List<IConfigValidationRule<ProjectBuildConfigGroup>> _validationRules = new List<IConfigValidationRule<ProjectBuildConfigGroup>> 
-        {
-            new AssignedProjectBuildConfigsValidationRule(),
-            new DuplicateProjectBuildConfigGroupValidationRule(),
-            new DuplicateProjectBuildConfigsValidationRule(),
-            new MisconfiguredProjectBuildConfigsValidationRule(),
-            new NullReferencesProjectBuildConfigsValidationRule()
-        };
+        public int Order => 3;
 
-        protected override ProjectBuildConfigGroupValidator Validator => new ProjectBuildConfigGroupValidator(_validationRules.ToArray());
+        public HelpBoxMessage Validate(ProjectBuildConfigGroup config, [CanBeNull] object data = null)
+        {
+            if (config.ProjectBuildConfigs != null && config.ProjectBuildConfigs.Count > 0)
+                return HelpBoxMessage.Empty;
+
+            string validationErrorMessage = $"There are no build settings assigned for '{config.BuildTarget}'. This config group will be ignored by the project build configurator.";
+            return new HelpBoxMessage(validationErrorMessage, MessageType.Warning, CustomInspectorValidations.EnabledWideHelpBox);
+        }
     }
 }
