@@ -129,7 +129,11 @@ namespace ParrotCode.Platforms
 
             DrawPropertiesExcluding(serializedObject, excludedProperties);
 
-            ProjectBuildRenderingConfig renderingProjectBuildConfig = (ProjectBuildRenderingConfig)target;
+            ProjectBuildRenderingConfig renderingProjectBuildConfig = 
+                (ProjectBuildRenderingConfig)target;
+
+            HelpBoxMessage validationResults = 
+                GetProjectBuildRenderingValidationResults(renderingProjectBuildConfig);
 
             BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
 
@@ -141,8 +145,9 @@ namespace ParrotCode.Platforms
 
             #region Apply Platform Specific Settings
 
-            ApplySettingsValidationScope(renderingProjectBuildConfig,
-                GetProjectBuildRenderingValidationResults(renderingProjectBuildConfig));
+            ApplySettingsValidationScope(
+                renderingProjectBuildConfig, 
+                validationResults);
 
             #endregion
 
