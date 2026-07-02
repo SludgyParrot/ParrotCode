@@ -103,10 +103,192 @@
             False if the validation failed, along with a failed message 
             and message type e.g <see cref="T:UnityEditor.MessageType"/>.</returns>
         </member>
+        <member name="T:ParrotCode.Platforms.AssignedProjectBuildConfigsValidationRule">
+            <summary>
+            Validates that a <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> contains at least one
+            assigned <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/>.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Platforms.AssignedProjectBuildConfigsValidationRule.Order">
+            <summary>
+            Gets the execution order of this validation rule.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.AssignedProjectBuildConfigsValidationRule.Validate(ParrotCode.Platforms.ProjectBuildConfigGroup,System.Object)">
+            <summary>
+            Validates that the specified <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> contains
+            one or more assigned <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/> instances.
+            </summary>
+            <param name="config">
+            The project build configuration group to validate.
+            </param>
+            <param name="data">
+            Optional contextual data used during validation.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the validation result.
+            Returns <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/> when one or more project build
+            configurations are assigned; otherwise, returns a warning indicating that
+            the configuration group will be ignored.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.DuplicateProjectBuildConfigsValidationRule">
+            <summary>
+            Validates that a <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> does not contain
+            duplicate <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/> types.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Platforms.DuplicateProjectBuildConfigsValidationRule.Order">
+            <summary>
+            Gets the execution order of this validation rule.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.DuplicateProjectBuildConfigsValidationRule.Validate(ParrotCode.Platforms.ProjectBuildConfigGroup,System.Object)">
+            <summary>
+            Validates the specified <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> for duplicate
+            <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/> types.
+            </summary>
+            <param name="config">
+            The project build configuration group to validate.
+            </param>
+            <param name="data">
+            Optional contextual data used during validation.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the first duplicate configuration
+            found; otherwise, <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/>.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Platforms.DuplicateProjectBuildConfigsValidationRule.GetValidationMessage(System.Linq.IGrouping{System.Type,ParrotCode.Platforms.ProjectBuildConfig},System.String)">
+            <summary>
+            Creates a validation message describing the duplicate project build
+            configurations found within the specified group.
+            </summary>
+            <param name="configGroup">
+            The grouped collection of duplicate project build configurations.
+            </param>
+            <param name="configName">
+            The name of the project build configuration group being validated.
+            </param>
+            <returns>
+            A formatted <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the duplicate
+            configurations.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.MisconfiguredProjectBuildConfigsValidationRule">
+            <summary>
+            Validates the project build configurations contained within a
+            <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> and reports the first
+            misconfigured configuration encountered.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Platforms.MisconfiguredProjectBuildConfigsValidationRule.Order">
+            <summary>
+            Gets the execution order of this validation rule.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.MisconfiguredProjectBuildConfigsValidationRule.Validate(ParrotCode.Platforms.ProjectBuildConfigGroup,System.Object)">
+            <summary>
+            Validates all project-specific build configurations contained in the specified
+            <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/>.
+            </summary>
+            <param name="config">
+            The project build configuration group to validate.
+            </param>
+            <param name="data">
+            Optional contextual data used during validation.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the first validation issue found;
+            otherwise, <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/> if all configurations are valid.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Platforms.MisconfiguredProjectBuildConfigsValidationRule.GetValidationMessage(ParrotCode.Platforms.ProjectSpecificBuildConfig)">
+            <summary>
+            Creates a formatted validation message for the specified project build configuration.
+            </summary>
+            <param name="projectBuildConfig">
+            The project build configuration to validate.
+            </param>
+            <returns>
+            A formatted <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> containing the validation result,
+            configuration name, and asset path.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.NullReferencesProjectBuildConfigsValidationRule">
+            <summary>
+            Validates that a <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> does not contain
+            any null <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/> references.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Platforms.NullReferencesProjectBuildConfigsValidationRule.Order">
+            <summary>
+            Gets the execution order of this validation rule.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.NullReferencesProjectBuildConfigsValidationRule.Validate(ParrotCode.Platforms.ProjectBuildConfigGroup,System.Object)">
+            <summary>
+            Validates the specified <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/> for null
+            <see cref="T:ParrotCode.Platforms.ProjectBuildConfig"/> references.
+            </summary>
+            <param name="config">
+            The project build configuration group to validate.
+            </param>
+            <param name="data">
+            Optional contextual data used during validation.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the validation result.
+            Returns <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/> when no null references are found.
+            </returns>
+        </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor">
             <summary>
-            This is a custom editor class for <see cref="T:ParrotCode.Platforms.ProjectBuildRenderingConfig"/>
+            Provides a custom Unity Editor inspector for <see cref="T:ParrotCode.Platforms.ProjectBuildRenderingConfig"/>,
+            allowing platform-specific rendering settings to be viewed, validated, and applied.
             </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor._platformSettingsProperties">
+            <summary>
+            Maps Unity build targets to their corresponding serialized rendering settings.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor.OnEnable">
+            <summary>
+            Initializes the editor state when the inspector is enabled.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor.InitializeProperties">
+            <summary>
+            Initializes the serialized properties used to display
+            platform-specific rendering settings.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor.OnInspectorGUI">
+            <summary>
+            Draws the custom inspector for the rendering configuration.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor.DrawRenderingSettings(UnityEditor.BuildTarget)">
+            <summary>
+            Draws the rendering settings for the specified build target.
+            </summary>
+            <param name="buildTarget">
+            The active Unity build target.
+            </param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor.ApplySettingsValidationScope(ParrotCode.Platforms.ProjectBuildRenderingConfig,ParrotCode.Native.SharedEditor.HelpBoxMessage)" -->
+        <member name="M:ParrotCode.Platforms.ProjectBuildRenderingConfigEditor.GetProjectBuildRenderingValidationResults(ParrotCode.Platforms.ProjectBuildRenderingConfig)">
+            <summary>
+            Validates the rendering configuration, refreshes cached validation
+            results when properties change, and displays any validation messages.
+            </summary>
+            <param name="renderingProjectBuildConfig">
+            The rendering configuration to validate.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the validation result.
+            </returns>
         </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildRenderingConfig">
             <summary>

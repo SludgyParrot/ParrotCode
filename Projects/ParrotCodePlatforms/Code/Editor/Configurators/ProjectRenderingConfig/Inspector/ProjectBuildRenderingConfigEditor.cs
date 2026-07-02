@@ -44,13 +44,20 @@ using ParrotCode.Extensions;
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// This is a custom editor class for <see cref="ProjectBuildRenderingConfig"/>
+    /// Provides a custom Unity Editor inspector for <see cref="ProjectBuildRenderingConfig"/>,
+    /// allowing platform-specific rendering settings to be viewed, validated, and applied.
     /// </summary>
     [CustomEditor(typeof(ProjectBuildRenderingConfig))]
     public sealed class ProjectBuildRenderingConfigEditor: Editor
     {
-        private string ProjectConfigurationWarningPopUpTitle = string.Join(" ", SharedCustomEditorStringInfo.ProjectConfigurationPopupTitle, SharedCustomEditorStringInfo.ProjectRenderingSettingsTitle);
-        private string ProjectConfigurationWarningPopUpMessage = string.Format(SharedCustomEditorStringInfo.ProjectConfigurationPopupMessage, SharedCustomEditorStringInfo.ProjectRenderingSettingsTitle);
+        private readonly string _ProjectConfigurationWarningPopUpTitle = 
+            string.Join(" ", 
+                SharedCustomEditorStringInfo.ProjectConfigurationPopupTitle, 
+                SharedCustomEditorStringInfo.ProjectRenderingSettingsTitle);
+
+        private readonly string _ProjectConfigurationWarningPopUpMessage = 
+            string.Format(SharedCustomEditorStringInfo.ProjectConfigurationPopupMessage,
+                SharedCustomEditorStringInfo.ProjectRenderingSettingsTitle);
 
         #region Platform Settings
 
@@ -59,7 +66,10 @@ namespace ParrotCode.Platforms
         private const string WindowsSettingsPropertyFieldName = "windowsSettings";
         private const string WebGLSettingsPropertyFieldName = "webGLSettings";
 
-        private readonly Dictionary<BuildTarget, SerializedProperty> platformSettingsProperties 
+        /// <summary>
+        /// Maps Unity build targets to their corresponding serialized rendering settings.
+        /// </summary>
+        private readonly Dictionary<BuildTarget, SerializedProperty> _platformSettingsProperties 
             = new Dictionary<BuildTarget, SerializedProperty>();
 
         #endregion
@@ -74,23 +84,43 @@ namespace ParrotCode.Platforms
             WebGLSettingsPropertyFieldName
         };
 
-        private readonly ProjectBuildRenderingConfigValidationManager _validationManager = new ProjectBuildRenderingConfigValidationManager();
+        private readonly ProjectBuildRenderingConfigValidationManager _validationManager = 
+            new ProjectBuildRenderingConfigValidationManager();
 
+        /// <summary>
+        /// Initializes the editor state when the inspector is enabled.
+        /// </summary>
         private void OnEnable()
             => InitializeProperties();
 
+        /// <summary>
+        /// Initializes the serialized properties used to display
+        /// platform-specific rendering settings.
+        /// </summary>
         private void InitializeProperties()
         {
-            platformSettingsProperties[BuildTarget.Android] = serializedObject.FindProperty(AndroidSettingsPropertyFieldName);
-            platformSettingsProperties[BuildTarget.iOS] = serializedObject.FindProperty(IOSSettingsPropertyFieldName);
-            platformSettingsProperties[BuildTarget.WebGL] = serializedObject.FindProperty(WebGLSettingsPropertyFieldName);
+            _platformSettingsProperties[BuildTarget.Android] = 
+                serializedObject.FindProperty(AndroidSettingsPropertyFieldName);
 
-            var windowsSettingsPropertyField = serializedObject.FindProperty(WindowsSettingsPropertyFieldName);
+            _platformSettingsProperties[BuildTarget.iOS] = 
+                serializedObject.FindProperty(IOSSettingsPropertyFieldName);
 
-            platformSettingsProperties[BuildTarget.StandaloneWindows] = windowsSettingsPropertyField;
-            platformSettingsProperties[BuildTarget.StandaloneWindows64] = windowsSettingsPropertyField;
+            _platformSettingsProperties[BuildTarget.WebGL] =
+                serializedObject.FindProperty(WebGLSettingsPropertyFieldName);
+
+            var windowsSettingsPropertyField = 
+                serializedObject.FindProperty(WindowsSettingsPropertyFieldName);
+
+            _platformSettingsProperties[BuildTarget.StandaloneWindows] =
+                windowsSettingsPropertyField;
+
+            _platformSettingsProperties[BuildTarget.StandaloneWindows64] = 
+                windowsSettingsPropertyField;
         }
 
+        /// <summary>
+        /// Draws the custom inspector for the rendering configuration.
+        /// </summary>
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -101,58 +131,108 @@ namespace ParrotCode.Platforms
 
             ProjectBuildRenderingConfig renderingProjectBuildConfig = (ProjectBuildRenderingConfig)target;
 
-            #region Settings
-
             BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
 
-            if (!platformSettingsProperties.TryGetValue(buildTarget, out SerializedProperty property))
-            {
-                CustomInspectorValidations.DrawHelpBoxMessage(new HelpBoxMessage($"Rendering settings are currently not supported in this version of the framework for target build:" +
-                    $" {buildTarget}.", MessageType.Warning));
-                return;
-            }
+            #region Draw Rendering Settings
+
+            DrawRenderingSettings(buildTarget);
 
             #endregion
 
-            if(EditorGUI.EndChangeCheck())
-            {
-                _validationManager.InvalidateCache();
-            }
+            #region Apply Platform Specific Settings
 
-            #region Platform Specific Settings
-            OnPlatformSpecificConfigInspectorGUI(renderingProjectBuildConfig, property);
+            ApplySettingsValidationScope(renderingProjectBuildConfig,
+                GetProjectBuildRenderingValidationResults(renderingProjectBuildConfig));
+
             #endregion
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void OnPlatformSpecificConfigInspectorGUI(ProjectBuildRenderingConfig renderingProjectBuildConfig, SerializedProperty property)
+        /// <summary>
+        /// Draws the rendering settings for the specified build target.
+        /// </summary>
+        /// <param name="buildTarget">
+        /// The active Unity build target.
+        /// </param>
+        private void DrawRenderingSettings(BuildTarget buildTarget)
         {
-            var validationResults = _validationManager.Validate(renderingProjectBuildConfig);
+            if (!_platformSettingsProperties.TryGetValue(buildTarget, 
+                out SerializedProperty property))
+            {
+                CustomInspectorValidations.DrawHelpBoxMessage(
+                    new HelpBoxMessage($"Rendering settings are currently not supported " +
+                    $"in this version of the framework for target build:" +
+                    $" {buildTarget}.", MessageType.Warning));
 
-            EditorGUILayout.Space();
-            CustomInspectorValidations.DrawHelpBoxMessage(validationResults);
+                return;
+            }
 
-            EditorGUILayout.PropertyField(property, new GUIContent(RenderingSettingsFieldLabel));
+            EditorGUILayout.PropertyField(property,
+                new GUIContent(RenderingSettingsFieldLabel));
+        }
 
-            using (new EditorGUI.DisabledScope(validationResults.Failed()))
+        /// Draws the Apply Settings button and handles applying the rendering
+        /// configuration after successful validation and user confirmation.
+        /// </summary>
+        /// <param name="renderingProjectBuildConfig">
+        /// The rendering configuration to apply.
+        /// </param>
+        /// <param name="validation">
+        /// The validation result determining whether the configuration
+        /// can be applied.
+        /// </param>
+        private void ApplySettingsValidationScope(ProjectBuildRenderingConfig 
+            renderingProjectBuildConfig, 
+            HelpBoxMessage validation)
+        {
+            using (new EditorGUI.DisabledScope(validation.Failed()))
             {
                 GUI.backgroundColor = CustomInspectorGUILayout.ApplySettingsButtonBackgroundColor;
 
                 EditorGUILayout.Space();
-                OnApplyRenderingSettingsInspectorGUI(renderingProjectBuildConfig);
+
+                if (!GUILayout.Button(SharedCustomEditorStringInfo.ApplySettingsButtonLabel,
+                    CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+                {
+                    return;
+                }
+
+                if (SharedCustomInspectorEditorPopup.ShowApplySettingsConfirmationPopup(
+                    _ProjectConfigurationWarningPopUpTitle,
+                    _ProjectConfigurationWarningPopUpMessage))
+                    renderingProjectBuildConfig.ApplySettings();
 
                 EditorGUILayout.Space();
             }
         }
 
-        private void OnApplyRenderingSettingsInspectorGUI(ProjectBuildRenderingConfig renderingProjectBuildConfig)
+        /// <summary>
+        /// Validates the rendering configuration, refreshes cached validation
+        /// results when properties change, and displays any validation messages.
+        /// </summary>
+        /// <param name="renderingProjectBuildConfig">
+        /// The rendering configuration to validate.
+        /// </param>
+        /// <returns>
+        /// A <see cref="HelpBoxMessage"/> describing the validation result.
+        /// </returns>
+        private HelpBoxMessage GetProjectBuildRenderingValidationResults(
+            ProjectBuildRenderingConfig renderingProjectBuildConfig)
         {
-            if (GUILayout.Button(SharedCustomEditorStringInfo.ApplySettingsButtonLabel, CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+            if (EditorGUI.EndChangeCheck())
             {
-                if (SharedCustomInspectorEditorPopup.ShowApplySettingsConfirmationPopup(ProjectConfigurationWarningPopUpTitle, ProjectConfigurationWarningPopUpMessage))
-                    renderingProjectBuildConfig.ApplySettings();
+                serializedObject.ApplyModifiedProperties();
+                _validationManager.InvalidateCache();
             }
+
+            var validationResults = _validationManager.Validate(renderingProjectBuildConfig);
+
+            EditorGUILayout.Space();
+
+            CustomInspectorValidations.DrawHelpBoxMessage(validationResults);
+
+            return validationResults;
         }
     }
 }

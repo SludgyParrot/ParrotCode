@@ -28,7 +28,6 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
-using System.Collections.Generic;
 using System.Linq;
 #endregion
 
@@ -38,31 +37,89 @@ using UnityEditor;
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+#endregion
+
+#region Included Jet Brains Assemblies
 using JetBrains.Annotations;
 #endregion
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// Validates the project build configurations contained within a
+    /// <see cref="ProjectBuildConfigGroup"/> and reports the first
+    /// misconfigured configuration encountered.
+    /// </summary>
     public sealed class MisconfiguredProjectBuildConfigsValidationRule : IConfigValidationRule<ProjectBuildConfigGroup>
     {
+        private readonly ProjectBuildRenderingConfigValidationManager _validationManager =
+            new ProjectBuildRenderingConfigValidationManager();
+
+        /// <summary>
+        /// Gets the execution order of this validation rule.
+        /// </summary>
         public int Order => 4;
 
+        /// <summary>
+        /// Validates all project-specific build configurations contained in the specified
+        /// <see cref="ProjectBuildConfigGroup"/>.
+        /// </summary>
+        /// <param name="config">
+        /// The project build configuration group to validate.
+        /// </param>
+        /// <param name="data">
+        /// Optional contextual data used during validation.
+        /// </param>
+        /// <returns>
+        /// A <see cref="HelpBoxMessage"/> describing the first validation issue found;
+        /// otherwise, <see cref="HelpBoxMessage.Empty"/> if all configurations are valid.
+        /// </returns>
         public HelpBoxMessage Validate(ProjectBuildConfigGroup config, [CanBeNull] object data = null)
         {
-            //var invalidatedProjectBuildConfigs = configurator.ProjectBuildConfigs.OfType<ProjectSpecificBuildConfig>().Where(config => config.Validate().ContainsLog()).ToArray();
+            ProjectSpecificBuildConfig[] projectBuildConfigs =
+                config.ProjectBuildConfigs.OfType<ProjectSpecificBuildConfig>().ToArray();
 
-            //if (invalidatedProjectBuildConfigs.Length == 0)
-            //    return HelpBoxMessage.Empty;
+            for (int i = 0; i < projectBuildConfigs.Length; i++)
+            {
+                ProjectSpecificBuildConfig projectBuildConfig = projectBuildConfigs[i];
 
-            //var defaultInvalidatedProjectBuildConfig = invalidatedProjectBuildConfigs.FirstOrDefault();
-            //var validationResults = defaultInvalidatedProjectBuildConfig.Validate();
+                var validationResults = GetValidationMessage(projectBuildConfig);
 
-            //string validationMessage = $"[{validationResults.MessageType} Log] \n\nFile Name [{defaultInvalidatedProjectBuildConfig.name}]\n";
-            //string projectBuildConfigFilePath = $"File Path: {AssetDatabase.GetAssetPath(defaultInvalidatedProjectBuildConfig)}\n";
-            //string validationErrorMessage = string.Join("\n", validationMessage, validationResults.Message, projectBuildConfigFilePath);
+                if (validationResults.ContainsLog())
+                    return validationResults;
+            }
 
-            //return new HelpBoxMessage(validationErrorMessage, validationResults.MessageType, CustomInspectorValidations.EnabledWideHelpBox);
             return HelpBoxMessage.Empty;
+        }
+
+        /// <summary>
+        /// Creates a formatted validation message for the specified project build configuration.
+        /// </summary>
+        /// <param name="projectBuildConfig">
+        /// The project build configuration to validate.
+        /// </param>
+        /// <returns>
+        /// A formatted <see cref="HelpBoxMessage"/> containing the validation result,
+        /// configuration name, and asset path.
+        /// </returns>
+        private HelpBoxMessage GetValidationMessage(ProjectSpecificBuildConfig projectBuildConfig)
+        {
+            HelpBoxMessage validationResults = _validationManager.Validate(projectBuildConfig);
+
+            string validationMessage =
+                $"[{validationResults.MessageType} Log] \n\nFile Name [{projectBuildConfig.name}]\n";
+            string projectBuildConfigFilePath =
+                $"File Path: {AssetDatabase.GetAssetPath(projectBuildConfig)}\n";
+            string validationErrorMessage = string.Join(
+                "\n",
+                validationMessage,
+                validationResults.Message,
+                projectBuildConfigFilePath);
+
+            return new HelpBoxMessage(
+                validationErrorMessage,
+                validationResults.MessageType,
+                CustomInspectorValidations.EnabledWideHelpBox);
         }
     }
 }

@@ -33,7 +33,6 @@ using System.Linq;
 #endregion
 
 #region Included Unity Assemblies
-using UnityEngine;
 using UnityEditor;
 #endregion
 
@@ -43,40 +42,98 @@ using ParrotCode.Native.SharedEditor;
 
 #region Included Jet Brains Assemblies
 using JetBrains.Annotations;
+using System;
 #endregion
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// Validates that a <see cref="ProjectBuildConfigGroup"/> does not contain
+    /// duplicate <see cref="ProjectBuildConfig"/> types.
+    /// </summary>
     public sealed class DuplicateProjectBuildConfigsValidationRule : IConfigValidationRule<ProjectBuildConfigGroup>
     {
+        /// <summary>
+        /// Gets the execution order of this validation rule.
+        /// </summary>
         public int Order => 2;
 
+        /// <summary>
+        /// Validates the specified <see cref="ProjectBuildConfigGroup"/> for duplicate
+        /// <see cref="ProjectBuildConfig"/> types.
+        /// </summary>
+        /// <param name="config">
+        /// The project build configuration group to validate.
+        /// </param>
+        /// <param name="data">
+        /// Optional contextual data used during validation.
+        /// </param>
+        /// <returns>
+        /// A <see cref="HelpBoxMessage"/> describing the first duplicate configuration
+        /// found; otherwise, <see cref="HelpBoxMessage.Empty"/>.
+        /// </returns>
         public HelpBoxMessage Validate(ProjectBuildConfigGroup config, [CanBeNull] object data = null)
         {
-            var duplicatedProjectBuildConfigGroups = config?.ProjectBuildConfigs?.GroupBy(group => group?.GetType()).Where(group => group.Skip(1).Any()).ToArray();
+            var duplicatedProjectBuildConfigGroups = config?.ProjectBuildConfigs?
+                .GroupBy(group => group?.GetType())
+                .Where(group => group.Skip(1).Any())
+                .ToArray();
 
             if (duplicatedProjectBuildConfigGroups.Length == 0)
                 return HelpBoxMessage.Empty;
 
-            List<string> validationErrorMessages = new List<string>();
-
             foreach (var duplicatedProjectBuildConfigGroup in duplicatedProjectBuildConfigGroups)
             {
-                string groupKeyName = duplicatedProjectBuildConfigGroup?.Key?.Name ?? $"None ({SharedProjectNames.DefaultProjectBuildConfigName})";
-                int duplicatedProjectBuildConfigCount = duplicatedProjectBuildConfigGroup.Count();
-                var duplicatedProjectBuildConfigGroupNames = duplicatedProjectBuildConfigGroup.Select(config => $"* {config?.name ?? groupKeyName}").ToArray();
-                string duplicatedProjectBuildConfigNames = string.Join("\n", duplicatedProjectBuildConfigGroupNames);
+                HelpBoxMessage validationResults =
+                    GetValidationMessage(duplicatedProjectBuildConfigGroup, config.name);
 
-                string groupValidationErrorMessage = $"[Duplicated '{groupKeyName}' detected] {config.name}" +
-                    $" contains {duplicatedProjectBuildConfigCount} copies of {groupKeyName}. \nPlease remove one of the following listed {groupKeyName} " +
-                    $"from the list: \n\n{duplicatedProjectBuildConfigNames}\n";
-
-                validationErrorMessages.Add(groupValidationErrorMessage);
+                if (validationResults.ContainsLog())
+                    return validationResults;
             }
 
-            string validationErrorMessage = string.Join("\n", validationErrorMessages);
+            return HelpBoxMessage.Empty;
+        }
 
-            return new HelpBoxMessage(validationErrorMessage, MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox);
+        /// <summary>
+        /// Creates a validation message describing the duplicate project build
+        /// configurations found within the specified group.
+        /// </summary>
+        /// <param name="configGroup">
+        /// The grouped collection of duplicate project build configurations.
+        /// </param>
+        /// <param name="configName">
+        /// The name of the project build configuration group being validated.
+        /// </param>
+        /// <returns>
+        /// A formatted <see cref="HelpBoxMessage"/> describing the duplicate
+        /// configurations.
+        /// </returns>
+        private HelpBoxMessage GetValidationMessage(
+            IGrouping<Type, ProjectBuildConfig> configGroup,
+            string configName)
+        {
+            string groupKeyName = configGroup?.Key?.Name ??
+                $"None ({SharedProjectNames.DefaultProjectBuildConfigName})";
+
+            int duplicatedProjectBuildConfigCount = configGroup.Count();
+
+            var duplicatedProjectBuildConfigGroupNames = configGroup
+                .Select(config => $"* {config?.name ?? groupKeyName}")
+                .ToArray();
+
+            string duplicatedProjectBuildConfigNames =
+                string.Join("\n", duplicatedProjectBuildConfigGroupNames);
+
+            string groupValidationErrorMessage =
+                $"[Duplicated '{groupKeyName}' detected] {configName}" +
+                $" contains {duplicatedProjectBuildConfigCount} copies of {groupKeyName}. \n" +
+                $"Please remove one of the following listed {groupKeyName} from the list: \n\n" +
+                $"{duplicatedProjectBuildConfigNames}\n";
+
+            return new HelpBoxMessage(
+                groupValidationErrorMessage,
+                MessageType.Error,
+                CustomInspectorValidations.EnabledWideHelpBox);
         }
     }
 }

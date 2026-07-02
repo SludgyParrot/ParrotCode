@@ -42,22 +42,45 @@ using JetBrains.Annotations;
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// Validates that a <see cref="ProjectBuildConfigGroup"/> does not contain
+    /// any null <see cref="ProjectBuildConfig"/> references.
+    /// </summary>
     public sealed class NullReferencesProjectBuildConfigsValidationRule : IConfigValidationRule<ProjectBuildConfigGroup>
     {
+        /// <summary>
+        /// Gets the execution order of this validation rule.
+        /// </summary>
         public int Order => 1;
 
+        /// <summary>
+        /// Validates the specified <see cref="ProjectBuildConfigGroup"/> for null
+        /// <see cref="ProjectBuildConfig"/> references.
+        /// </summary>
+        /// <param name="config">
+        /// The project build configuration group to validate.
+        /// </param>
+        /// <param name="data">
+        /// Optional contextual data used during validation.
+        /// </param>
+        /// <returns>
+        /// A <see cref="HelpBoxMessage"/> describing the validation result.
+        /// Returns <see cref="HelpBoxMessage.Empty"/> when no null references are found.
+        /// </returns>
         public HelpBoxMessage Validate(ProjectBuildConfigGroup config, [CanBeNull] object data = null)
         {
-            int nullReferenceProjectBuildConfigsCount = GetNullReferenceProjectBuildConfigsCount(config);
+            int nullReferenceProjectBuildConfigsCount = config.ProjectBuildConfigs.Count(x => x == null);
 
             if (nullReferenceProjectBuildConfigsCount == 0)
                 return HelpBoxMessage.Empty;
 
-            string validationErrorMessage = $"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {config.name}.";
-            return new HelpBoxMessage(validationErrorMessage, MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox);
-        }
+            string validationErrorMessage =
+                $"Found {nullReferenceProjectBuildConfigsCount} 'ProjectBuildConfig' null reference(s) in: {config.name}.";
 
-        private int GetNullReferenceProjectBuildConfigsCount(ProjectBuildConfigGroup configurator)
-          => configurator.ProjectBuildConfigs.Count(x => x == null);
+            return new HelpBoxMessage(
+                validationErrorMessage,
+                MessageType.Error,
+                CustomInspectorValidations.EnabledWideHelpBox);
+        }
     }
 }
