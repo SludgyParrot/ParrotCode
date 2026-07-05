@@ -77,7 +77,9 @@ namespace ParrotCode.Platforms
 
             var validationResults = _validationsManager.Validate(buildConfigGroup);
 
+            EditorGUILayout.Space();
             CustomInspectorValidations.DrawHelpBoxMessage(validationResults);
+            EditorGUILayout.Space();
 
             using (new EditorGUI.DisabledScope(validationResults.Failed()))
             {

@@ -125,6 +125,8 @@ namespace ParrotCode.Native.SharedEditor
         {
             foreach (var cache in _validationCache)
                 cache.Value.Clear();
+
+            ProjectAssetsDatabaseUtility.ClearCache();
         }
 
         /// <summary>
@@ -142,6 +144,8 @@ namespace ParrotCode.Native.SharedEditor
 
             if (_validationCache.TryGetValue(guid, out var cache))
                 cache.Clear();
+
+            ProjectAssetsDatabaseUtility.ClearCache();
         }
 
         #endregion
@@ -152,7 +156,10 @@ namespace ParrotCode.Native.SharedEditor
         /// Removes all cached validation results.
         /// </summary>
         public void ClearCache()
-            => _validationCache.Clear();
+        {
+            _validationCache.Clear();
+            ProjectAssetsDatabaseUtility.ClearCache();
+        }
 
         #endregion
 

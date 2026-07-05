@@ -68,10 +68,8 @@ namespace ParrotCode.Native.SharedEditor
         /// <returns>A <see cref="IProjectConfigurator"/> for the defined type.</returns>
         public IEnumerable<T> GetByBuild<T>(BuildTarget buldTarget, Build build) where T : IProjectConfigurator
         {
-            //return GetAll<T>()?.Where(projectConfig => projectConfig.BuildTarget == buldTarget && 
-            //projectConfig.ProjectBuild == build && projectConfig.Validate().Success()).ToArray();
-
-            return default;
+            return GetAll<T>()?.Where(projectConfig => projectConfig.BuildTarget == buldTarget &&
+            projectConfig.ProjectBuild == build).ToArray();
         }
     }
 }

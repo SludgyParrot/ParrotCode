@@ -43,30 +43,43 @@ using JetBrains.Annotations;
 
 namespace ParrotCode.Platforms
 {
-    public sealed class DuplicateProjectBuildConfigGroupValidationRule : IConfigValidationRule<ProjectBuildConfigGroup>
+    /// <summary>
+    /// Validates that only a single <see cref="ProjectBuildConfigGroup"/> exists
+    /// for a given build target and build configuration.
+    /// </summary>
+    public sealed class DuplicateProjectBuildConfigGroupValidationRule :
+        IConfigValidationRule<ProjectBuildConfigGroup>
     {
+        /// <summary>
+        /// Gets the execution order of this validation rule.
+        /// </summary>
         public int Order => 0;
 
-        public HelpBoxMessage Validate(ProjectBuildConfigGroup config, [CanBeNull] object data = null)
+        /// <summary>
+        /// Validates the specified <see cref="ProjectBuildConfigGroup"/> for duplicate
+        /// configuration assets within the project.
+        /// </summary>
+        /// <param name="config">
+        /// The project build configuration group to validate.
+        /// </param>
+        /// <param name="data">
+        /// Optional contextual data used during validation.
+        /// </param>
+        /// <returns>
+        /// A <see cref="HelpBoxMessage"/> describing any duplicate configuration
+        /// groups found; otherwise, <see cref="HelpBoxMessage.Empty"/>.
+        /// </returns>
+        public HelpBoxMessage Validate(
+            ProjectBuildConfigGroup config,
+            [CanBeNull] object data = null)
         {
-            //var foundProjectBuildConfigDuplicatesResults = ProjectAssetsDatabaseUtility.GetProjectConfigForBuildDuplicatePaths(this);
+            var foundProjectBuildConfigDuplicatesResults =
+                ProjectAssetsDatabaseUtility.GetProjectConfigForBuildDuplicatePaths(config);
 
-            //if (foundProjectBuildConfigDuplicatesResults.MessageType == MessageType.None)
-            //    return HelpBoxMessage.Empty;
-
-            //string[] duplicatedProjectBuildConfigPaths = foundProjectBuildConfigDuplicatesResults.Value.Where(x => x != AssetDatabase.GetAssetPath(this)).ToArray();
-
-            //int configCount = foundProjectBuildConfigDuplicatesResults.Value.Length;
-
-            //string duplicatedConfigPaths = string.Join("\n", duplicatedProjectBuildConfigPaths);
-
-            //string validationErrorMessage = $"Multiple copies detected! \n\nThere are {configCount} copies of this instance found in the project, and only '1' instance is allowed per project. " +
-            //       $"This config, along with '{duplicatedProjectBuildConfigPaths.Length - 1}' additional copy/copies, will not be applied, and the tools option for '{ProjectBuild}' will be disabled." +
-            //       $" Please remove this or any of the below listed files. \n\n Duplicated file(s): \n\n{duplicatedConfigPaths}\n";
-
-            //return new HelpBoxMessage(validationErrorMessage, MessageType.Error, CustomInspectorValidations.EnabledWideHelpBox);
-
-            return default;
+            return new HelpBoxMessage(
+                foundProjectBuildConfigDuplicatesResults.Message,
+                foundProjectBuildConfigDuplicatesResults.MessageType,
+                CustomInspectorValidations.EnabledWideHelpBox);
         }
     }
 }

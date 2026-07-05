@@ -40,62 +40,68 @@ namespace ParrotCode.Native.SharedEditor
 {
     public static class ProjectAssetsDatabaseUtility
     {
-        private static readonly Dictionary<(BuildTarget, Build), object> cachedDatabaseAssets = new Dictionary<(BuildTarget, Build), object>();
-        private static readonly Dictionary<(BuildTarget, Build), object> cachedDuplicatedDatabaseAssets = new Dictionary<(BuildTarget, Build), object>();
+        private static readonly Dictionary<(BuildTarget, Build), object> _cachedDatabaseAssets =
+            new Dictionary<(BuildTarget, Build), object>();
 
-        public static ConfigValidationResults<T> GetProjectConfiguratorForBuild<T>(BuildTarget buildTarget, Build build) where T : IProjectConfigurator
+        private static readonly Dictionary<(BuildTarget, Build), object> _cachedDuplicatedDatabaseAssets = 
+            new Dictionary<(BuildTarget, Build), object>();
+
+        private static readonly ProjectConfiguratorRepository _repository = 
+            new ProjectConfiguratorRepository();
+
+        private static readonly ProjectConfiguratorService _configuratorServices = 
+            new ProjectConfiguratorService(_repository);
+
+        public static ConfigValidationResults<T> GetProjectConfiguratorForBuild<T>(
+            BuildTarget buildTarget,
+            Build build) where T : IProjectConfigurator
         {
-            if(cachedDatabaseAssets.TryGetValue((buildTarget, build), out var config))
+            if(_cachedDatabaseAssets.TryGetValue((buildTarget, build), out var config))
             {
                 return (ConfigValidationResults<T>)config;
             }
 
-            Debug.Log($"~GetProjectConfiguratorForBuild for build target: {buildTarget} of project build: {build}");
-
-            ProjectConfiguratorRepository repository = new ProjectConfiguratorRepository();
-            ProjectConfiguratorServices configuratorServices = new ProjectConfiguratorServices(repository);
-
-            ConfigValidationResults<T> configValidationResults = configuratorServices.GetProjectConfigForBuild<T>(buildTarget, build);
+            ConfigValidationResults<T> configValidationResults =
+                _configuratorServices.GetProjectConfigForBuild<T>(buildTarget, build);
 
             if (configValidationResults.MessageType != MessageType.None)
             {
                 return configValidationResults;
             }
 
-            cachedDatabaseAssets[(buildTarget, build)] = configValidationResults;
+            _cachedDatabaseAssets[(buildTarget, build)] = configValidationResults;
 
             return configValidationResults;
         }
 
-        public static ConfigValidationResults<string[]> GetProjectConfigForBuildDuplicatePaths<T>(T projectConfig) where T : IProjectConfigurator
+        public static ConfigValidationResults<string[]> GetProjectConfigForBuildDuplicatePaths<T>(
+            T projectConfig) where T : ScriptableObject, IProjectConfigurator
         {
-            if (cachedDuplicatedDatabaseAssets.TryGetValue((projectConfig.BuildTarget, projectConfig.ProjectBuild), out var config))
+            if (_cachedDuplicatedDatabaseAssets.TryGetValue((projectConfig.BuildTarget,
+                projectConfig.ProjectBuild), 
+                out var config))
             {
                 return (ConfigValidationResults<string[]>)config;
             }
 
-            Debug.Log($"~GetProjectConfigForBuildDuplicatePaths for build target: {projectConfig.BuildTarget} of project build: {projectConfig.ProjectBuild}");
-
-            ProjectConfiguratorRepository repository = new ProjectConfiguratorRepository();
-            ProjectConfiguratorServices configuratorServices = new ProjectConfiguratorServices(repository);
-
-            ConfigValidationResults<string[]> configValidationResults = configuratorServices.GetProjectConfigForBuildDuplicatePaths<T>(projectConfig.BuildTarget, projectConfig.ProjectBuild);
+            ConfigValidationResults<string[]> configValidationResults =
+                _configuratorServices.FindDuplicateProjectConfiguratorPaths(projectConfig);
 
             if (configValidationResults.MessageType != MessageType.None)
             {
                 return configValidationResults;
             }
 
-            cachedDuplicatedDatabaseAssets[(projectConfig.BuildTarget, projectConfig.ProjectBuild)] = configValidationResults;
+            _cachedDuplicatedDatabaseAssets[(
+                projectConfig.BuildTarget, projectConfig.ProjectBuild)] = configValidationResults;
 
             return configValidationResults;
         }
 
         public static void ClearCache()
         {
-            cachedDatabaseAssets.Clear();
-            cachedDuplicatedDatabaseAssets.Clear();
-            Debug.Log("Project asset database cache cleared.");
+            _cachedDatabaseAssets.Clear();
+            _cachedDuplicatedDatabaseAssets.Clear();
         }
     }
 }

@@ -43,31 +43,71 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Project Configuration", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Project Configuration")]
-    public sealed class ProjectBuildConfigGroup: ScriptableObject, IProjectConfigurator
+    /// <summary>
+    /// Represents a collection of project build configuration assets for a specific
+    /// Unity build target and build type.
+    /// </summary>
+    /// <remarks>
+    /// A <see cref="ProjectBuildConfigGroup"/> acts as the entry point for applying
+    /// and validating a set of <see cref="ProjectBuildConfig"/> assets.
+    /// </remarks>
+    [CreateAssetMenu(
+        fileName = "Project Configuration",
+        menuName = SharedProjectDirectory.PlatformConfigRootPath + "Project Configuration")]
+    public sealed class ProjectBuildConfigGroup : ScriptableObject, IProjectConfigurator
     {
         [SerializeField]
-        private BuildTarget buildTarget;
+        private BuildTarget _buildTarget;
 
         [SerializeField, Space(5)]
-        private Build projectBuild;
+        private Build _projectBuild;
 
         [Header("Build Settings")]
         [SerializeField, Space(5)]
-        private List<ProjectBuildConfig> projectBuildSettings;
+        private List<ProjectBuildConfig> _projectBuildSettings;
 
-        public BuildTarget BuildTarget => buildTarget;
-        public Build ProjectBuild => projectBuild;
+        /// <summary>
+        /// Gets the Unity build target associated with this configuration group.
+        /// </summary>
+        public BuildTarget BuildTarget => _buildTarget;
 
-        public IReadOnlyList<ProjectBuildConfig> ProjectBuildConfigs => projectBuildSettings;
+        /// <summary>
+        /// Gets the build type associated with this configuration group.
+        /// </summary>
+        public Build ProjectBuild => _projectBuild;
 
-        private string ProjectConfigurationWarningPopupTitle = string.Join(" ", SharedCustomEditorStringInfo.ProjectConfigurationPopupTitle, SharedCustomEditorStringInfo.ProjectSettingsTitle);
-        private string ProjectConfigurationWarningPopUpMessage = string.Format(SharedCustomEditorStringInfo.ProjectConfigurationPopupMessage, SharedCustomEditorStringInfo.ProjectSettingsTitle);
+        /// <summary>
+        /// Gets the name of this configuration asset.
+        /// </summary>
+        public string Name => name;
 
+        /// <summary>
+        /// Gets the collection of project build configurations contained within this group.
+        /// </summary>
+        public IReadOnlyList<ProjectBuildConfig> ProjectBuildConfigs => _projectBuildSettings;
+
+        private readonly string _projectConfigurationWarningPopupTitle =
+            string.Join(
+                " ",
+                SharedCustomEditorStringInfo.ProjectConfigurationPopupTitle,
+                SharedCustomEditorStringInfo.ProjectSettingsTitle);
+
+        private readonly string _projectConfigurationWarningPopupMessage =
+            string.Format(
+                SharedCustomEditorStringInfo.ProjectConfigurationPopupMessage,
+                SharedCustomEditorStringInfo.ProjectSettingsTitle);
+
+        /// <summary>
+        /// Displays a confirmation dialog before applying the project configuration.
+        /// </summary>
         public void ApplySettings()
         {
-            if (!SharedCustomInspectorEditorPopup.ShowApplySettingsConfirmationPopup(ProjectConfigurationWarningPopupTitle, ProjectConfigurationWarningPopUpMessage))
+            if (!SharedCustomInspectorEditorPopup.ShowApplySettingsConfirmationPopup(
+                    _projectConfigurationWarningPopupTitle,
+                    _projectConfigurationWarningPopupMessage))
+            {
                 return;
+            }
         }
     }
 }

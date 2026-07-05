@@ -38,33 +38,64 @@ using UnityEditor;
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+using System.Linq;
+using UnityEngine;
 #endregion
 
 namespace ParrotCode.Platforms
 {
+    /// <summary>
+    /// Validates <see cref="ProjectBuildConfigGroup"/> assets by executing an
+    /// ordered collection of validation rules.
+    /// </summary>
     public sealed class ProjectBuildConfigGroupValidator : IEditorAssetValidator
     {
-        private IReadOnlyList<IConfigValidationRule<ProjectBuildConfigGroup>> _configValidationRules;
+        private readonly IReadOnlyList<IConfigValidationRule<ProjectBuildConfigGroup>> _configValidationRules;
 
-        public ProjectBuildConfigGroupValidator(params IConfigValidationRule<ProjectBuildConfigGroup>[] validationRules)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectBuildConfigGroupValidator"/> class.
+        /// </summary>
+        /// <param name="validationRules">
+        /// The validation rules to execute when validating a
+        /// <see cref="ProjectBuildConfigGroup"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="validationRules"/> is <see langword="null"/>
+        /// or contains no validation rules.
+        /// </exception>
+        public ProjectBuildConfigGroupValidator(
+            params IConfigValidationRule<ProjectBuildConfigGroup>[] validationRules)
         {
-            if(validationRules?.Length == 0)
+            if (validationRules.Length == 0)
             {
-                throw new ArgumentNullException(nameof(validationRules), "Validation initialization failed. Validation rules cannot be null.");
+                throw new ArgumentException(
+                    nameof(validationRules),
+                    "At least one validation rule must be provided.");
             }
 
-            _configValidationRules = validationRules;
+            var orderedValidationRule = validationRules
+                .OrderBy(x => x.Order)
+                .ToArray();
+
+            _configValidationRules = orderedValidationRule;
         }
 
         #region Config Validations
 
         /// <summary>
-        /// This function checks validations the ProjectBuildConfigGroup.
+        /// Validates the specified editor asset if it is a
+        /// <see cref="ProjectBuildConfigGroup"/>.
         /// </summary>
-        /// <returns>A turple (bool isValid, string message, MessageType messageType) 
-        /// Valid if this config's validation was successfull, and 
-        /// False if the validation failed, along with a failed message 
-        /// and message type e.g <see cref="MessageType"/>.</returns>
+        /// <typeparam name="T">
+        /// The type of editor asset to validate.
+        /// </typeparam>
+        /// <param name="config">
+        /// The editor asset to validate.
+        /// </param>
+        /// <returns>
+        /// A <see cref="HelpBoxMessage"/> describing the first validation issue
+        /// encountered; otherwise, <see cref="HelpBoxMessage.Empty"/>.
+        /// </returns>
         public HelpBoxMessage Validate<T>(T config) where T : class
         {
             ProjectBuildConfigGroup projectBuildConfigGroup = config as ProjectBuildConfigGroup;
@@ -72,7 +103,7 @@ namespace ParrotCode.Platforms
             if (projectBuildConfigGroup == null)
                 return HelpBoxMessage.Empty;
 
-            foreach(var rule in _configValidationRules)
+            foreach (var rule in _configValidationRules)
             {
                 var validationResults = rule.Validate(projectBuildConfigGroup);
 

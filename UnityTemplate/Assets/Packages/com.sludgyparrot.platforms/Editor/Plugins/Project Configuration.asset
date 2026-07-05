@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: -952252640, guid: c335907d03f0f5e44a08ebc43c881a8f, type: 3}
   m_Name: Project Configuration
   m_EditorClassIdentifier: 
-  buildTarget: 13
-  projectBuild: 0
-  projectBuildSettings:
-  - {fileID: 11400000, guid: 036fedb008977b74b8505a8465b07bc4, type: 2}
-  - {fileID: 11400000, guid: 036fedb008977b74b8505a8465b07bc4, type: 2}
+  _buildTarget: 13
+  _projectBuild: 0
+  _projectBuildSettings: []

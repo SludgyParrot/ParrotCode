@@ -44,6 +44,11 @@ namespace ParrotCode.Native.SharedEditor
     public interface IProjectConfigurator
     {
         /// <summary>
+        /// Gets the name of this configurator.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Gets the Unity build target associated with this configurator.
         /// </summary>
         BuildTarget BuildTarget { get; }

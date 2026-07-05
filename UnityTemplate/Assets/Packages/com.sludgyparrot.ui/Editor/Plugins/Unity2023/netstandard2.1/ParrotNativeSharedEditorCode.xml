@@ -203,6 +203,64 @@
             <param name="build">The build type for the requested <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/></param>
             <returns>A <see cref="T:ParrotCode.Native.SharedEditor.IProjectConfigurator"/> for the defined type.</returns>
         </member>
+        <member name="T:ParrotCode.Native.SharedEditor.ProjectConfiguratorService">
+            <summary>
+            Provides services for retrieving and validating project configurator assets.
+            </summary>
+            <remarks>
+            This service coordinates repository queries and applies business rules for
+            resolving project configurators and detecting duplicate configuration assets.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ProjectConfiguratorService.#ctor(ParrotCode.Native.SharedEditor.IProjectConfiguratorRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Native.SharedEditor.ProjectConfiguratorService"/> class.
+            </summary>
+            <param name="projectConfigRepository">
+            The repository used to retrieve project configurator assets.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="projectConfigRepository"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ProjectConfiguratorService.GetProjectConfigForBuild``1(UnityEditor.BuildTarget,ParrotCode.Native.SharedEditor.Build)">
+            <summary>
+            Retrieves the project configurator for the specified Unity build target
+            and build configuration.
+            </summary>
+            <typeparam name="T">
+            The type of project configurator to retrieve.
+            </typeparam>
+            <param name="buildTarget">
+            The Unity build target.
+            </param>
+            <param name="build">
+            The project build configuration.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.ConfigValidationResults`1"/> containing the matching
+            project configurator when exactly one asset is found; otherwise,
+            a validation result describing the lookup failure.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ProjectConfiguratorService.FindDuplicateProjectConfiguratorPaths``1(``0)">
+            <summary>
+            Finds duplicate project configurator assets that target the same
+            Unity build target and build configuration.
+            </summary>
+            <typeparam name="T">
+            The type of project configurator to search for.
+            </typeparam>
+            <param name="projectBuildConfig">
+            The project configurator used as the reference when searching
+            for duplicate assets.
+            </param>
+            <returns>
+            A <see cref="T:ParrotCode.Native.SharedEditor.ConfigValidationResults`1"/> containing the asset paths
+            of duplicate project configurators when duplicates are found;
+            otherwise, a successful validation result.
+            </returns>
+        </member>
         <member name="T:ParrotCode.Native.SharedEditor.UnityCommandLineBuildArguments">
             <summary>
             This struct contains build arguments for executing Unity build processes using batch.
@@ -516,6 +574,11 @@
             <summary>
             Defines a contract for project configuration providers that supply build target information,
             build type, and validation logic for project setup.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.IProjectConfigurator.Name">
+            <summary>
+            Gets the name of this configurator.
             </summary>
         </member>
         <member name="P:ParrotCode.Native.SharedEditor.IProjectConfigurator.BuildTarget">
