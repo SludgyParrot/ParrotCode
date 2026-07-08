@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Project Configuration 1
   m_EditorClassIdentifier: 
   _buildTarget: 13
-  _projectBuild: 1
-  _projectBuildSettings: []
+  _projectBuild: 0
+  _projectBuildSettings:
+  - {fileID: 11400000, guid: 036fedb008977b74b8505a8465b07bc4, type: 2}

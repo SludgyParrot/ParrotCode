@@ -50,7 +50,7 @@ namespace ParrotCode.Platforms
     /// <remarks>
     /// This is a scriptable object component that derives from <href>UnityEngine</href> 
     /// </remarks>
-    [CreateAssetMenu(fileName = "Rendering Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Rendering Settings")]
+    [CreateAssetMenu(fileName = "Rendering Settings", menuName = SharedEditorToolMenusPath.PlatformConfigRootPath + "Rendering Settings")]
     public sealed class ProjectBuildRenderingConfig : ProjectSpecificBuildConfig
     {
         #region General Rendering Settings

@@ -47,7 +47,7 @@ namespace ParrotCode.Platforms
     /// </summary>
     public sealed class AndroidPlatformSelector : EditorWindow
     {
-        private const string WindowMenuPath = SharedProjectDirectory.ParrotCodeRootPath + "Android/Configure Project Environment";
+        private const string WindowMenuPath = SharedEditorToolMenusPath.ParrotCodeRootPath + "Android/Configure Project Environment";
 
         [MenuItem(WindowMenuPath)]
         private static void ConfigureAndroidProjectEnvironment()

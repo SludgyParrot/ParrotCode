@@ -41,7 +41,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.UI
 {
-    [CreateAssetMenu(fileName = "UITheme", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "UI/Theme")]
+    [CreateAssetMenu(fileName = "UITheme", menuName = SharedEditorToolMenusPath.ParrotCodeConfigRootPath + "UI/Theme")]
     public sealed class UITheme: ScriptableObject
     {
         [SerializeField]

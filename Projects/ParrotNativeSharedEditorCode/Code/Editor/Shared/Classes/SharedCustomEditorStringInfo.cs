@@ -111,7 +111,7 @@ namespace ParrotCode.Native.SharedEditor
         /// Menu path used to apply the Development project configuration.
         /// </summary>
         public const string DevelopmentSettingsRootPath =
-            SharedProjectDirectory.ProjectSettingsToolsMenuRoot +
+            SharedEditorToolMenusPath.ProjectSettingsToolsMenuRoot +
             Development +
             ParrotHotKeys.ProjectDevelopmentConfiguration;
 
@@ -119,7 +119,7 @@ namespace ParrotCode.Native.SharedEditor
         /// Menu path used to apply the Production project configuration.
         /// </summary>
         public const string ProductionSettingsRootPath =
-            SharedProjectDirectory.ProjectSettingsToolsMenuRoot +
+            SharedEditorToolMenusPath.ProjectSettingsToolsMenuRoot +
             Production +
             ParrotHotKeys.ProjectProductionConfiguration;
 

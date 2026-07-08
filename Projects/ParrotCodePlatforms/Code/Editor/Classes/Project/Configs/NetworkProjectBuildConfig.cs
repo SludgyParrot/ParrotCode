@@ -38,7 +38,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Network Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Network Settings")]
+    [CreateAssetMenu(fileName = "Network Settings", menuName = SharedEditorToolMenusPath.PlatformConfigRootPath + "Network Settings")]
     public sealed class NetworkProjectBuildConfig : ProjectBuildConfig
     {
         [Header("Network Settings")]

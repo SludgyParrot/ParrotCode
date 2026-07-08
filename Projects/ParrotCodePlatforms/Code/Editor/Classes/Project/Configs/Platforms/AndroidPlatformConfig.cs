@@ -38,7 +38,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Android Platform Config", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Platforms/Android Platform Config")]
+    [CreateAssetMenu(fileName = "Android Platform Config", menuName = SharedEditorToolMenusPath.ParrotCodeConfigRootPath + "Platforms/Android Platform Config")]
     public class AndroidPlatformConfig: PlatformConfig
     {
 

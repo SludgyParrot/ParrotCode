@@ -32,7 +32,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Audio
 {
-    [CreateAssetMenu(fileName = "Sound Settings", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Sound/Settings")]
+    [CreateAssetMenu(fileName = "Sound Settings", menuName = SharedEditorToolMenusPath.ParrotCodeConfigRootPath + "Sound/Settings")]
     public sealed class SoundSettings: ScriptableObject
     {
         [field: SerializeField]

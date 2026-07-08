@@ -27,49 +27,62 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
+using System.IO;
+#endregion
+
 #region Included Unity Assemblies
+using UnityEngine;
 using UnityEditor;
 #endregion
 
+
 #region Included Parrot Code Assemblies
-using ParrotCode.Native.Shared;
+using ParrotCode.Extensions;
 #endregion
 
 namespace ParrotCode.Native.SharedEditor
 {
     /// <summary>
-    /// Provides shared directory paths and utility methods used by the Parrot Code project configuration system.
+    /// Provides commonly used Unity project directory paths and shared directory-related constants.
     /// </summary>
+    /// <remarks>
+    /// This class centralizes project path utilities and common directory information
+    /// used throughout the Parrot Code editor framework.
+    /// </remarks>
     public static class SharedProjectDirectory
     {
         /// <summary>
-        /// Root menu and asset path for the Parrot Code framework.
-        /// </summary>
-        public const string ParrotCodeRootPath = "Parrot Code/";
-
-        /// <summary>
-        /// Root path containing Parrot Code configuration assets.
-        /// </summary>
-        public const string ParrotCodeConfigRootPath =
-            ParrotCodeRootPath + "Config/";
-
-        /// <summary>
-        /// Root path containing platform-specific project configuration assets.
-        /// </summary>
-        public const string PlatformConfigRootPath = ParrotCodeConfigRootPath + "Platforms/";
-
-        /// <summary>
-        /// Root menu path used for Project Build commands in the Unity Editor.
-        /// </summary>
-        public const string ProjectSettingsToolsMenuRoot = ParrotCodeRootPath + "Project/Build/";
-
-        /// <summary>
-        /// Gets the installation path of the Unity Editor executable.
+        /// Gets the full path to the Unity Editor executable currently running
+        /// the project.
         /// </summary>
         /// <returns>
-        /// The absolute path to the currently running Unity Editor application.
+        /// The absolute path to the Unity Editor executable.
         /// </returns>
         public static string GetUnityEditorApplicationPath()
             => EditorApplication.applicationPath;
+
+        /// <summary>
+        /// Gets the root directory of the current Unity project.
+        /// </summary>
+        /// <returns>
+        /// The absolute path to the project's root directory.
+        /// </returns>
+        /// <remarks>
+        /// This is the parent directory of the project's
+        /// <see cref="Application.dataPath"/> (<c>Assets</c>) folder.
+        /// </remarks>
+        public static string GetRootProjectPath()
+            => Path.GetDirectoryName(Application.dataPath);
+
+        /// <summary>
+        /// Gets the temporary location for storing the current Unity project during build.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTemporaryBuildProjectPath()
+        {
+            string destination = $"{Application.productName.RemoveWhiteSpace()}";
+            return Path.Combine(Path.GetTempPath(), destination);
+        }
     }
 }

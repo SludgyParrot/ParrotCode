@@ -33,7 +33,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.InputSystem
 {
-    [CreateAssetMenu(fileName = "Input Action Scheme", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Input Action Scheme")]
+    [CreateAssetMenu(fileName = "Input Action Scheme", menuName = SharedEditorToolMenusPath.ParrotCodeConfigRootPath + "Input Action Scheme")]
     public sealed class InputActionScheme: ScriptableObject
     {
         [SerializeField]

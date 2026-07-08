@@ -40,7 +40,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Project Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Project Settings")]
+    [CreateAssetMenu(fileName = "Project Settings", menuName = SharedEditorToolMenusPath.PlatformConfigRootPath + "Project Settings")]
     public sealed class GeneralProjectBuildConfig: ProjectBuildConfig
     {
         [Header("General Settings")]

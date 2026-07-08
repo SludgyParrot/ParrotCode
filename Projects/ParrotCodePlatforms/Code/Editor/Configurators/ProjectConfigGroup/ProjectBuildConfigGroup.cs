@@ -53,7 +53,7 @@ namespace ParrotCode.Platforms
     /// </remarks>
     [CreateAssetMenu(
         fileName = "Project Configuration",
-        menuName = SharedProjectDirectory.PlatformConfigRootPath + "Project Configuration")]
+        menuName = SharedEditorToolMenusPath.PlatformConfigRootPath + "Project Configuration")]
     public sealed class ProjectBuildConfigGroup : ScriptableObject, IProjectConfigurator
     {
         [SerializeField]

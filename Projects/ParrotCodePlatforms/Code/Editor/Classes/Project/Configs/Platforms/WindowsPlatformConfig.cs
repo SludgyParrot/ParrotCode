@@ -37,7 +37,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Windows Platform Config", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Platforms/Windows Platform Config")]
+    [CreateAssetMenu(fileName = "Windows Platform Config", menuName = SharedEditorToolMenusPath.ParrotCodeConfigRootPath + "Platforms/Windows Platform Config")]
     public class WindowsPlatformConfig : PlatformConfig
     {
 

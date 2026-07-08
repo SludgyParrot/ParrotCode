@@ -37,7 +37,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "WebGL Platform Config", menuName = SharedProjectDirectory.ParrotCodeConfigRootPath + "Platforms/WebGL Platform Config")]
+    [CreateAssetMenu(fileName = "WebGL Platform Config", menuName = SharedEditorToolMenusPath.ParrotCodeConfigRootPath + "Platforms/WebGL Platform Config")]
     public class WebGLPlatformConfig : PlatformConfig
     {
 

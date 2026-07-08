@@ -29,25 +29,37 @@ licensing@sludgyparrot.com
 
 #region Included System Assemblies
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.ComponentModel;
 #endregion
 
 #region Included Unity Assemblies
 using UnityEditor;
-using UnityEngine;
 #endregion
 
 #region Included Parrot Code Assemblies
-using ParrotCode.Extensions;
-using ParrotCode.Native.Shared;
-
+using ParrotCode.Native.SharedEditor;
 #endregion
 
 namespace ParrotCode.Platforms
 {
     public static class PlatformBuilder
     {
-        public static void InitializeBuild(ProcessStartInfo buildProcess)
-            => Process.Start(buildProcess);
+        private static readonly ProjectBackupCommandLineExecutable projectBackupCommand =
+            new ProjectBackupCommandLineExecutable();
+
+        public static async Task InitializeBuild(ProcessStartInfo buildProcess)
+        {
+            int exitCode = await projectBackupCommand.Execute();
+
+            if (exitCode >= 8)
+            {
+                throw new Win32Exception(exitCode);
+            }
+
+
+            UnityEngine.Debug.Log($"~ Platform Builder can continue build...");
+        }
 
         public static void BuilPlayer()
         {

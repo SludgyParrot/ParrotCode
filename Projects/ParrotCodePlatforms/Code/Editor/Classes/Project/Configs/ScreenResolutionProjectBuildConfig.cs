@@ -33,7 +33,7 @@ using UnityEngine;
 
 namespace ParrotCode.Platforms
 {
-    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = SharedProjectDirectory.PlatformConfigRootPath + "Screen Resolution Settings")]
+    [CreateAssetMenu(fileName = "Screen Resolution Settings", menuName = SharedEditorToolMenusPath.PlatformConfigRootPath + "Screen Resolution Settings")]
     public sealed class ScreenResolutionProjectBuildConfig: ProjectSpecificBuildConfig
     {
         [SerializeField]

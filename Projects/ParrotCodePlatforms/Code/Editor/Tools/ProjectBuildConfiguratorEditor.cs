@@ -42,6 +42,8 @@ namespace ParrotCode.Platforms
     /// </summary>
     public static class ProjectBuildConfiguratorEditor
     {
+        private static readonly ProjectBuildConfigGroupValidationManager _validationManager = new ProjectBuildConfigGroupValidationManager();
+
         #region Unity Menu Commands
         /// <summary>
         /// Applies the Development project configuration for the active build target.
@@ -83,7 +85,12 @@ namespace ParrotCode.Platforms
               EditorUserBuildSettings.activeBuildTarget,
               Build.Development);
 
-            return projectSettings.MessageType == MessageType.None;
+            if (projectSettings.Value == null)
+                return false;
+
+            var validationResults = _validationManager.Validate(projectSettings.Value);
+
+            return validationResults.MessageType != MessageType.Error;
         }
 
         /// <summary>
@@ -100,7 +107,12 @@ namespace ParrotCode.Platforms
                EditorUserBuildSettings.activeBuildTarget,
                Build.Production);
 
-            return projectSettings.MessageType == MessageType.None;
+            if(projectSettings.Value == null)
+                return false;
+
+            var validationResults = _validationManager.Validate(projectSettings.Value);
+
+            return validationResults.MessageType != MessageType.Error;
         }
         #endregion
     }
