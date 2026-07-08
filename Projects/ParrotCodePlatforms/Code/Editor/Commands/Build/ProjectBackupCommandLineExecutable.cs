@@ -45,7 +45,7 @@ namespace ParrotCode.Platforms
             string projectRootDirectory = SharedProjectDirectory.GetRootProjectPath();
             string temporaryProjectBackupDirectory = SharedProjectDirectory.GetTemporaryBuildProjectPath();
 
-            string projectCopyArguments = $"/K \"{projectRootDirectory}\" \"{temporaryProjectBackupDirectory}\" " +
+            string projectCopyArguments = $"\"{projectRootDirectory}\" \"{temporaryProjectBackupDirectory}\" " +
                 $"{string.Join(" ", SharedBatchCommands.RoboCopyArguments)}";
 
             ProcessStartInfo projectCopyProcessStartInfo = new ProcessStartInfo
