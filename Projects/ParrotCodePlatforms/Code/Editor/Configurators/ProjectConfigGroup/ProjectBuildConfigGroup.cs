@@ -62,6 +62,10 @@ namespace ParrotCode.Platforms
         [SerializeField, Space(5)]
         private Build _projectBuild;
 
+        [Header("Build Options")]
+        [SerializeField, Space(5)]
+        private string[] _buildScenes;
+
         [Header("Build Settings")]
         [SerializeField, Space(5)]
         private List<ProjectBuildConfig> _projectBuildSettings;
@@ -75,6 +79,11 @@ namespace ParrotCode.Platforms
         /// Gets the build type associated with this configuration group.
         /// </summary>
         public Build ProjectBuild => _projectBuild;
+
+        /// <summary>
+        /// Gets the scenes to include with the build.
+        /// </summary>
+        public IReadOnlyList<string> BuildScenes => _buildScenes;
 
         /// <summary>
         /// Gets the name of this configuration asset.

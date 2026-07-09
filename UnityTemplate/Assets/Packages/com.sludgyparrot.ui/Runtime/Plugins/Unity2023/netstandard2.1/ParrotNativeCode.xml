@@ -84,5 +84,10 @@
             The build output is a directory containing multiple files (for example, a WebGL build or an iOS Xcode project).
             </summary>
         </member>
+        <member name="T:ParrotCode.Native.Shared.FileExtension">
+            <summary>
+            Represents various types of file extensions.
+            </summary>
+        </member>
     </members>
 </doc>

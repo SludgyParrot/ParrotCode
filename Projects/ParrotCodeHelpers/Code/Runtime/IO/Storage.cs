@@ -28,9 +28,19 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System;
+using System.Text;
+#endregion
+
+#region Included Unity Assemblies
+using UnityEngine;
+using UnityEditor;
+#endregion
+
+#region Included Jet Brains Assemblies
+using JetBrains.Annotations;
 #endregion
 
 namespace ParrotCode.Helpers.Storage
@@ -45,6 +55,143 @@ namespace ParrotCode.Helpers.Storage
     /// </remarks>
     public static class Storage
     {
+        /// <summary>
+        /// Serializes an object to JSON and writes it to the specified file.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The reference type to serialize.
+        /// </typeparam>
+        /// <param name="path">
+        /// The full path of the JSON file to create or overwrite.
+        /// If the parent directory does not exist, it is created automatically.
+        /// </param>
+        /// <param name="content">
+        /// The object to serialize and write to the file.
+        /// </param>
+        /// <param name="encoding">
+        /// The text encoding used to write the file.
+        /// If <see langword="null"/>, <see cref="Encoding.UTF8"/> is used.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="path"/> is null, empty, consists only of
+        /// white-space characters, or does not contain a valid directory.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="content"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="InvalidDataException">
+        /// Thrown if the object could not be serialized into a valid JSON string.
+        /// </exception>
+        /// <remarks>
+        /// This method uses <see cref="EditorJsonUtility"/> to serialize the object,
+        /// producing indented (pretty-printed) JSON output. Existing files are
+        /// overwritten.
+        /// </remarks>
+        public static void SerializeToJsonFile<T>(
+            string path,
+            T content,
+            [CanBeNull] Encoding encoding = null)
+            where T : class
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("Path cannot be null or empty.", nameof(path));
+            }
+
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content), "Content cannot be null.");
+            }
+
+            string? directory = Path.GetDirectoryName(path);
+
+            if (string.IsNullOrEmpty(directory))
+            {
+                throw new ArgumentException(
+                    $"The path '{path}' must include a valid directory.",
+                    nameof(path));
+            }
+
+            Directory.CreateDirectory(directory);
+
+            string jsonString = EditorJsonUtility.ToJson(content);
+
+            if (string.IsNullOrWhiteSpace(jsonString))
+            {
+                throw new InvalidDataException(
+                    $"Couldn't create a JSON file at path: {path}");
+            }
+
+            Encoding encodingType = encoding ?? Encoding.UTF8;
+            File.WriteAllText(path, jsonString, encodingType);
+        }
+
+        /// <summary>
+        /// Deserializes a JSON file into an instance of the specified type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The reference type to deserialize.
+        /// </typeparam>
+        /// <param name="path">
+        /// The full path of the JSON file.
+        /// </param>
+        /// <returns>
+        /// An instance of <typeparamref name="T"/> populated with the data
+        /// contained in the JSON file.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="path"/> is null, empty, or consists only
+        /// of white-space characters.
+        /// </exception>
+        /// <exception cref="FileNotFoundException">
+        /// Thrown if the specified file does not exist.
+        /// </exception>
+        /// <exception cref="InvalidDataException">
+        /// Thrown if the JSON file could not be read or contains no data.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the JSON data could not be deserialized into
+        /// <typeparamref name="T"/>.
+        /// </exception>
+        /// <remarks>
+        /// This method uses <see cref="EditorJsonUtility"/> to deserialize the
+        /// JSON content.
+        /// </remarks>
+        public static T DeserializeFromJsonFile<T>(string path) where T : class, new()
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("Path cannot be null or empty.", nameof(path));
+            }
+
+            if (!File.Exists(path))
+            {
+                throw new ArgumentException(
+                    $"The path '{path}' must include a valid directory.",
+                    nameof(path));
+            }
+
+            string jsonString = File.ReadAllText(path);
+
+            if (string.IsNullOrWhiteSpace(jsonString))
+            {
+                throw new InvalidDataException(
+                    $"Couldn't read a JSON file at path: {path}");
+            }
+
+            T data = new T();
+
+            EditorJsonUtility.FromJsonOverwrite(jsonString, data);
+
+            if(data == null)
+            {
+                throw new InvalidOperationException($"Failed to load {typeof(T)} " +
+                    $"from a json file: {jsonString} at path: {path}");
+            }
+
+            return data;
+        }
+
         /// <summary>
         /// Recursively copies the contents of a directory to the specified destination.
         /// </summary>

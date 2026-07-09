@@ -96,4 +96,19 @@ namespace ParrotCode.Native.Shared
         /// </summary>
         Folder
     }
+
+    /// <summary>
+    /// Represents various types of file extensions.
+    /// </summary>
+    public enum FileExtension
+    {
+        JSON,
+        Text,
+        PNG,
+        JPG,
+        JPEG,
+        PDF,
+        APK,
+        Executable
+    }
 }

@@ -39,6 +39,13 @@ using UnityEditor.SceneManagement;
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+using System.IO;
+using ParrotCode.Extensions;
+using System.Linq;
+using System;
+using System.Text;
+using System.Threading.Tasks;
+using ParrotCode.Helpers.Storage;
 #endregion
 
 namespace ParrotCode.Platforms
@@ -60,7 +67,7 @@ namespace ParrotCode.Platforms
 
         #endregion
 
-        public static void ApplyProjectSettingsAndBuild(ProjectBuildConfigGroup settingsGroup)
+        public static async Task ApplyProjectSettingsAndBuild(ProjectBuildConfigGroup settingsGroup)
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 return;
@@ -90,8 +97,18 @@ namespace ParrotCode.Platforms
                 return;
             }
 
-            PlatformBuilder.InitializeBuild(buildConfiguration.info);
+            CreateBuildConfig(buildConfiguration.options);
+
+            int buildExitCode = await PlatformBuilder.InitializeBuild();
+            Debug.Log($"Build completed with exit code: {buildExitCode}");
+
             #endregion
+        }
+
+        private static void CreateBuildConfig(BuildPlayerOptions options)
+        {
+            Storage.SerializeToJsonFile(SharedProjectDirectories.TemporaryBuildConfigPath, 
+                new ProjectBuildOptions(options));
         }
     }
 }

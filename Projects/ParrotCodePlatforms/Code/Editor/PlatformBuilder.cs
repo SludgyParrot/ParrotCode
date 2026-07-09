@@ -39,26 +39,38 @@ using UnityEditor;
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
+using System.IO;
 #endregion
 
 namespace ParrotCode.Platforms
 {
     public static class PlatformBuilder
     {
-        private static readonly ProjectBackupCommandLineExecutable projectBackupCommand =
+        private static readonly ProjectBackupCommandLineExecutable _projectBackupCommand =
             new ProjectBackupCommandLineExecutable();
 
-        public static async Task InitializeBuild(ProcessStartInfo buildProcess)
-        {
-            int exitCode = await projectBackupCommand.Execute();
+        private static readonly ProjectBuildCommandLineExecutable _projectBuildCommand = 
+            new ProjectBuildCommandLineExecutable();
 
-            if (exitCode >= 8)
+        public static async Task<int> InitializeBuild()
+        {
+            int projectBackupExitCode = await _projectBackupCommand.Execute();
+
+            if (projectBackupExitCode >= 8)
             {
-                throw new Win32Exception(exitCode);
+                throw new CommandLineException(SharedBatchCommands.RoboCopyApplication, 
+                    "Project backup", projectBackupExitCode);
             }
 
+            int projectBuildExitCode = await _projectBuildCommand.Execute();
 
-            UnityEngine.Debug.Log($"~ Platform Builder can continue build...");
+            if (projectBuildExitCode >= 0)
+            {
+                throw new CommandLineException(SharedBatchCommands.CMDApplication, 
+                    "Project build", projectBuildExitCode);
+            }
+
+            return projectBuildExitCode;
         }
 
         public static void BuilPlayer()

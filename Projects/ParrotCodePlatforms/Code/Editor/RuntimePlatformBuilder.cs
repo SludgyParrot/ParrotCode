@@ -41,55 +41,117 @@ using ParrotCode.Extensions;
 using ParrotCode.Native.Shared;
 using System.Diagnostics;
 using ParrotCode.Native.SharedEditor;
+using System.Linq;
 #endregion
 
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// This is a runtime platform build configurator.
+    /// Provides helper methods for configuring Unity player builds at runtime
+    /// from a <see cref="ProjectBuildConfigGroup"/>.
     /// </summary>
+    /// <remarks>
+    /// This class is responsible for gathering the output location from the user,
+    /// validating the selected destination, and creating a fully configured
+    /// <see cref="BuildPlayerOptions"/> instance that can be passed to
+    /// <see cref="BuildPipeline.BuildPlayer(BuildPlayerOptions)"/>.
+    /// </remarks>
     public static class RuntimePlatformBuilder
     {
         /// <summary>
-        /// This 
+        /// Creates a <see cref="BuildPlayerOptions"/> instance for the specified
+        /// project build configuration.
         /// </summary>
-        /// <param name="projectBuildConfig"></param>
-        /// <returns></returns>
-        public static (BuildPlayerOptions options, ProcessStartInfo info, HelpBoxMessage results) GetBuildConfiguration(ProjectBuildConfigGroup projectBuildConfig)
+        /// <param name="projectBuildConfig">
+        /// The project build configuration that defines the target platform,
+        /// build type, and scenes to include.
+        /// </param>
+        /// <returns>
+        /// A tuple containing:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>
+        /// A configured <see cref="BuildPlayerOptions"/> instance.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// A <see cref="HelpBoxMessage"/> describing the result of the
+        /// configuration operation. If the configuration succeeds,
+        /// <see cref="HelpBoxMessage.Empty"/> is returned.
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </returns>
+        /// <remarks>
+        /// Depending on the target platform, the user is prompted to select either
+        /// a build file or an output directory. The selected path is validated
+        /// before the build options are created.
+        ///
+        /// For development builds, the returned options automatically enable
+        /// <see cref="BuildOptions.Development"/> and
+        /// <see cref="BuildOptions.EnableDeepProfilingSupport"/>.
+        /// </remarks>
+        public static (BuildPlayerOptions options, HelpBoxMessage results) GetBuildConfiguration(
+            ProjectBuildConfigGroup projectBuildConfig)
         {
             string applicationName = Application.productName.AddWhiteSpace();
-            string buildWindowTitle = $"{applicationName} {projectBuildConfig.BuildTarget.ToString()} {projectBuildConfig.ProjectBuild} Build";
+
+            string buildWindowTitle =
+                $"{applicationName} {projectBuildConfig.BuildTarget} {projectBuildConfig.ProjectBuild} Build";
 
             BuildOutput output = projectBuildConfig.BuildTarget.GetBuildOutput();
 
-            string buildPath = output == BuildOutput.File ? EditorUtility.SaveFilePanel(buildWindowTitle, string.Empty, applicationName, projectBuildConfig.BuildTarget.ToBuildExtension()) 
-                : EditorUtility.SaveFolderPanel(buildWindowTitle, string.Empty, applicationName);
+            string buildPath = output == BuildOutput.File
+                ? EditorUtility.SaveFilePanel(
+                    buildWindowTitle,
+                    string.Empty,
+                    applicationName,
+                    projectBuildConfig.BuildTarget.ToBuildExtension())
+                : EditorUtility.SaveFolderPanel(
+                    buildWindowTitle,
+                    string.Empty,
+                    applicationName);
 
-            if(buildPath.IsNullOrWhiteSpace())
-                return (new BuildPlayerOptions(), null, new HelpBoxMessage($"Build {buildWindowTitle} canceled by user.", MessageType.Warning));
-
-            string buildDirectory = output == BuildOutput.File? Path.GetDirectoryName(buildPath) : buildPath;
-
-            if(!Directory.Exists(buildDirectory))
+            if (buildPath.IsNullOrWhiteSpace())
             {
-                string errorMessage = $"Configure build for target: {projectBuildConfig.BuildTarget} failed. " +
-                    $"Missing/invalid build {output.ToString()} directory: {buildPath} provided.";
+                return (
+                    new BuildPlayerOptions(),
+                    new HelpBoxMessage(
+                        $"Build {buildWindowTitle} canceled by user.",
+                        MessageType.Warning));
+            }
 
-                return (new BuildPlayerOptions(), null, new HelpBoxMessage(errorMessage, MessageType.Error));
+            string buildDirectory = output == BuildOutput.File
+                ? Path.GetDirectoryName(buildPath)
+                : buildPath;
+
+            if (!Directory.Exists(buildDirectory))
+            {
+                string errorMessage =
+                    $"Configure build for target: {projectBuildConfig.BuildTarget} failed. " +
+                    $"Missing/invalid build {output} directory: {buildPath} provided.";
+
+                return (
+                    new BuildPlayerOptions(),
+                    new HelpBoxMessage(errorMessage, MessageType.Error));
             }
 
             BuildPlayerOptions options = new BuildPlayerOptions();
 
             // Add configuration for these settings.
-            BuildOptions buildOptions = projectBuildConfig.ProjectBuild == Build.Development? BuildOptions.Development | BuildOptions.EnableDeepProfilingSupport : BuildOptions.None;
+            BuildOptions buildOptions =
+                projectBuildConfig.ProjectBuild == Build.Development
+                    ? BuildOptions.Development | BuildOptions.EnableDeepProfilingSupport
+                    : BuildOptions.None;
 
             options.locationPathName = buildPath;
+            options.target = projectBuildConfig.BuildTarget;
             options.targetGroup = projectBuildConfig.BuildTarget.ToBuildTargetGroup();
+            options.scenes = projectBuildConfig.BuildScenes.ToArray();
             options.options = buildOptions;
 
-            ProcessStartInfo info = new UnityCommandLineBuildArguments(nameof(PlatformBuilder.BuilPlayer)).ToProcessStartInfo(UnityCommandLineFlags.BuildTarget, projectBuildConfig.BuildTarget.ToString());
-
-            return (options, info, HelpBoxMessage.Empty);
+            return (options, HelpBoxMessage.Empty);
         }
     }
 }

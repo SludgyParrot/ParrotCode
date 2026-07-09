@@ -114,6 +114,11 @@
             Gets the build type associated with this configuration group.
             </summary>
         </member>
+        <member name="P:ParrotCode.Platforms.ProjectBuildConfigGroup.BuildScenes">
+            <summary>
+            Gets the scenes to include with the build.
+            </summary>
+        </member>
         <member name="P:ParrotCode.Platforms.ProjectBuildConfigGroup.Name">
             <summary>
             Gets the name of this configuration asset.
@@ -445,15 +450,51 @@
         </member>
         <member name="T:ParrotCode.Platforms.RuntimePlatformBuilder">
             <summary>
-            This is a runtime platform build configurator.
+            Provides helper methods for configuring Unity player builds at runtime
+            from a <see cref="T:ParrotCode.Platforms.ProjectBuildConfigGroup"/>.
             </summary>
+            <remarks>
+            This class is responsible for gathering the output location from the user,
+            validating the selected destination, and creating a fully configured
+            <see cref="T:UnityEditor.BuildPlayerOptions"/> instance that can be passed to
+            <see cref="M:UnityEditor.BuildPipeline.BuildPlayer(UnityEditor.BuildPlayerOptions)"/>.
+            </remarks>
         </member>
         <member name="M:ParrotCode.Platforms.RuntimePlatformBuilder.GetBuildConfiguration(ParrotCode.Platforms.ProjectBuildConfigGroup)">
-            <summary>
-            This 
-            </summary>
-            <param name="projectBuildConfig"></param>
-            <returns></returns>
+             <summary>
+             Creates a <see cref="T:UnityEditor.BuildPlayerOptions"/> instance for the specified
+             project build configuration.
+             </summary>
+             <param name="projectBuildConfig">
+             The project build configuration that defines the target platform,
+             build type, and scenes to include.
+             </param>
+             <returns>
+             A tuple containing:
+             <list type="bullet">
+             <item>
+             <description>
+             A configured <see cref="T:UnityEditor.BuildPlayerOptions"/> instance.
+             </description>
+             </item>
+             <item>
+             <description>
+             A <see cref="T:ParrotCode.Native.SharedEditor.HelpBoxMessage"/> describing the result of the
+             configuration operation. If the configuration succeeds,
+             <see cref="F:ParrotCode.Native.SharedEditor.HelpBoxMessage.Empty"/> is returned.
+             </description>
+             </item>
+             </list>
+             </returns>
+             <remarks>
+             Depending on the target platform, the user is prompted to select either
+             a build file or an output directory. The selected path is validated
+             before the build options are created.
+            
+             For development builds, the returned options automatically enable
+             <see cref="F:UnityEditor.BuildOptions.Development"/> and
+             <see cref="F:UnityEditor.BuildOptions.EnableDeepProfilingSupport"/>.
+             </remarks>
         </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildConfiguratorEditor">
             <summary>

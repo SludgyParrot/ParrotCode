@@ -22,6 +22,42 @@
             Else returns False.
             </summary>
         </member>
+        <member name="T:ParrotCode.Native.SharedEditor.CommandLineException">
+            <summary>
+            Represents an exception that is thrown when a command-line operation
+            fails to execute successfully.
+            </summary>
+            <remarks>
+            This exception is intended for failures encountered while invoking
+            external processes, such as command-line utilities or build tools.
+            In addition to the exception message, it exposes the process exit code
+            returned by the failed operation.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.CommandLineException.ExitCode">
+            <summary>
+            Gets the exit code returned by the failed command-line process.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.CommandLineException.#ctor(System.String,System.String,System.Int32,System.Exception)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:ParrotCode.Native.SharedEditor.CommandLineException"/> class.
+            </summary>
+            <param name="fileName">
+            The name or path of the executable that was invoked.
+            </param>
+            <param name="command">
+            The command-line arguments supplied to the executable.
+            </param>
+            <param name="exitCode">
+            The exit code returned by the failed process.
+            </param>
+            <param name="innerException">
+            The exception that caused the current exception, or
+            <see langword="null"/> if no inner exception is specified.
+            </param>
+        </member>
         <member name="T:ParrotCode.Native.SharedEditor.SharedBatchCommands">
             <summary>
             Provides commonly used executable names and command-line utilities used by

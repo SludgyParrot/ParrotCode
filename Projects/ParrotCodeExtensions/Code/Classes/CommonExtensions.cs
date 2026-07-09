@@ -58,5 +58,19 @@ namespace ParrotCode.Extensions
 
             return direction;
         }
+
+        public static string Extension(this FileExtension extension)
+        {
+            return extension switch
+            {
+                FileExtension.JSON => ".json",
+                FileExtension.Text => ".txt",
+                FileExtension.PNG => ".png",
+                FileExtension.JPG => ".jpg",
+                FileExtension.JPEG => ".jpeg",
+                FileExtension.PDF => ".pdf",
+                _ => $"Extension is currently not defined for: {extension}"
+            };       
+        }
     }
 }
