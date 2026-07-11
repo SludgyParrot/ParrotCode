@@ -27,7 +27,7 @@ licensing@sludgyparrot.com
 
 */
 
-#region Included Parrot Code Assemblies
+#region Included System Assemblies
 using System.Collections.Generic;
 using System;
 #endregion
@@ -57,12 +57,17 @@ namespace ParrotCode.Native.SharedEditor
         public const string RetryOnceOnFail = "/R:1";
         public const string WaitASecondBeforeRetry = "/W:1";
         public const string EnableMultiThreading = "/MT";
-
         public const string RoboCopy = "robocopy";
-
         public const string CommandWindow = "cmd.exe";
-
         public const string KeepConsoleWindowOpen = "/k";
         public const string CloseConsoleWindowOnExit = "/c";
+        public const string Type = "type";
+        public const string Quit = "-quit";
+        public const string BatchMode = "-batchmode";
+        public const string ProjectPath = "-projectPath";
+        public const string ExecudeMethod = "-executeMethod";
+        public const string UnityLogFile = "-logFile";
+        public const string RobocopyLogFile = "/LOG:";
+        public const string Echo = "echo";
     }
 }

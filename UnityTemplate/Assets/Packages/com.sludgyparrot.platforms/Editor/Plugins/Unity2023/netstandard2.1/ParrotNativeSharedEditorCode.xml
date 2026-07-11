@@ -58,13 +58,13 @@
             <see langword="null"/> if no inner exception is specified.
             </param>
         </member>
-        <member name="T:ParrotCode.Native.SharedEditor.SharedBatchCommands">
+        <member name="T:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities">
             <summary>
             Provides commonly used executable names and command-line utilities used by
             the Parrot Code build and automation framework.
             </summary>
         </member>
-        <member name="F:ParrotCode.Native.SharedEditor.SharedBatchCommands.CMDApplication">
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.CMDApplication">
             <summary>
             The executable name for the Windows Command Prompt application.
             </summary>
@@ -73,7 +73,7 @@
             Windows command-line commands or batch scripts.
             </remarks>
         </member>
-        <member name="F:ParrotCode.Native.SharedEditor.SharedBatchCommands.RoboCopyApplication">
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RoboCopyApplication">
             <summary>
             The executable name for the Windows Robocopy utility.
             </summary>
@@ -83,7 +83,7 @@
             backups, and mirroring file structures.
             </remarks>
         </member>
-        <member name="F:ParrotCode.Native.SharedEditor.SharedBatchCommands.UnityEditorApplication">
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.UnityEditorApplication">
             <summary>
             The executable name for the Unity Editor application.
             </summary>
@@ -93,7 +93,7 @@
             executable is available on the system.
             </remarks>
         </member>
-        <member name="P:ParrotCode.Native.SharedEditor.SharedBatchCommands.RoboCopyArguments">
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RoboCopyArguments">
             <summary>
             Gets the default set of command-line arguments used when invoking
             the Windows <c>robocopy</c> utility.
@@ -108,7 +108,36 @@
             directories and file extensions.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedBatchCommands.CreateRoboCopyArguments">
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.UnityBuildArguments">
+            <summary>
+            Gets the default command-line arguments used to launch the Unity Editor
+            for an automated build.
+            </summary>
+            <value>
+            An array containing the default Unity command-line arguments.
+            </value>
+            <remarks>
+            The returned arguments include the temporary project path and common Unity
+            command-line options required to execute a build. A new array is created
+            each time this property is accessed, allowing callers to modify the
+            returned collection without affecting subsequent calls.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.ProjectBuildLogArguments">
+            <summary>
+            Gets the default command-line arguments used to display the project build log
+            in a command prompt.
+            </summary>
+            <value>
+            An array containing the base <c>cmd.exe</c> arguments required to open a
+            console window and display the project build log.
+            </value>
+            <remarks>
+            The returned arguments are intended to be extended with the path to the
+            build log file before being passed to <c>cmd.exe</c>.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.CreateRoboCopyArguments">
             <summary>
             Gets the default set of command-line arguments used when invoking
             the Windows <c>robocopy</c> utility.
@@ -122,6 +151,170 @@
             transfers, limited retry behavior, and exclude common Unity-generated
             directories and file extensions.
             </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.CreateUnityBuildArguments">
+            <summary>
+            Creates the default command-line arguments used to launch the Unity Editor
+            in batch mode for an automated build.
+            </summary>
+            <returns>
+            A read-only collection containing the command-line arguments required to
+            execute a Unity build process.
+            </returns>
+            <remarks>
+            The returned arguments include the temporary project path and common Unity
+            command-line options, such as the project path and execute method.
+            Additional arguments may be appended by the caller before launching the
+            Unity Editor process.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.CreateProjectBuildLogArguments">
+            <summary>
+            Creates the command-line arguments used to open a command prompt and display
+            the project build log.
+            </summary>
+            <remarks>
+            The returned arguments are intended to be passed to <c>cmd.exe</c>.
+            They keep the console window open after execution, print a descriptive
+            message identifying the build log, and display the contents of the log file.
+            <para>
+            Additional arguments, such as the build log file path, should be appended
+            by the caller before executing the command.
+            </para>
+            </remarks>
+            <returns>
+            An immutable collection containing the base command-line arguments required
+            to display the project build log.
+            </returns>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss">
+            <summary>
+            Provides commonly used executable names and command-line utilities used by
+            the Parrot Code build and automation framework.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CMDApplication">
+            <summary>
+            The executable name for the Windows Command Prompt application.
+            </summary>
+            <remarks>
+            This value resolves to <c>cmd.exe</c> and can be used to execute
+            Windows command-line commands or batch scripts.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.RoboCopyApplication">
+            <summary>
+            The executable name for the Windows Robocopy utility.
+            </summary>
+            <remarks>
+            Robocopy is a high-performance file copy utility included with
+            Windows. It is commonly used for copying directories, incremental
+            backups, and mirroring file structures.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.UnityEditorApplication">
+            <summary>
+            The executable name for the Unity Editor application.
+            </summary>
+            <remarks>
+            This value resolves to <c>unity.exe</c>. It can be used to launch
+            Unity from external processes or automation scripts when the editor
+            executable is available on the system.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.RoboCopyArguments">
+            <summary>
+            Gets the default set of command-line arguments used when invoking
+            the Windows <c>robocopy</c> utility.
+            </summary>
+            <value>
+            A collection containing the default Robocopy command-line arguments
+            and exclusion rules.
+            </value>
+            <remarks>
+            The default arguments enable recursive copying, multithreaded file
+            transfers, limited retry behavior, and exclude common Unity-generated
+            directories and file extensions.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.UnityBuildArguments">
+            <summary>
+            Gets the default command-line arguments used to launch the Unity Editor
+            for an automated build.
+            </summary>
+            <value>
+            An array containing the default Unity command-line arguments.
+            </value>
+            <remarks>
+            The returned arguments include the temporary project path and common Unity
+            command-line options required to execute a build. A new array is created
+            each time this property is accessed, allowing callers to modify the
+            returned collection without affecting subsequent calls.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.ProjectBuildLogArguments">
+            <summary>
+            Gets the default command-line arguments used to display the project build log
+            in a command prompt.
+            </summary>
+            <value>
+            An array containing the base <c>cmd.exe</c> arguments required to open a
+            console window and display the project build log.
+            </value>
+            <remarks>
+            The returned arguments are intended to be extended with the path to the
+            build log file before being passed to <c>cmd.exe</c>.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CreateRoboCopyArguments">
+            <summary>
+            Gets the default set of command-line arguments used when invoking
+            the Windows <c>robocopy</c> utility.
+            </summary>
+            <returns>
+            A read-only collection containing the default Robocopy command-line
+            arguments and exclusion rules.
+            </returns>
+            <remarks>
+            The returned arguments enable recursive copying, multithreaded file
+            transfers, limited retry behavior, and exclude common Unity-generated
+            directories and file extensions.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CreateUnityBuildArguments">
+            <summary>
+            Creates the default command-line arguments used to launch the Unity Editor
+            in batch mode for an automated build.
+            </summary>
+            <returns>
+            A read-only collection containing the command-line arguments required to
+            execute a Unity build process.
+            </returns>
+            <remarks>
+            The returned arguments include the temporary project path and common Unity
+            command-line options, such as the project path and execute method.
+            Additional arguments may be appended by the caller before launching the
+            Unity Editor process.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CreateProjectBuildLogArguments">
+            <summary>
+            Creates the command-line arguments used to open a command prompt and display
+            the project build log.
+            </summary>
+            <remarks>
+            The returned arguments are intended to be passed to <c>cmd.exe</c>.
+            They keep the console window open after execution, print a descriptive
+            message identifying the build log, and display the contents of the log file.
+            <para>
+            Additional arguments, such as the build log file path, should be appended
+            by the caller before executing the command.
+            </para>
+            </remarks>
+            <returns>
+            An immutable collection containing the base command-line arguments required
+            to display the project build log.
+            </returns>
         </member>
         <member name="T:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo">
             <summary>
@@ -254,7 +447,7 @@
             Root menu path used for Project Build commands in the Unity Editor.
             </summary>
         </member>
-        <member name="T:ParrotCode.Native.SharedEditor.SharedProjectDirectory">
+        <member name="T:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory">
             <summary>
             Provides commonly used Unity project directory paths and shared directory-related constants.
             </summary>
@@ -263,7 +456,36 @@
             used throughout the Parrot Code editor framework.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedProjectDirectory.GetUnityEditorApplicationPath">
+        <member name="P:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory.UnityEditorApplicationPath">
+            <summary>
+            Gets the full path to the currently running Unity Editor executable.
+            </summary>
+            <remarks>
+            The returned value is retrieved from <see cref="P:UnityEditor.EditorApplication.applicationPath"/>
+            each time this property is accessed.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory.TemporaryBuildProjectPath">
+            <summary>
+            Gets the temporary directory used to store a working copy of the current
+            Unity project during the build process.
+            </summary>
+            <remarks>
+            The returned path is generated each time this property is accessed and is
+            based on the current project's product name and Unity's persistent data path.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory.RootProjectPath">
+            <summary>
+            Gets the root directory of the current Unity project.
+            </summary>
+            <remarks>
+            The returned path corresponds to the directory containing the project's
+            <c>Assets</c>, <c>Packages</c>, and <c>ProjectSettings</c> folders.
+            The value is resolved each time this property is accessed.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory.GetUnityEditorApplicationPath">
             <summary>
             Gets the full path to the Unity Editor executable currently running
             the project.
@@ -272,7 +494,7 @@
             The absolute path to the Unity Editor executable.
             </returns>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedProjectDirectory.GetRootProjectPath">
+        <member name="M:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory.GetRootProjectPath">
             <summary>
             Gets the root directory of the current Unity project.
             </summary>
@@ -284,7 +506,7 @@
             <see cref="P:UnityEngine.Application.dataPath"/> (<c>Assets</c>) folder.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedProjectDirectory.GetTemporaryBuildProjectPath">
+        <member name="M:ParrotCode.Native.SharedEditor.SharedNativeProjectDirectory.GetTemporaryBuildProjectPath">
             <summary>
             Gets the temporary location for storing the current Unity project during build.
             </summary>

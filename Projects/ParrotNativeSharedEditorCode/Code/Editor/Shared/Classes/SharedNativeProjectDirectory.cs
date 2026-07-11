@@ -50,8 +50,37 @@ namespace ParrotCode.Native.SharedEditor
     /// This class centralizes project path utilities and common directory information
     /// used throughout the Parrot Code editor framework.
     /// </remarks>
-    public static class SharedProjectDirectory
+    public static class SharedNativeProjectDirectory
     {
+        /// <summary>
+        /// Gets the full path to the currently running Unity Editor executable.
+        /// </summary>
+        /// <remarks>
+        /// The returned value is retrieved from <see cref="EditorApplication.applicationPath"/>
+        /// each time this property is accessed.
+        /// </remarks>
+        public static string UnityEditorApplicationPath => GetUnityEditorApplicationPath();
+
+        /// <summary>
+        /// Gets the temporary directory used to store a working copy of the current
+        /// Unity project during the build process.
+        /// </summary>
+        /// <remarks>
+        /// The returned path is generated each time this property is accessed and is
+        /// based on the current project's product name and Unity's persistent data path.
+        /// </remarks>
+        public static string TemporaryBuildProjectPath => GetTemporaryBuildProjectPath();
+
+        /// <summary>
+        /// Gets the root directory of the current Unity project.
+        /// </summary>
+        /// <remarks>
+        /// The returned path corresponds to the directory containing the project's
+        /// <c>Assets</c>, <c>Packages</c>, and <c>ProjectSettings</c> folders.
+        /// The value is resolved each time this property is accessed.
+        /// </remarks>
+        public static string RootProjectPath => GetRootProjectPath();
+
         /// <summary>
         /// Gets the full path to the Unity Editor executable currently running
         /// the project.
@@ -72,14 +101,14 @@ namespace ParrotCode.Native.SharedEditor
         /// This is the parent directory of the project's
         /// <see cref="Application.dataPath"/> (<c>Assets</c>) folder.
         /// </remarks>
-        public static string GetRootProjectPath()
+        private static string GetRootProjectPath()
             => Path.GetDirectoryName(Application.dataPath);
 
         /// <summary>
         /// Gets the temporary location for storing the current Unity project during build.
         /// </summary>
         /// <returns></returns>
-        public static string GetTemporaryBuildProjectPath()
+        private static string GetTemporaryBuildProjectPath()
         {
             string destination = $"{Application.productName.RemoveWhiteSpace()}";
             return Path.Combine(Path.GetTempPath(), destination);

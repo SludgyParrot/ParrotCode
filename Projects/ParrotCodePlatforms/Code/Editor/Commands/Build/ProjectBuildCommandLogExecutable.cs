@@ -29,6 +29,7 @@ licensing@sludgyparrot.com
 
 #region Included System Assemblies
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 #endregion
 
@@ -39,46 +40,46 @@ using ParrotCode.Native.SharedEditor;
 namespace ParrotCode.Platforms
 {
     /// <summary>
-    /// Represents a command-line executable that launches the Unity Editor to
-    /// perform an automated project build.
+    /// Represents a command-line executable that opens a command prompt and
+    /// displays the contents of the project build log.
     /// </summary>
     /// <remarks>
-    /// This executable starts the Unity Editor using the current editor
-    /// installation and invokes the build entry point specified by
-    /// <see cref="PlatformBuilder.BuildPlayer"/>.
+    /// The build log is displayed using the Windows <c>cmd.exe</c> utility.
+    /// If the directory containing the log file does not exist, it is created
+    /// before the command is executed.
     /// </remarks>
-    public sealed class ProjectBuildCommandLineExecutable : ICommandLineExecutable
+    public sealed class ProjectBuildCommandLogExecutable : ICommandLineExecutable
     {
         /// <summary>
-        /// Executes the Unity build process asynchronously.
+        /// Opens a command prompt and displays the project build log.
         /// </summary>
         /// <returns>
-        /// A task that represents the asynchronous operation. The task result
-        /// contains the exit code returned by the Unity Editor process.
+        /// A task that represents the asynchronous operation. The task result is
+        /// always <c>0</c>, indicating that the logger command was started
+        /// successfully.
         /// </returns>
-        /// <remarks>
-        /// The Unity Editor is launched using the command-line arguments defined
-        /// by <see cref="SharedCommandLineUtilities.UnityBuildArguments"/>. The build is
-        /// started by invoking the method specified by Unity's
-        /// <c>-executeMethod</c> command-line argument.
-        /// </remarks>
         public async Task<int> Execute()
         {
-            string arguments = $" {string.Join(" ", SharedCommandLineUtilities.UnityBuildArguments)}" +
-                $" {typeof(PlatformBuilder).FullName}.{nameof(PlatformBuilder.BuildPlayer)} " +
-                $"{SharedCommonFiltersAndPatterns.UnityLogFile} " +
-                $"{SharedProjectDirectory.TemporaryBuildLogFilePath}";
+            string temporaryBuildLogFilePath = SharedProjectDirectory.TemporaryBuildLogFilePath;
+
+            Directory.CreateDirectory(Path.GetDirectoryName(temporaryBuildLogFilePath));
+
+            string arguments =
+                $"{string.Join(" ", SharedCommandLineUtilities.ProjectBuildLogArguments)} " +
+                $"\"{temporaryBuildLogFilePath}\"";
 
             UnityEngine.Debug.Log($"~Command arguments: {arguments}");
 
-            ProcessStartInfo processInfo = new ProcessStartInfo
+            ProcessStartInfo consoleProcessInfo = new ProcessStartInfo
             {
-                FileName = SharedNativeProjectDirectory.UnityEditorApplicationPath,
+                FileName = SharedCommandLineUtilities.CMDApplication,
                 Arguments = arguments,
                 UseShellExecute = true
             };
 
-            return await CommandLineUtility.RunAsync(processInfo);
+            CommandLineUtility.Run(consoleProcessInfo);
+
+           return await Task.FromResult(0);
         }
     }
 }

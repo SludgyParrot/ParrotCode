@@ -64,6 +64,8 @@ namespace ParrotCode.Extensions
             return extension switch
             {
                 FileExtension.JSON => ".json",
+                FileExtension.XML => ".xml",
+                FileExtension.Log => ".log",
                 FileExtension.Text => ".txt",
                 FileExtension.PNG => ".png",
                 FileExtension.JPG => ".jpg",

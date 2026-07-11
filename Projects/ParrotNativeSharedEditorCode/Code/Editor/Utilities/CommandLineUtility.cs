@@ -114,5 +114,24 @@ namespace ParrotCode.Native.SharedEditor
                 return exitCode;
             });
         }
+
+        public static void Run(ProcessStartInfo processInfo)
+        {
+            if (processInfo == null)
+            {
+                throw new ArgumentNullException(nameof(processInfo),
+                    "Process info cannot be null.");
+            }
+
+            if (string.IsNullOrWhiteSpace(processInfo.FileName))
+            {
+                throw new ArgumentException("A file name is required to run a process.",
+                    nameof(processInfo.FileName));
+            }
+
+            using Process process = Process.Start(processInfo) ??
+                                 throw new InvalidOperationException($"{processInfo.FileName}" +
+                                 $" failed to start.");
+        }
     }
 }

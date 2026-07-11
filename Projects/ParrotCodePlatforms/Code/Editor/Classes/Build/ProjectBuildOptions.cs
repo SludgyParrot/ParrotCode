@@ -136,6 +136,17 @@ namespace ParrotCode.Platforms
             => options.ToBuildPlayerOptions();
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectBuildOptions"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This parameterless constructor is provided to support serialization and
+        /// deserialization scenarios, such as loading build configurations from JSON.
+        /// Fields are initialized to their default values and can be populated
+        /// during the deserialization process.
+        /// </remarks>
+        public ProjectBuildOptions() { }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProjectBuildOptions"/>
         /// class from an existing <see cref="BuildPlayerOptions"/> instance.
         /// </summary>

@@ -40,7 +40,7 @@ namespace ParrotCode.Native.SharedEditor
     /// Provides commonly used executable names and command-line utilities used by
     /// the Parrot Code build and automation framework.
     /// </summary>
-    public static class SharedBatchCommands
+    public static class SharedCommandLineArgumentss
     {
         #region Process Applications
 
@@ -91,6 +91,35 @@ namespace ParrotCode.Native.SharedEditor
         public static string[] RoboCopyArguments => CreateRoboCopyArguments().ToArray();
 
         /// <summary>
+        /// Gets the default command-line arguments used to launch the Unity Editor
+        /// for an automated build.
+        /// </summary>
+        /// <value>
+        /// An array containing the default Unity command-line arguments.
+        /// </value>
+        /// <remarks>
+        /// The returned arguments include the temporary project path and common Unity
+        /// command-line options required to execute a build. A new array is created
+        /// each time this property is accessed, allowing callers to modify the
+        /// returned collection without affecting subsequent calls.
+        /// </remarks>
+        public static string[] UnityBuildArguments => CreateUnityBuildArguments().ToArray();
+
+        /// <summary>
+        /// Gets the default command-line arguments used to display the project build log
+        /// in a command prompt.
+        /// </summary>
+        /// <value>
+        /// An array containing the base <c>cmd.exe</c> arguments required to open a
+        /// console window and display the project build log.
+        /// </value>
+        /// <remarks>
+        /// The returned arguments are intended to be extended with the path to the
+        /// build log file before being passed to <c>cmd.exe</c>.
+        /// </remarks>
+        public static string[] ProjectBuildLogArguments => CreateProjectBuildLogArguments().ToArray();
+
+        /// <summary>
         /// Gets the default set of command-line arguments used when invoking
         /// the Windows <c>robocopy</c> utility.
         /// </summary>
@@ -119,7 +148,61 @@ namespace ParrotCode.Native.SharedEditor
             arguments.Add(SharedCommonFiltersAndPatterns.ExcludeFiles);
             arguments.AddRange(SharedCommonFiltersAndPatterns.CommonExcludedUnityFileExtensions);
 
+            arguments.Add(SharedCommonFiltersAndPatterns.RobocopyLogFile);
+
             return arguments.AsReadOnly();
+        }
+
+        /// <summary>
+        /// Creates the default command-line arguments used to launch the Unity Editor
+        /// in batch mode for an automated build.
+        /// </summary>
+        /// <returns>
+        /// A read-only collection containing the command-line arguments required to
+        /// execute a Unity build process.
+        /// </returns>
+        /// <remarks>
+        /// The returned arguments include the temporary project path and common Unity
+        /// command-line options, such as the project path and execute method.
+        /// Additional arguments may be appended by the caller before launching the
+        /// Unity Editor process.
+        /// </remarks>
+        private static IReadOnlyList<string> CreateUnityBuildArguments()
+        {
+            return new List<string>
+            {
+                SharedCommonFiltersAndPatterns.BatchMode,
+                SharedCommonFiltersAndPatterns.Quit,
+                SharedCommonFiltersAndPatterns.ProjectPath,
+                SharedNativeProjectDirectory.TemporaryBuildProjectPath,
+                SharedCommonFiltersAndPatterns.ExecudeMethod
+            };
+        }
+
+        /// <summary>
+        /// Creates the command-line arguments used to open a command prompt and display
+        /// the project build log.
+        /// </summary>
+        /// <remarks>
+        /// The returned arguments are intended to be passed to <c>cmd.exe</c>.
+        /// They keep the console window open after execution, print a descriptive
+        /// message identifying the build log, and display the contents of the log file.
+        /// <para>
+        /// Additional arguments, such as the build log file path, should be appended
+        /// by the caller before executing the command.
+        /// </para>
+        /// </remarks>
+        /// <returns>
+        /// An immutable collection containing the base command-line arguments required
+        /// to display the project build log.
+        /// </returns>
+        private static IReadOnlyList<string> CreateProjectBuildLogArguments()
+        {
+            return new List<string>
+            {
+                SharedCommonFiltersAndPatterns.KeepConsoleWindowOpen,
+                SharedCommonFiltersAndPatterns.Type
+            };
         }
     }
 }

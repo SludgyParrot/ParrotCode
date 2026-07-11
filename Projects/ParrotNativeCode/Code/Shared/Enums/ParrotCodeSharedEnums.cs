@@ -103,7 +103,10 @@ namespace ParrotCode.Native.Shared
     public enum FileExtension
     {
         JSON,
+        XML,
         Text,
+        Log,
+        Markup,
         PNG,
         JPG,
         JPEG,

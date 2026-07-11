@@ -34,11 +34,16 @@ using ParrotCode.Native.Shared;
 
 namespace ParrotCode.Platforms
 {
-    public static class SharedProjectDirectories
+    public static class SharedProjectDirectory
     {
-        public static readonly string TemporaryBuildConfigPath = Path.Combine(
-            Application.dataPath, 
+        public static string TemporaryBuildConfigPath => 
+            Path.Combine(Application.dataPath, 
             "Build", 
             $"BuildConfig{FileExtension.JSON.Extension()}");
+
+        public static string TemporaryBuildLogFilePath => 
+            Path.Combine(Application.dataPath, 
+                "Build", 
+                $"Build{FileExtension.Log.Extension()}");
     }
 }

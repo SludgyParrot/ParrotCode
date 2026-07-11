@@ -28,9 +28,7 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.ComponentModel;
 #endregion
 
 #region Included Unity Assemblies
@@ -39,7 +37,7 @@ using UnityEditor;
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
-using System.IO;
+using ParrotCode.Helpers.Storage;
 #endregion
 
 namespace ParrotCode.Platforms
@@ -52,31 +50,35 @@ namespace ParrotCode.Platforms
         private static readonly ProjectBuildCommandLineExecutable _projectBuildCommand = 
             new ProjectBuildCommandLineExecutable();
 
+        private static readonly ProjectBuildCommandLogExecutable _projectBuildLogCommand = 
+            new ProjectBuildCommandLogExecutable();
+
         public static async Task<int> InitializeBuild()
         {
+            await _projectBuildLogCommand.Execute();
+
             int projectBackupExitCode = await _projectBackupCommand.Execute();
 
             if (projectBackupExitCode >= 8)
             {
-                throw new CommandLineException(SharedBatchCommands.RoboCopyApplication, 
+                throw new CommandLineException(SharedCommandLineUtilities.RoboCopyApplication, 
                     "Project backup", projectBackupExitCode);
             }
 
             int projectBuildExitCode = await _projectBuildCommand.Execute();
 
-            if (projectBuildExitCode >= 0)
+            if (projectBuildExitCode >= 8)
             {
-                throw new CommandLineException(SharedBatchCommands.CMDApplication, 
+                throw new CommandLineException(SharedCommandLineUtilities.UnityEditorApplication,
                     "Project build", projectBuildExitCode);
             }
 
-            return projectBuildExitCode;
+            return 0;
         }
 
-        public static void BuilPlayer()
+        public static void BuildPlayer()
         {
-            BuildPlayerOptions buildOptions = new BuildPlayerOptions();
-
+            BuildPlayerOptions buildOptions = (BuildPlayerOptions)Storage.DeserializeFromJsonFile<ProjectBuildOptions>(SharedProjectDirectory.TemporaryBuildConfigPath);
             BuildPipeline.BuildPlayer(buildOptions);
         }
     }

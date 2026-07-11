@@ -107,7 +107,7 @@ namespace ParrotCode.Platforms
 
         private static void CreateBuildConfig(BuildPlayerOptions options)
         {
-            Storage.SerializeToJsonFile(SharedProjectDirectories.TemporaryBuildConfigPath, 
+            Storage.SerializeToJsonFile(SharedProjectDirectory.TemporaryBuildConfigPath, 
                 new ProjectBuildOptions(options));
         }
     }

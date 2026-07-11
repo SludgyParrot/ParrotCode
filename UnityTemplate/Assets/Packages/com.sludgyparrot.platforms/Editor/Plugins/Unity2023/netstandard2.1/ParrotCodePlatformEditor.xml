@@ -14,6 +14,155 @@
             ensuring a smoother development experience and better system outcomes.
             </summary>
         </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildOptions">
+             <summary>
+             Represents a serializable snapshot of Unity's <see cref="T:UnityEditor.BuildPlayerOptions"/>.
+             </summary>
+             <remarks>
+             This class is intended for persisting build configurations to disk (for
+             example, as JSON) and reconstructing a <see cref="T:UnityEditor.BuildPlayerOptions"/>
+             instance when required.
+            
+             Unlike <see cref="T:UnityEditor.BuildPlayerOptions"/>, this class is marked as
+             <see cref="T:System.SerializableAttribute"/> and contains only serializable fields,
+             making it suitable for Unity's JSON serialization APIs.
+             </remarks>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.Target">
+            <summary>
+            The target platform to build.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.TargetGroup">
+            <summary>
+            The build target group associated with <see cref="F:ParrotCode.Platforms.ProjectBuildOptions.Target"/>.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.LocationPathName">
+            <summary>
+            The output file or directory where the build will be generated.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.Scenes">
+            <summary>
+            The collection of scenes included in the build.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.AssetBundleManifestPath">
+            <summary>
+            The optional path to an AssetBundle manifest used during the build.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.ExtraScriptingDefines">
+            <summary>
+            Additional scripting define symbols applied only to this build.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.Options">
+            <summary>
+            The build options applied during the build process.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildOptions.SubTarget">
+            <summary>
+            The platform-specific build sub-target.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildOptions.op_Explicit(UnityEditor.BuildPlayerOptions)~ParrotCode.Platforms.ProjectBuildOptions">
+            <summary>
+            Explicitly converts a <see cref="T:UnityEditor.BuildPlayerOptions"/> instance into a
+            serializable <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/>.
+            </summary>
+            <param name="options">
+            The Unity build options to convert.
+            </param>
+            <returns>
+            A new <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/> containing the values from the
+            specified <paramref name="options"/>.
+            </returns>
+            <remarks>
+            This conversion creates a serializable representation of
+            <see cref="T:UnityEditor.BuildPlayerOptions"/>, making it suitable for persistence,
+            such as writing to a JSON file.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildOptions.op_Explicit(ParrotCode.Platforms.ProjectBuildOptions)~UnityEditor.BuildPlayerOptions">
+            <summary>
+            Explicitly converts a <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/> instance into a
+            Unity <see cref="T:UnityEditor.BuildPlayerOptions"/> structure.
+            </summary>
+            <param name="options">
+            The serializable build options to convert.
+            </param>
+            <returns>
+            A new <see cref="T:UnityEditor.BuildPlayerOptions"/> initialized with the values from
+            the specified <paramref name="options"/>.
+            </returns>
+            <remarks>
+            This conversion reconstructs a <see cref="T:UnityEditor.BuildPlayerOptions"/> instance
+            that can be passed directly to Unity's build pipeline.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/> class.
+            </summary>
+            <remarks>
+            This parameterless constructor is provided to support serialization and
+            deserialization scenarios, such as loading build configurations from JSON.
+            Fields are initialized to their default values and can be populated
+            during the deserialization process.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildOptions.#ctor(UnityEditor.BuildPlayerOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/>
+            class from an existing <see cref="T:UnityEditor.BuildPlayerOptions"/> instance.
+            </summary>
+            <param name="options">
+            The Unity build options to copy.
+            </param>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildOptions.#ctor(System.String,System.String[],UnityEditor.BuildTarget,UnityEditor.BuildTargetGroup,System.String,System.String[],UnityEditor.BuildOptions,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/>
+            class using the specified build configuration values.
+            </summary>
+            <param name="locationPathName">
+            The output file or directory for the build.
+            </param>
+            <param name="scenes">
+            The collection of scene paths included in the build.
+            </param>
+            <param name="target">
+            The target platform to build.
+            </param>
+            <param name="targetGroup">
+            The build target group associated with the target platform.
+            </param>
+            <param name="assetBundleManifestPath">
+            The optional AssetBundle manifest path.
+            </param>
+            <param name="extraScriptingDefines">
+            Optional scripting define symbols to apply during the build.
+            </param>
+            <param name="options">
+            The build options to apply.
+            </param>
+            <param name="subTarget">
+            The platform-specific build sub-target.
+            </param>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildOptions.ToBuildPlayerOptions">
+            <summary>
+            Converts this instance into a Unity
+            <see cref="T:UnityEditor.BuildPlayerOptions"/> structure.
+            </summary>
+            <returns>
+            A new <see cref="T:UnityEditor.BuildPlayerOptions"/> populated with the values
+            stored in this instance.
+            </returns>
+        </member>
         <member name="T:ParrotCode.Platforms.AndroidRenderingProjectBuildConfig">
             <summary>
             A configuration file for configuring Android platform project rendering settings.
@@ -72,6 +221,91 @@
             <summary>
             Gets the Unity build target associated with this configuration.
             </summary>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBackupCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that creates a temporary backup of
+            the current Unity project using the Windows <c>robocopy</c> utility.
+            </summary>
+            <remarks>
+            The project is copied to a temporary build directory before the build
+            process begins. This allows automated builds to operate on an isolated
+            copy of the project without modifying the original working directory.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBackupCommandLineExecutable.Execute">
+            <summary>
+            Executes a Robocopy command that creates a temporary backup of the current Unity project
+            before the build process begins.
+            </summary>
+            <remarks>
+            The method copies the root project directory to the temporary build project directory
+            using the predefined Robocopy arguments in <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RoboCopyArguments"/>.
+            <para>
+            A directory for the Robocopy log file is created automatically if it does not already exist.
+            </para>
+            <para>
+            The command is executed asynchronously through <see cref="M:ParrotCode.Native.SharedEditor.CommandLineUtility.RunAsync(System.Diagnostics.ProcessStartInfo)"/>
+            and returns the Robocopy exit code when the copy operation completes.
+            </para>
+            </remarks>
+            <returns>
+            A task that represents the asynchronous operation. The task result contains the
+            exit code returned by Robocopy.
+            </returns>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the Robocopy process fails to complete successfully.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the Robocopy process could not be started.
+            </exception>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that launches the Unity Editor to
+            perform an automated project build.
+            </summary>
+            <remarks>
+            This executable starts the Unity Editor using the current editor
+            installation and invokes the build entry point specified by
+            <see cref="M:ParrotCode.Platforms.PlatformBuilder.BuildPlayer"/>.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildCommandLineExecutable.Execute">
+            <summary>
+            Executes the Unity build process asynchronously.
+            </summary>
+            <returns>
+            A task that represents the asynchronous operation. The task result
+            contains the exit code returned by the Unity Editor process.
+            </returns>
+            <remarks>
+            The Unity Editor is launched using the command-line arguments defined
+            by <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.UnityBuildArguments"/>. The build is
+            started by invoking the method specified by Unity's
+            <c>-executeMethod</c> command-line argument.
+            </remarks>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildCommandLogExecutable">
+            <summary>
+            Represents a command-line executable that opens a command prompt and
+            displays the contents of the project build log.
+            </summary>
+            <remarks>
+            The build log is displayed using the Windows <c>cmd.exe</c> utility.
+            If the directory containing the log file does not exist, it is created
+            before the command is executed.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildCommandLogExecutable.Execute">
+            <summary>
+            Opens a command prompt and displays the project build log.
+            </summary>
+            <returns>
+            A task that represents the asynchronous operation. The task result is
+            always <c>0</c>, indicating that the logger command was started
+            successfully.
+            </returns>
         </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildConfigGroupEditor">
             <summary>
