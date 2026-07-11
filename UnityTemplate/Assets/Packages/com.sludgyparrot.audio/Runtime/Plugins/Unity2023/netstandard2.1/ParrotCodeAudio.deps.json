@@ -9,16 +9,27 @@
     ".NETStandard,Version=v2.1/": {
       "ParrotCodeAudio/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0",
-          "ParrotNativeSharedEditorCode": "1.0.0"
+          "ParrotCodeNative": "1.0.0",
+          "ParrotCodeNativeEditor": "1.0.0"
         },
         "runtime": {
           "ParrotCodeAudio.dll": {}
         }
       },
+      "ParrotCodeEditorExtensions/1.0.0": {
+        "dependencies": {
+          "ParrotCodeNative": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeEditorExtensions.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "ParrotCodeEventSystem/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0"
+          "ParrotCodeNative": "1.0.0"
         },
         "runtime": {
           "ParrotCodeEventSystem.dll": {
@@ -29,7 +40,7 @@
       },
       "ParrotCodeExtensions/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0"
+          "ParrotCodeNative": "1.0.0"
         },
         "runtime": {
           "ParrotCodeExtensions.dll": {
@@ -38,21 +49,23 @@
           }
         }
       },
-      "ParrotNativeCode/1.0.0": {
+      "ParrotCodeNative/1.0.0": {
         "runtime": {
-          "ParrotNativeCode.dll": {
+          "ParrotCodeNative.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "ParrotNativeSharedEditorCode/1.0.0": {
+      "ParrotCodeNativeEditor/1.0.0": {
         "dependencies": {
+          "ParrotCodeEditorExtensions": "1.0.0",
           "ParrotCodeEventSystem": "1.0.0",
-          "ParrotCodeExtensions": "1.0.0"
+          "ParrotCodeExtensions": "1.0.0",
+          "ParrotCodeNative": "1.0.0"
         },
         "runtime": {
-          "ParrotNativeSharedEditorCode.dll": {
+          "ParrotCodeNativeEditor.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -62,6 +75,11 @@
   },
   "libraries": {
     "ParrotCodeAudio/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeEditorExtensions/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -76,12 +94,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "ParrotNativeCode/1.0.0": {
+    "ParrotCodeNative/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "ParrotNativeSharedEditorCode/1.0.0": {
+    "ParrotCodeNativeEditor/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -27,10 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
 using UnityEngine.EventSystems;
-using ParrotCode.Native.Common;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
+#endregion
 
 namespace ParrotCode.UI
 {
@@ -48,7 +56,8 @@ namespace ParrotCode.UI
         {
             if(listeners == null || listeners.Length == 0)
             {
-                Log($"[{gameObject.name}] AddEventListeners failed for register '{nameof(listeners)}'. There are no listener(s) assigned in the arguments.", LogVerbosity.Error, LogChannel.UI);
+                Log($"[{gameObject.name}] AddEventListeners failed for register '{nameof(listeners)}'. " +
+                    $"There are no listener(s) assigned in the arguments.", LogVerbosity.Error, LogChannel.UI);
                 return;
             }
 
@@ -56,7 +65,8 @@ namespace ParrotCode.UI
             {
                 if (listeners[i] == null)
                 {
-                    Log($"[{gameObject.name}] AddEventListeners failed to register a listener at '{i}'", LogVerbosity.Error, LogChannel.UI);
+                    Log($"[{gameObject.name}] AddEventListeners failed to register a listener at '{i}'",
+                        LogVerbosity.Error, LogChannel.UI);
                     continue;
                 }
                 onInputActionEventTrigger += listeners[i];
@@ -67,7 +77,8 @@ namespace ParrotCode.UI
         {
             if (listeners == null || listeners.Length == 0)
             {
-                Log($"[{gameObject.name}] RemoveEventListener failed for unregister '{nameof(listeners)}'. There are no listener(s) assigned in the arguments.", LogVerbosity.Error, LogChannel.UI);
+                Log($"[{gameObject.name}] RemoveEventListener failed for unregister '{nameof(listeners)}'. " +
+                    $"There are no listener(s) assigned in the arguments.", LogVerbosity.Error, LogChannel.UI);
                 return;
             }
 
@@ -75,7 +86,8 @@ namespace ParrotCode.UI
             {
                 if (listeners[i] == null)
                 {
-                    Log($"[{gameObject.name}] RemoveEventListener failed to unregister a listener at '{i}'", LogVerbosity.Error, LogChannel.UI);
+                    Log($"[{gameObject.name}] RemoveEventListener failed to unregister a listener at '{i}'",
+                        LogVerbosity.Error, LogChannel.UI);
                     continue;
                 }
                 onInputActionEventTrigger -= listeners[i];

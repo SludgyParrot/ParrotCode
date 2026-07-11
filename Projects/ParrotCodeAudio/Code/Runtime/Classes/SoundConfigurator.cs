@@ -27,11 +27,19 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Collections.Generic;
-using UnityEngine;
-using ParrotCode.Native.Common;
 using System.Linq;
-using ParrotCode.Native.Inspector;
+#endregion
+
+#region Included Unity Assemblies
+using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.Audio
 {

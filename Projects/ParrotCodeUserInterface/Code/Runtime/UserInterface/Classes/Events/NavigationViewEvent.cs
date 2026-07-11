@@ -27,7 +27,9 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Collections.Generic;
+#endregion
 
 namespace ParrotCode.UI
 {
@@ -36,7 +38,9 @@ namespace ParrotCode.UI
         public readonly string ViewID;
         public IReadOnlyList<ISelectable> Selectables;
 
-        public NavigationViewEvent(string viewID, IReadOnlyList<ISelectable> selectables)
+        public NavigationViewEvent(
+            string viewID,
+            IReadOnlyList<ISelectable> selectables)
         {
             ViewID = viewID;
             Selectables = selectables;

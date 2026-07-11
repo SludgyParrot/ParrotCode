@@ -18,16 +18,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ParrotCodeAudio\ParrotCodeAudio.csproj" />
+    <ProjectReference Include="..\ParrotCodeEventSystem\ParrotCodeEventSystem.csproj" />
+    <ProjectReference Include="..\ParrotCodeExtensions\ParrotCodeExtensions.csproj" />
+    <ProjectReference Include="..\ParrotCodeInputSystem\ParrotCodeInputSystem.csproj" />
+    <ProjectReference Include="..\ParrotCodeNative\ParrotCodeNative.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Unity.Localization">
       <HintPath>..\..\UnityDLL\6000.4.0f1\Unity.Localization.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>..\..\UnityDLL\2022.3.62f3\Unity.TextMeshPro.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEditor.CoreModule">
-      <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
@@ -46,14 +50,6 @@
       <HintPath>..\..\UnityDLL\2023.1.20f1\UnityEngine.UIModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ParotCodeEventSystem\ParrotCodeEventSystem.csproj" />
-    <ProjectReference Include="..\ParotCodeInputSystem\ParrotCodeInputSystem.csproj" />
-    <ProjectReference Include="..\ParrotCodeAudio\ParrotCodeAudio.csproj" />
-    <ProjectReference Include="..\ParrotCodeExtensions\ParrotCodeExtensions.csproj" />
-    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
 </Project>

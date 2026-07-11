@@ -23,15 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
-    <ProjectReference Include="..\ParrotNativeSharedEditorCode\ParrotNativeSharedEditorCode.csproj" />
+    <ProjectReference Include="..\ParrotNativeCode\ParrotCodeNative.csproj" />
+    <ProjectReference Include="..\ParrotNativeSharedEditorCode\ParrotCodeNativeEditor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="UnityEditor.CoreModule">
-      <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEditor.CoreModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\UnityDLL\2023.1.20f1\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>

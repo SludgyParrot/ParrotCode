@@ -11,21 +11,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeUserInterfaceEdit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeAudio", "Projects\ParrotCodeAudio\ParrotCodeAudio.csproj", "{E5E53294-3C40-48B1-B308-601869B1CF10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeEventSystem", "Projects\ParotCodeEventSystem\ParrotCodeEventSystem.csproj", "{58B98786-6C9C-4609-847B-66C1233B8B86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeEventSystem", "Projects\ParrotCodeEventSystem\ParrotCodeEventSystem.csproj", "{58B98786-6C9C-4609-847B-66C1233B8B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeInputSystem", "Projects\ParotCodeInputSystem\ParrotCodeInputSystem.csproj", "{8D37BEC1-97A9-4104-966C-1080061673D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeInputSystem", "Projects\ParrotCodeInputSystem\ParrotCodeInputSystem.csproj", "{8D37BEC1-97A9-4104-966C-1080061673D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeMultiplayer", "Projects\ParrotCodeMultiplayer\ParrotCodeMultiplayer.csproj", "{0803A906-06D4-4070-AE8D-996264D02FCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotNativeCode", "Projects\ParrotNativeCode\ParrotNativeCode.csproj", "{C2E037D4-B86D-45C9-AE45-AFA530D9B070}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeNative", "Projects\ParrotCodeNative\ParrotCodeNative.csproj", "{C2E037D4-B86D-45C9-AE45-AFA530D9B070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotNativeSharedEditorCode", "Projects\ParrotNativeSharedEditorCode\ParrotNativeSharedEditorCode.csproj", "{BBBED6C2-D4CB-4468-8A95-F20C51B43569}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeNativeEditor", "Projects\ParrotCodeNativeEditor\ParrotCodeNativeEditor.csproj", "{BBBED6C2-D4CB-4468-8A95-F20C51B43569}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeExtensions", "Projects\ParrotCodeExtensions\ParrotCodeExtensions.csproj", "{B8929A20-51CC-4435-8722-53DB1EDBCF86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeEditorExtensions", "Projects\ParrotCodeEditorExtensions\ParrotCodeEditorExtensions.csproj", "{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeHelpers", "Projects\ParrotCodeHelpers\ParrotCodeHelpers.csproj", "{0E3814D4-0223-48B0-83B3-38072BC8B623}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodePlatformEditor", "Projects\ParrotCodePlatforms\ParrotCodePlatformEditor.csproj", "{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeEditorHelpers", "Projects\ParrotCodeEditorHelpers\ParrotCodeEditorHelpers.csproj", "{C39723CD-886A-4605-98B3-2A8444DBBDC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodePlatformEditor", "Projects\ParrotCodePlatformEditor\ParrotCodePlatformEditor.csproj", "{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrotCodeAndroid", "Projects\ParrotCodeAndroid\ParrotCodeAndroid.csproj", "{6A16D3D7-593E-4ADC-852D-650452E9BEAC}"
 EndProject
@@ -131,6 +135,14 @@ Global
 		{B8929A20-51CC-4435-8722-53DB1EDBCF86}.Unity2022|Any CPU.Build.0 = Unity2022|Any CPU
 		{B8929A20-51CC-4435-8722-53DB1EDBCF86}.Unity2023|Any CPU.ActiveCfg = Unity2023|Any CPU
 		{B8929A20-51CC-4435-8722-53DB1EDBCF86}.Unity2023|Any CPU.Build.0 = Unity2023|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Unity2022|Any CPU.ActiveCfg = Unity2022|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Unity2022|Any CPU.Build.0 = Unity2022|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Unity2023|Any CPU.ActiveCfg = Unity2023|Any CPU
+		{D659BCF0-3D64-4807-9043-D4C6EB6CC13E}.Unity2023|Any CPU.Build.0 = Unity2023|Any CPU
 		{0E3814D4-0223-48B0-83B3-38072BC8B623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E3814D4-0223-48B0-83B3-38072BC8B623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E3814D4-0223-48B0-83B3-38072BC8B623}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -139,6 +151,14 @@ Global
 		{0E3814D4-0223-48B0-83B3-38072BC8B623}.Unity2022|Any CPU.Build.0 = Unity2022|Any CPU
 		{0E3814D4-0223-48B0-83B3-38072BC8B623}.Unity2023|Any CPU.ActiveCfg = Unity2023|Any CPU
 		{0E3814D4-0223-48B0-83B3-38072BC8B623}.Unity2023|Any CPU.Build.0 = Unity2023|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Unity2022|Any CPU.ActiveCfg = Unity2022|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Unity2022|Any CPU.Build.0 = Unity2022|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Unity2023|Any CPU.ActiveCfg = Unity2023|Any CPU
+		{C39723CD-886A-4605-98B3-2A8444DBBDC3}.Unity2023|Any CPU.Build.0 = Unity2023|Any CPU
 		{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25CDE8C5-BE77-4C51-A3A6-244CACD86D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU

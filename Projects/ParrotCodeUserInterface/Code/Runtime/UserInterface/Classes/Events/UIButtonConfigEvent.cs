@@ -27,9 +27,14 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Unity Assemblies
 using UnityEngine;
-using ParrotCode.Native.Common;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
 using ParrotCode.EventSystem;
+#endregion
 
 namespace ParrotCode.UI
 {
@@ -43,7 +48,10 @@ namespace ParrotCode.UI
         {
             if(config == null)
             {
-                Log($"Couldn't send config event for '{gameObject.name}'. There is no UI button config assigned in the inspector panel.", LogVerbosity.Warning, LogChannel.UI);
+                Log($"Couldn't send config event for '{gameObject.name}'. " +
+                    $"There is no UI button config assigned in the inspector panel.",
+                    LogVerbosity.Warning, LogChannel.UI);
+
                 return;
             }
 

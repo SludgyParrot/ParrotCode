@@ -27,13 +27,20 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.EventSystem;
-using ParrotCode.InputSystem;
-using ParrotCode.Native.Common;
-using ParrotCode.Native.Shared;
+#region Included System Assemblies
 using System.Collections.Generic;
 using System.Linq;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.EventSystem;
+using ParrotCode.InputSystem;
+using ParrotCode.Native;
+#endregion
 
 namespace ParrotCode.UI
 {

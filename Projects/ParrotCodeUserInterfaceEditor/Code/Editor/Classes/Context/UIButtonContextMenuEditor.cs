@@ -27,14 +27,24 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
 using UnityEditor;
-using ParrotCode.UI;
-using TMPro;
-
 using UnityEventSystem = UnityEngine.EventSystems.EventSystem;
 using UnityEngine.InputSystem.UI;
+#endregion
+
+#region Included TMPro Assemblies
+using TMPro;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.UI;
+#endregion
 
 namespace ParrotCode.UIEditor
 {

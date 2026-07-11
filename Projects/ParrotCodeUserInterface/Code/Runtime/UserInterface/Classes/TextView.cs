@@ -27,10 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
-using UnityEngine.Localization;
-using ParrotCode.Native.Common;
+#region Included Unity Assemblies
 using UnityEngine;
+using UnityEngine.Localization;
+#endregion
+
+#region Included TMPro Assemblies
 using TMPro;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
+#endregion
 
 namespace ParrotCode.UI
 {

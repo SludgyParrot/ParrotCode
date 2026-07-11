@@ -27,7 +27,10 @@ For licensing inquiries:
 licensing@sludgyparrot.com
 
 */
-using ParrotCode.Native.Shared;
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
+#endregion
 
 namespace ParrotCode.UI
 {

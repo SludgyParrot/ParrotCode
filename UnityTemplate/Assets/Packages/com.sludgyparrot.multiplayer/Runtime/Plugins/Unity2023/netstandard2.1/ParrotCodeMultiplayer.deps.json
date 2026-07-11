@@ -9,19 +9,19 @@
     ".NETStandard,Version=v2.1/": {
       "ParrotCodeMultiplayer/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0",
-          "ParrotNativeSharedEditorCode": "1.0.0"
+          "ParrotCodeNative": "1.0.0",
+          "ParrotCodeNativeEditor": "1.0.0"
         },
         "runtime": {
           "ParrotCodeMultiplayer.dll": {}
         }
       },
-      "ParrotCodeEventSystem/1.0.0": {
+      "ParrotCodeEditorExtensions/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0"
+          "ParrotCodeNative": "1.0.0"
         },
         "runtime": {
-          "ParrotCodeEventSystem.dll": {
+          "ParrotCodeEditorExtensions.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -29,7 +29,7 @@
       },
       "ParrotCodeExtensions/1.0.0": {
         "dependencies": {
-          "ParrotNativeCode": "1.0.0"
+          "ParrotCodeNative": "1.0.0"
         },
         "runtime": {
           "ParrotCodeExtensions.dll": {
@@ -38,21 +38,9 @@
           }
         }
       },
-      "ParrotNativeCode/1.0.0": {
+      "ParrotCodeNative.Reference/0.0.0.0": {
         "runtime": {
-          "ParrotNativeCode.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "ParrotNativeSharedEditorCode/1.0.0": {
-        "dependencies": {
-          "ParrotCodeEventSystem": "1.0.0",
-          "ParrotCodeExtensions": "1.0.0"
-        },
-        "runtime": {
-          "ParrotNativeSharedEditorCode.dll": {
+          "ParrotCodeNative.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -66,7 +54,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "ParrotCodeEventSystem/1.0.0": {
+    "ParrotCodeEditorExtensions/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -76,13 +64,8 @@
       "serviceable": false,
       "sha512": ""
     },
-    "ParrotNativeCode/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "ParrotNativeSharedEditorCode/1.0.0": {
-      "type": "project",
+    "ParrotCodeNative.Reference/0.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

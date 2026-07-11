@@ -32,7 +32,7 @@ using UnityEngine;
 #endregion
 
 #region Included Parrot Code Assemblies
-using ParrotCode.Native.Shared;
+using ParrotCode.Native;
 #endregion
 
 namespace ParrotCode.Extensions

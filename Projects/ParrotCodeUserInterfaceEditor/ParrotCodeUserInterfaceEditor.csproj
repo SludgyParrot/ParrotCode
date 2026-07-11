@@ -57,9 +57,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParotCodeEventSystem\ParrotCodeEventSystem.csproj" />
+    <ProjectReference Include="..\ParrotCodeEventSystem\ParrotCodeEventSystem.csproj" />
+    <ProjectReference Include="..\ParrotCodeNative\ParrotCodeNative.csproj" />
     <ProjectReference Include="..\ParrotCodeUserInterface\ParrotCodeUserInterface.csproj" />
-    <ProjectReference Include="..\ParrotNativeCode\ParrotNativeCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>

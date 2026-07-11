@@ -27,10 +27,18 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.UI;
+#region Included System Assemblies
 using System.Collections.Generic;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEditor;
 using UnityEngine;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.UI;
+#endregion
 
 namespace ParrotCode.UIEditor
 {

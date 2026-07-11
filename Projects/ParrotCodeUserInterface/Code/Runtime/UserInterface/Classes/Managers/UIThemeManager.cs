@@ -27,12 +27,20 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included System Assemblies
 using System.Collections.Generic;
 using System.Linq;
+#endregion
+
+#region Included Unity Assemblies
 using UnityEngine;
-using ParrotCode.Native.Common;
+#endregion
+
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
 using ParrotCode.EventSystem;
-using ParrotCode.Native.Inspector;
+using ParrotCode.Native.SharedEditor;
+#endregion
 
 namespace ParrotCode.UI
 {
@@ -50,7 +58,8 @@ namespace ParrotCode.UI
         {
             if(themes?.Count == 0)
             {
-                Log($"There are no themes assigned to '{gameObject.name}'.", LogVerbosity.Error, LogChannel.UI);
+                Log($"There are no themes assigned to '{gameObject.name}'.", 
+                    LogVerbosity.Error, LogChannel.UI);
                 return;
             }
 
@@ -67,7 +76,8 @@ namespace ParrotCode.UI
 
             if (theme == null)
             {
-                Log($"[{gameObject.name}] Change theme failed. Couldn't find theme of type: {selectedTheme}.", LogVerbosity.Error, LogChannel.UI);
+                Log($"[{gameObject.name}] Change theme failed. Couldn't find theme of type: {selectedTheme}.",
+                    LogVerbosity.Error, LogChannel.UI);
                 return;
             }
 

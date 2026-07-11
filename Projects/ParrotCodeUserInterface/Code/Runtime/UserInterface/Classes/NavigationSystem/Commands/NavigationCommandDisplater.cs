@@ -27,8 +27,10 @@ licensing@sludgyparrot.com
 
 */
 
+#region Included Parrot Code Assemblies
 using ParrotCode.InputSystem;
 using ParrotCode.Extensions;
+#endregion
 
 namespace ParrotCode.UI
 {

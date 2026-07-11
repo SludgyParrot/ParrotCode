@@ -27,7 +27,9 @@ licensing@sludgyparrot.com
 
 */
 
-using ParrotCode.Native.Shared;
+#region Included Parrot Code Assemblies
+using ParrotCode.Native;
+#endregion
 
 namespace ParrotCode.UI
 {
@@ -35,7 +37,8 @@ namespace ParrotCode.UI
     {
         private readonly NavigationSystem navigationSystem;
 
-        public ExplicitNavigation(NavigationSystem navigationSystem) => this.navigationSystem = navigationSystem;
+        public ExplicitNavigation(NavigationSystem navigationSystem) => 
+            this.navigationSystem = navigationSystem;
 
         public void Navigate(ISelectable selectable, ScreenDirection direction)
         {

@@ -77,7 +77,5 @@ namespace ParrotCode.Extensions
         /// <returns>True if this <see cref="string"/> is null or consist entirely of white space, else False.</returns>
         public static bool IsNullOrWhiteSpace(this string str)
             => string.IsNullOrWhiteSpace(str);
-
-
     }
 }
