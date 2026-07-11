@@ -28,19 +28,20 @@ licensing@sludgyparrot.com
 */
 
 #region Included Systems Assemblies
+using System;
 using System.Threading.Tasks;
 #endregion
 
 namespace ParrotCode.Native.SharedEditor
 {
     /// <summary>
-    /// Defines a contract for asynchronously executing a command-line process.
+    /// Defines the contract for executing a command-line process.
     /// </summary>
     /// <remarks>
-    /// Implementations encapsulate the information required to launch an external
-    /// executable and return its exit code upon completion. An exit code of
-    /// <c>0</c> typically indicates success, although the meaning of exit codes
-    /// is determined by the executed application.
+    /// Implementations encapsulate the configuration and execution of a specific
+    /// command-line operation. The interface provides both synchronous and
+    /// asynchronous execution methods, along with the exit code threshold that
+    /// determines whether the command execution is considered a failure.
     /// </remarks>
     public interface ICommandLineExecutable
     {
@@ -48,25 +49,45 @@ namespace ParrotCode.Native.SharedEditor
         /// Gets the minimum process exit code that is considered a failure.
         /// </summary>
         /// <value>
-        /// The exit code threshold used to determine whether command execution
-        /// completed successfully. Any exit code greater than or equal to this
-        /// value is treated as a failure.
+        /// The exit code threshold used to determine whether the command executed
+        /// successfully. Any exit code greater than or equal to this value is
+        /// considered a failure.
         /// </value>
-        /// <remarks>
-        /// This value defaults to <c>8</c>, which corresponds to the Robocopy exit
-        /// code indicating that one or more failures occurred during the copy
-        /// operation. Exit codes below this value are generally considered
-        /// successful or informational by Robocopy.
-        /// </remarks>
         int FailureExitCode { get; }
 
         /// <summary>
-        /// Executes the configured command-line process asynchronously.
+        /// Executes the command-line operation synchronously.
+        /// </summary>
+        /// <remarks>
+        /// This method blocks the calling thread until the command-line process
+        /// has completed execution.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the command-line process could not be started.
+        /// </exception>
+        /// <exception cref="System.ComponentModel.Win32Exception">
+        /// Thrown if an operating system error occurs while starting the process.
+        /// </exception>
+        void Execute();
+
+        /// <summary>
+        /// Executes the command-line operation asynchronously.
         /// </summary>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result
-        /// contains the exit code returned by the executed process.
+        /// contains the exit code returned by the completed process.
         /// </returns>
-        Task<int> Execute();
+        /// <remarks>
+        /// The returned exit code should be compared against
+        /// <see cref="FailureExitCode"/> to determine whether the command
+        /// completed successfully.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the command-line process could not be started.
+        /// </exception>
+        /// <exception cref="System.ComponentModel.Win32Exception">
+        /// Thrown if an operating system error occurs while starting the process.
+        /// </exception>
+        Task<int> ExecuteAsync();
     }
 }

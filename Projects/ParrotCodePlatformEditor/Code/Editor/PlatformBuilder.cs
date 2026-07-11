@@ -56,11 +56,13 @@ namespace ParrotCode.Platforms
         private static readonly ProjectBuildCommandLogExecutable _projectBuildLogCommand = 
             new ProjectBuildCommandLogExecutable();
 
+        private static OpenFolderCommandLineExecutable OpenFolderCommand => new OpenFolderCommandLineExecutable("");
+
         public static async Task<int> InitializeBuild()
         {
-            await _projectBuildLogCommand.Execute();
+            await _projectBuildLogCommand.ExecuteAsync();
 
-            int projectBackupExitCode = await _projectBackupCommand.Execute();
+            int projectBackupExitCode = await _projectBackupCommand.ExecuteAsync();
 
             if (projectBackupExitCode >= 8)
             {
@@ -68,13 +70,15 @@ namespace ParrotCode.Platforms
                     "Project backup", projectBackupExitCode);
             }
 
-            int projectBuildExitCode = await _projectBuildCommand.Execute();
+            int projectBuildExitCode = await _projectBuildCommand.ExecuteAsync();
 
             if (projectBuildExitCode >= 8)
             {
                 throw new CommandLineException(SharedCommandLineUtilities.UnityEditorApplication,
                     "Project build", projectBuildExitCode);
             }
+
+            OpenFolderCommand.Execute();
 
             return 0;
         }
@@ -100,7 +104,7 @@ namespace ParrotCode.Platforms
 
             if(report.summary.result != BuildResult.Succeeded)
             {
-                throw new Exception($"~{report.summary.platform} player build failed with results: {report.summary.result}.");
+                throw new Exception($"{report.summary.platform} player build failed with results: {report.summary.result}.");
             }
         }
     }

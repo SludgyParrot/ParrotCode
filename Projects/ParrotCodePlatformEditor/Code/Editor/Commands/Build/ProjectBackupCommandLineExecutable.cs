@@ -49,7 +49,7 @@ namespace ParrotCode.Platforms
     /// process begins. This allows automated builds to operate on an isolated
     /// copy of the project without modifying the original working directory.
     /// </remarks>
-    public sealed class ProjectBackupCommandLineExecutable : ICommandLineExecutable
+    public sealed class ProjectBackupCommandLineExecutable : CommandLineExecutable
     {
         /// <summary>
         /// Gets the minimum process exit code that is considered a failure.
@@ -65,7 +65,7 @@ namespace ParrotCode.Platforms
         /// operation. Exit codes below this value are generally considered
         /// successful or informational by Robocopy.
         /// </remarks>
-        public int FailureExitCode => 8;
+        public override int FailureExitCode => 8;
 
         /// <summary>
         /// Executes a Robocopy command that creates a temporary backup of the current Unity project
@@ -92,7 +92,7 @@ namespace ParrotCode.Platforms
         /// <exception cref="System.InvalidOperationException">
         /// Thrown if the Robocopy process could not be started.
         /// </exception>
-        public async Task<int> Execute()
+        public override async Task<int> ExecuteAsync()
         {
             string projectRootDirectory = SharedNativeProjectDirectory.RootProjectPath;
             string temporaryProjectBackupDirectory = SharedNativeProjectDirectory.TemporaryBuildProjectPath;

@@ -48,7 +48,7 @@ namespace ParrotCode.Platforms
     /// If the directory containing the log file does not exist, it is created
     /// before the command is executed.
     /// </remarks>
-    public sealed class ProjectBuildCommandLogExecutable : ICommandLineExecutable
+    public sealed class ProjectBuildCommandLogExecutable : CommandLineExecutable
     {
         /// <summary>
         /// Gets the minimum process exit code that is considered a failure.
@@ -64,7 +64,7 @@ namespace ParrotCode.Platforms
         /// operation. Exit codes below this value are generally considered
         /// successful or informational by Robocopy.
         /// </remarks>
-        public int FailureExitCode => 1;
+        public override int FailureExitCode => 1;
 
         /// <summary>
         /// Opens a command prompt and displays the project build log.
@@ -74,7 +74,7 @@ namespace ParrotCode.Platforms
         /// always <c>0</c>, indicating that the logger command was started
         /// successfully.
         /// </returns>
-        public async Task<int> Execute()
+        public override void Execute()
         {
             string temporaryBuildLogFilePath = SharedProjectDirectory.TemporaryBuildLogFilePath;
 
@@ -92,8 +92,6 @@ namespace ParrotCode.Platforms
             };
 
             CommandLineUtility.Run(consoleProcessInfo);
-
-           return await Task.FromResult(0);
         }
     }
 }

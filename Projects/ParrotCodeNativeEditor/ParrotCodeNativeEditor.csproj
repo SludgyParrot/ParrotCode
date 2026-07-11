@@ -46,9 +46,5 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Code\Editor\Utilities\CommandLine\" />
-  </ItemGroup>
 
 </Project>

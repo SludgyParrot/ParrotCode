@@ -37,7 +37,7 @@ using ParrotCode.Native.SharedEditor;
 
 namespace ParrotCode.Platforms
 {
-    public sealed class ClearProjectBackupCommandLineExecutable : ICommandLineExecutable
+    public sealed class ClearProjectBackupCommandLineExecutable : CommandLineExecutable
     {
         /// <summary>
         /// Gets the minimum process exit code that is considered a failure.
@@ -53,9 +53,9 @@ namespace ParrotCode.Platforms
         /// operation. Exit codes below this value are generally considered
         /// successful or informational by Robocopy.
         /// </remarks>
-        public int FailureExitCode => 1;
+        public override int FailureExitCode => 1;
 
-        public Task<int> Execute()
+        public override Task<int> ExecuteAsync()
         {
             throw new System.NotImplementedException();
         }

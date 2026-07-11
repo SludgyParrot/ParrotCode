@@ -47,7 +47,7 @@ namespace ParrotCode.Platforms
     /// installation and invokes the build entry point specified by
     /// <see cref="PlatformBuilder.BuildPlayer"/>.
     /// </remarks>
-    public sealed class ProjectBuildCommandLineExecutable : ICommandLineExecutable
+    public sealed class ProjectBuildCommandLineExecutable : CommandLineExecutable
     {
         /// <summary>
         /// Gets the minimum process exit code that is considered a failure.
@@ -63,7 +63,7 @@ namespace ParrotCode.Platforms
         /// operation. Exit codes below this value are generally considered
         /// successful or informational by Robocopy.
         /// </remarks>
-        public int FailureExitCode => 1;
+        public override int FailureExitCode => 1;
 
         /// <summary>
         /// Executes the Unity build process asynchronously.
@@ -78,7 +78,7 @@ namespace ParrotCode.Platforms
         /// started by invoking the method specified by Unity's
         /// <c>-executeMethod</c> command-line argument.
         /// </remarks>
-        public async Task<int> Execute()
+        public override async Task<int> ExecuteAsync()
         {
             string arguments = $" {string.Join(" ", SharedCommandLineUtilities.UnityBuildArguments)}" +
                 $" {typeof(PlatformBuilder).FullName}.{nameof(PlatformBuilder.BuildPlayer)} " +
