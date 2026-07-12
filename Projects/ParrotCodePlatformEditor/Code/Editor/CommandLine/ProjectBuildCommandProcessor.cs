@@ -65,18 +65,6 @@ namespace ParrotCode.Platforms
             new ProjectBuildCommandLogExecutable();
 
         /// <summary>
-        /// Executes the command responsible for displaying or opening the build log
-        /// generated during the build process.
-        /// </summary>
-        /// <remarks>
-        /// This command is typically invoked after a build has completed to allow
-        /// users to inspect the generated build log for informational messages,
-        /// warnings, and errors.
-        /// </remarks>
-        private readonly BuildLogCommandLineExecutable _buildLogCommand =
-            new BuildLogCommandLineExecutable();
-
-        /// <summary>
         /// Executes the complete project build workflow.
         /// </summary>
         /// <remarks>
@@ -125,9 +113,6 @@ namespace ParrotCode.Platforms
             }
             finally
             {
-                await CommandTaskUtility.ExecuteCommandOrThrowAsync(_buildLogCommand,
-                    "Build log");
-
                 await ProjectCleanupUtility.PostBuildProjectCleanup();
             }
 

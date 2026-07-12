@@ -28,7 +28,6 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
-using System.IO;
 using System.Threading.Tasks;
 #endregion
 
@@ -56,57 +55,17 @@ namespace ParrotCode.Platforms
         /// A task that represents the asynchronous cleanup operation.
         /// </returns>
         /// <remarks>
-        /// This method removes the temporary project backup followed by the
-        /// temporary build configuration directory.
+        /// This method removes the temporary project backup.
         /// </remarks>
         public static async Task PostBuildProjectCleanup()
         {
-            await RemoveTemporaryBuildProjectBackup();
-            await RemoveTemporaryBuildConfigDirectory();
-        }
-
-        /// <summary>
-        /// Removes the temporary project backup created for the build.
-        /// </summary>
-        /// <returns>
-        /// A task that represents the asynchronous removal operation.
-        /// </returns>
-        /// <remarks>
-        /// The temporary project backup is deleted using a
-        /// <see cref="RemoveFolderCommandLineExecutable"/>. If the operation
-        /// fails, an exception is propagated to the caller.
-        /// </remarks>
-        private static async Task RemoveTemporaryBuildProjectBackup()
-        {
             RemoveFolderCommandLineExecutable clearTempProjectBackupCommand =
-                new RemoveFolderCommandLineExecutable(
-                    SharedNativeProjectDirectory.TemporaryBuildProjectPath);
+               new RemoveFolderCommandLineExecutable(
+                   SharedNativeProjectDirectory.TemporaryBuildProjectPath);
 
             await CommandTaskUtility.ExecuteCommandOrThrowAsync(
                 clearTempProjectBackupCommand,
                 "Clear backup");
-        }
-
-        /// <summary>
-        /// Removes the temporary build configuration directory.
-        /// </summary>
-        /// <returns>
-        /// A task that represents the asynchronous removal operation.
-        /// </returns>
-        /// <remarks>
-        /// The directory containing the temporary build configuration files is
-        /// deleted using a <see cref="RemoveFolderCommandLineExecutable"/>. If
-        /// the operation fails, an exception is propagated to the caller.
-        /// </remarks>
-        private static async Task RemoveTemporaryBuildConfigDirectory()
-        {
-            RemoveFolderCommandLineExecutable clearTempBuildConfigDirectoryCommand =
-                new RemoveFolderCommandLineExecutable(
-                    Path.GetDirectoryName(SharedProjectDirectory.TemporaryBuildConfigPath));
-
-            await CommandTaskUtility.ExecuteCommandOrThrowAsync(
-                clearTempBuildConfigDirectoryCommand,
-                "Clear build configs");
-        }
+        } 
     }
 }
