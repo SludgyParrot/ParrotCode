@@ -245,21 +245,41 @@
             Gets the Unity build target associated with this configuration.
             </summary>
         </member>
-        <member name="P:ParrotCode.Platforms.ClearProjectBackupCommandLineExecutable.FailureExitCode">
+        <member name="T:ParrotCode.Platforms.BuildLogCommandLineExecutable">
             <summary>
-            Gets the minimum process exit code that is considered a failure.
+            Represents a command-line executable that moves the temporary build log
+            to the configured build output directory.
             </summary>
-            <value>
-            The exit code threshold used to determine whether command execution
-            completed successfully. Any exit code greater than or equal to this
-            value is treated as a failure.
-            </value>
             <remarks>
-            This value defaults to <c>8</c>, which corresponds to the Robocopy exit
-            code indicating that one or more failures occurred during the copy
-            operation. Exit codes below this value are generally considered
-            successful or informational by Robocopy.
+            This command uses RoboCopy to move the generated build log from the
+            temporary build directory to the final build log directory. The destination
+            directory is created automatically if it does not already exist.
             </remarks>
+        </member>
+        <member name="P:ParrotCode.Platforms.BuildLogCommandLineExecutable.FailureExitCode">
+            <summary>
+            Gets the minimum process exit code that is considered a failure when
+            executing the build log command.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.BuildLogCommandLineExecutable.ExecuteAsync">
+            <summary>
+            Moves the temporary build log to the configured build log directory
+            asynchronously.
+            </summary>
+            <returns>
+            A task that represents the asynchronous move operation. The task result
+            contains the exit code returned by the RoboCopy process.
+            </returns>
+            <remarks>
+            The destination build log directory is created if it does not already
+            exist. The build log is moved using RoboCopy with the
+            <see cref="F:ParrotCode.Native.SharedEditor.CommandLineSwitch.Mov"/> switch to remove the source file
+            after a successful copy.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the RoboCopy process could not be started.
+            </exception>
         </member>
         <member name="T:ParrotCode.Platforms.ProjectBackupCommandLineExecutable">
             <summary>
@@ -415,6 +435,17 @@
             <summary>
             Logs the command used to execute the Unity project build.
             </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildCommandProcessor._buildLogCommand">
+            <summary>
+            Executes the command responsible for displaying or opening the build log
+            generated during the build process.
+            </summary>
+            <remarks>
+            This command is typically invoked after a build has completed to allow
+            users to inspect the generated build log for informational messages,
+            warnings, and errors.
+            </remarks>
         </member>
         <member name="M:ParrotCode.Platforms.ProjectBuildCommandProcessor.InitializeBuild">
             <summary>
@@ -897,6 +928,27 @@
              <see cref="F:UnityEditor.BuildOptions.EnableDeepProfilingSupport"/>.
              </remarks>
         </member>
+        <member name="T:ParrotCode.Platforms.SharedLoggingFileNames">
+            <summary>
+            Provides shared file names used for logging throughout the build pipeline.
+            </summary>
+            <remarks>
+            This class centralizes the names of log files to ensure they remain
+            consistent across the framework.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Platforms.SharedLoggingFileNames.BuildLogFileName">
+            <summary>
+            Gets the default build log file name, including its file extension.
+            </summary>
+            <value>
+            The build log file name (for example, <c>Build.log</c>).
+            </value>
+            <remarks>
+            This value does not include a directory path. Combine it with the
+            appropriate directory when constructing the full path to the build log.
+            </remarks>
+        </member>
         <member name="T:ParrotCode.Platforms.SharedProjectDirectory">
             <summary>
             Provides shared paths used by the platform build pipeline.
@@ -923,6 +975,23 @@
             <value>
             The absolute path of the log file used to store build output and
             diagnostic information.
+            </value>
+        </member>
+        <member name="P:ParrotCode.Platforms.SharedProjectDirectory.BuildLogFileDirectory">
+            <summary>
+            Gets the directory to the build log file.
+            </summary>
+            <value>
+            The absolute directory of the log file used to store build output and
+            diagnostic information.
+            </value>
+        </member>
+        <member name="P:ParrotCode.Platforms.SharedProjectDirectory.TemporaryProjectBackupLogFilePath">
+            <summary>
+            Gets the path to the temporary project backup log file.
+            </summary>
+            <value>
+            The absolute path of the log file used to store project backup information.
             </value>
         </member>
         <member name="P:ParrotCode.Platforms.SharedProjectDirectory.BuildFolderDirectory">
@@ -991,6 +1060,55 @@
             <see langword="true"/> if a valid Production configuration exists for the active build target; otherwise,
             <see langword="false"/>.
             </returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectCleanupUtility">
+            <summary>
+            Provides utility methods for cleaning up temporary files and directories
+            created during the build process.
+            </summary>
+            <remarks>
+            This class is responsible for removing temporary build artifacts after a
+            build has completed, including the temporary project backup and build
+            configuration directory.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectCleanupUtility.PostBuildProjectCleanup">
+            <summary>
+            Performs post-build cleanup by removing all temporary build resources.
+            </summary>
+            <returns>
+            A task that represents the asynchronous cleanup operation.
+            </returns>
+            <remarks>
+            This method removes the temporary project backup followed by the
+            temporary build configuration directory.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectCleanupUtility.RemoveTemporaryBuildProjectBackup">
+            <summary>
+            Removes the temporary project backup created for the build.
+            </summary>
+            <returns>
+            A task that represents the asynchronous removal operation.
+            </returns>
+            <remarks>
+            The temporary project backup is deleted using a
+            <see cref="T:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable"/>. If the operation
+            fails, an exception is propagated to the caller.
+            </remarks>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectCleanupUtility.RemoveTemporaryBuildConfigDirectory">
+            <summary>
+            Removes the temporary build configuration directory.
+            </summary>
+            <returns>
+            A task that represents the asynchronous removal operation.
+            </returns>
+            <remarks>
+            The directory containing the temporary build configuration files is
+            deleted using a <see cref="T:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable"/>. If
+            the operation fails, an exception is propagated to the caller.
+            </remarks>
         </member>
     </members>
 </doc>

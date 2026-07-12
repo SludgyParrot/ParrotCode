@@ -96,7 +96,7 @@ namespace ParrotCode.Platforms
         {
             string projectRootDirectory = SharedNativeProjectDirectory.RootProjectPath;
             string temporaryProjectBackupDirectory = SharedNativeProjectDirectory.TemporaryBuildProjectPath;
-            string temporaryBuildLogFilePath = SharedProjectDirectory.TemporaryBuildLogFilePath;
+            string temporaryBuildLogFilePath = SharedProjectDirectory.TemporaryProjectBackupLogFilePath;
 
             Directory.CreateDirectory(Path.GetDirectoryName(temporaryBuildLogFilePath));
 

@@ -198,7 +198,7 @@ namespace ParrotCode.Platforms
                 EditorGUILayout.Space();
 
                 if (!GUILayout.Button(SharedCustomEditorStringInfo.ApplySettingsButtonLabel,
-                    CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+                    CustomInspectorGUILayout.DefaultInspectorButtonLayoutHeight))
                 {
                     return;
                 }

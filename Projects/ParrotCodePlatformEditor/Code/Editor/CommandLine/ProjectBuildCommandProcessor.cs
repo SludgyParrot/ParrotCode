@@ -28,6 +28,8 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 #endregion
 
@@ -61,6 +63,18 @@ namespace ParrotCode.Platforms
         /// </summary>
         private readonly ProjectBuildCommandLogExecutable _projectBuildLogCommand =
             new ProjectBuildCommandLogExecutable();
+
+        /// <summary>
+        /// Executes the command responsible for displaying or opening the build log
+        /// generated during the build process.
+        /// </summary>
+        /// <remarks>
+        /// This command is typically invoked after a build has completed to allow
+        /// users to inspect the generated build log for informational messages,
+        /// warnings, and errors.
+        /// </remarks>
+        private readonly BuildLogCommandLineExecutable _buildLogCommand =
+            new BuildLogCommandLineExecutable();
 
         /// <summary>
         /// Executes the complete project build workflow.
@@ -111,13 +125,10 @@ namespace ParrotCode.Platforms
             }
             finally
             {
-                RemoveFolderCommandLineExecutable _clearTempProjectBackupCommand = 
-                    new RemoveFolderCommandLineExecutable(
-                    SharedNativeProjectDirectory.TemporaryBuildProjectPath);
+                await CommandTaskUtility.ExecuteCommandOrThrowAsync(_buildLogCommand,
+                    "Build log");
 
-                await CommandTaskUtility.ExecuteCommandOrThrowAsync(
-                    _clearTempProjectBackupCommand,
-                    "Clear backup");
+                await ProjectCleanupUtility.PostBuildProjectCleanup();
             }
 
             OpenFolderCommandLineExecutable openFolderCommand =

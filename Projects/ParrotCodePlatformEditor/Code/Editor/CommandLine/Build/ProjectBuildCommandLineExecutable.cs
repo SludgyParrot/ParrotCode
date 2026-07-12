@@ -82,7 +82,7 @@ namespace ParrotCode.Platforms
         {
             string arguments = $" {string.Join(" ", SharedCommandLineUtilities.UnityBuildArguments)}" +
                 $" {typeof(ProjectBuilder).FullName}.{nameof(ProjectBuilder.BuildPlayer)} " +
-                $"{SharedCommonFiltersAndPatterns.UnityLogFile} " +
+                $"{CommandLineSwitch.UnityLogFile} " +
                 $"{SharedProjectDirectory.TemporaryBuildLogFilePath}";
 
             ProcessStartInfo processInfo = new ProcessStartInfo

@@ -34,7 +34,7 @@ using System;
 
 namespace ParrotCode.Native.SharedEditor
 {
-    public static class SharedCommonFiltersAndPatterns
+    public static class CommandLineSwitch
     {
         public static readonly IReadOnlyList<string> CommonExcludedUnityFolders =
             Array.AsReadOnly(new string[]
@@ -72,5 +72,9 @@ namespace ParrotCode.Native.SharedEditor
         public const string RemoveDirectory = "rmdir";
         public const string IncludeSubdirectories = "/s";
         public const string QuietMode = "/q";
+        public const string CopyCMD = "copy";
+        public const string MoveCMD = "move";
+        public const string Mov = "/Mov";
+        public const string Move = "/Move";
     }
 }

@@ -86,7 +86,68 @@
         </member>
         <member name="T:ParrotCode.Native.FileExtension">
             <summary>
-            Represents various types of file extensions.
+            Represents the supported file extensions used by the Parrot Code framework.
+            </summary>
+            <remarks>
+            This enumeration provides a strongly typed way to reference common file
+            extensions when constructing file paths or performing file-related
+            operations. Use the corresponding extension utility methods to convert
+            these values into their string representations (for example, ".json").
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.JSON">
+            <summary>
+            JavaScript Object Notation (.json) file.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.XML">
+            <summary>
+            Extensible Markup Language (.xml) file.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.Text">
+            <summary>
+            Plain text (.txt) file.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.Log">
+            <summary>
+            Log (.log) file.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.Markdown">
+            <summary>
+            Markdown (.md) document.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.PNG">
+            <summary>
+            Portable Network Graphics (.png) image.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.JPG">
+            <summary>
+            Joint Photographic Experts Group (.jpg) image.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.JPEG">
+            <summary>
+            Joint Photographic Experts Group (.jpeg) image.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.PDF">
+            <summary>
+            Portable Document Format (.pdf) document.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.APK">
+            <summary>
+            Android application package (.apk).
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.FileExtension.Executable">
+            <summary>
+            Executable application (.exe).
             </summary>
         </member>
     </members>

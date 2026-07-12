@@ -68,6 +68,10 @@ namespace ParrotCode.Native.SharedEditor
         #region GUI Button Labels
 
         /// <summary>
+        /// Label displayed on the button used to build the project.
+        public static readonly string BuildProjectButtonLabel = "Build Project";
+
+        /// <summary>
         /// Label displayed on the button used to apply project settings.
         /// </summary>
         public static readonly string ApplySettingsButtonLabel = "Apply Settings";

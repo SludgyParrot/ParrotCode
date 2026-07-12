@@ -98,20 +98,69 @@ namespace ParrotCode.Native
     }
 
     /// <summary>
-    /// Represents various types of file extensions.
+    /// Represents the supported file extensions used by the Parrot Code framework.
     /// </summary>
+    /// <remarks>
+    /// This enumeration provides a strongly typed way to reference common file
+    /// extensions when constructing file paths or performing file-related
+    /// operations. Use the corresponding extension utility methods to convert
+    /// these values into their string representations (for example, ".json").
+    /// </remarks>
     public enum FileExtension
     {
+        /// <summary>
+        /// JavaScript Object Notation (.json) file.
+        /// </summary>
         JSON,
+
+        /// <summary>
+        /// Extensible Markup Language (.xml) file.
+        /// </summary>
         XML,
+
+        /// <summary>
+        /// Plain text (.txt) file.
+        /// </summary>
         Text,
+
+        /// <summary>
+        /// Log (.log) file.
+        /// </summary>
         Log,
-        Markup,
+
+        /// <summary>
+        /// Markdown (.md) document.
+        /// </summary>
+        Markdown,
+
+        /// <summary>
+        /// Portable Network Graphics (.png) image.
+        /// </summary>
         PNG,
+
+        /// <summary>
+        /// Joint Photographic Experts Group (.jpg) image.
+        /// </summary>
         JPG,
+
+        /// <summary>
+        /// Joint Photographic Experts Group (.jpeg) image.
+        /// </summary>
         JPEG,
+
+        /// <summary>
+        /// Portable Document Format (.pdf) document.
+        /// </summary>
         PDF,
+
+        /// <summary>
+        /// Android application package (.apk).
+        /// </summary>
         APK,
+
+        /// <summary>
+        /// Executable application (.exe).
+        /// </summary>
         Executable
     }
 }

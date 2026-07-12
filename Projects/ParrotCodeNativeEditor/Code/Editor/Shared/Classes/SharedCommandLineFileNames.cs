@@ -40,7 +40,7 @@ namespace ParrotCode.Native.SharedEditor
     /// Provides commonly used executable names and command-line utilities used by
     /// the Parrot Code build and automation framework.
     /// </summary>
-    public static class SharedCommandLineArgumentss
+    public static class SharedCommandLineArguments
     {
         #region Process Applications
 
@@ -136,19 +136,19 @@ namespace ParrotCode.Native.SharedEditor
         {
             List<string> arguments = new List<string>
                 {
-                   SharedCommonFiltersAndPatterns.CopySubDirectoriesIncludingEmpty,
-                   SharedCommonFiltersAndPatterns.EnableMultiThreading,
-                   SharedCommonFiltersAndPatterns.RetryOnceOnFail,
-                   SharedCommonFiltersAndPatterns.WaitASecondBeforeRetry
+                   CommandLineSwitch.CopySubDirectoriesIncludingEmpty,
+                   CommandLineSwitch.EnableMultiThreading,
+                   CommandLineSwitch.RetryOnceOnFail,
+                   CommandLineSwitch.WaitASecondBeforeRetry
                 };
 
-            arguments.Add(SharedCommonFiltersAndPatterns.ExcludeDirectories);
-            arguments.AddRange(SharedCommonFiltersAndPatterns.CommonExcludedUnityFolders);
+            arguments.Add(CommandLineSwitch.ExcludeDirectories);
+            arguments.AddRange(CommandLineSwitch.CommonExcludedUnityFolders);
 
-            arguments.Add(SharedCommonFiltersAndPatterns.ExcludeFiles);
-            arguments.AddRange(SharedCommonFiltersAndPatterns.CommonExcludedUnityFileExtensions);
+            arguments.Add(CommandLineSwitch.ExcludeFiles);
+            arguments.AddRange(CommandLineSwitch.CommonExcludedUnityFileExtensions);
 
-            arguments.Add(SharedCommonFiltersAndPatterns.RobocopyLogFile);
+            arguments.Add(CommandLineSwitch.RobocopyLogFile);
 
             return arguments.AsReadOnly();
         }
@@ -171,11 +171,11 @@ namespace ParrotCode.Native.SharedEditor
         {
             return new List<string>
             {
-                SharedCommonFiltersAndPatterns.BatchMode,
-                SharedCommonFiltersAndPatterns.Quit,
-                SharedCommonFiltersAndPatterns.ProjectPath,
+                CommandLineSwitch.BatchMode,
+                CommandLineSwitch.Quit,
+                CommandLineSwitch.ProjectPath,
                 SharedNativeProjectDirectory.TemporaryBuildProjectPath,
-                SharedCommonFiltersAndPatterns.ExecudeMethod
+                CommandLineSwitch.ExecudeMethod
             };
         }
 
@@ -200,8 +200,8 @@ namespace ParrotCode.Native.SharedEditor
         {
             return new List<string>
             {
-                SharedCommonFiltersAndPatterns.KeepConsoleWindowOpen,
-                SharedCommonFiltersAndPatterns.Type
+                CommandLineSwitch.KeepConsoleWindowOpen,
+                CommandLineSwitch.Type
             };
         }
     }

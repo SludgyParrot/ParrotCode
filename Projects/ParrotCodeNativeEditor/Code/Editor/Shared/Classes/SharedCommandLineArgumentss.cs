@@ -151,19 +151,19 @@ namespace ParrotCode.Native.SharedEditor
         {
             List<string> arguments = new List<string>
                 {
-                   SharedCommonFiltersAndPatterns.CopySubDirectoriesIncludingEmpty,
-                   SharedCommonFiltersAndPatterns.EnableMultiThreading,
-                   SharedCommonFiltersAndPatterns.RetryOnceOnFail,
-                   SharedCommonFiltersAndPatterns.WaitASecondBeforeRetry
+                   CommandLineSwitch.CopySubDirectoriesIncludingEmpty,
+                   CommandLineSwitch.EnableMultiThreading,
+                   CommandLineSwitch.RetryOnceOnFail,
+                   CommandLineSwitch.WaitASecondBeforeRetry
                 };
 
-            arguments.Add(SharedCommonFiltersAndPatterns.ExcludeDirectories);
-            arguments.AddRange(SharedCommonFiltersAndPatterns.CommonExcludedUnityFolders);
+            arguments.Add(CommandLineSwitch.ExcludeDirectories);
+            arguments.AddRange(CommandLineSwitch.CommonExcludedUnityFolders);
 
-            arguments.Add(SharedCommonFiltersAndPatterns.ExcludeFiles);
-            arguments.AddRange(SharedCommonFiltersAndPatterns.CommonExcludedUnityFileExtensions);
+            arguments.Add(CommandLineSwitch.ExcludeFiles);
+            arguments.AddRange(CommandLineSwitch.CommonExcludedUnityFileExtensions);
 
-            arguments.Add(SharedCommonFiltersAndPatterns.RobocopyLogFile);
+            arguments.Add(CommandLineSwitch.RobocopyLogFile);
 
             return arguments.AsReadOnly();
         }
@@ -186,11 +186,11 @@ namespace ParrotCode.Native.SharedEditor
         {
             return new List<string>
             {
-                SharedCommonFiltersAndPatterns.BatchMode,
-                SharedCommonFiltersAndPatterns.Quit,
-                SharedCommonFiltersAndPatterns.ProjectPath,
+                CommandLineSwitch.BatchMode,
+                CommandLineSwitch.Quit,
+                CommandLineSwitch.ProjectPath,
                 SharedNativeProjectDirectory.TemporaryBuildProjectPath,
-                SharedCommonFiltersAndPatterns.ExecudeMethod
+                CommandLineSwitch.ExecudeMethod
             };
         }
 
@@ -215,8 +215,8 @@ namespace ParrotCode.Native.SharedEditor
         {
             return new List<string>
             {
-                SharedCommonFiltersAndPatterns.KeepConsoleWindowOpen,
-                SharedCommonFiltersAndPatterns.Type
+                CommandLineSwitch.KeepConsoleWindowOpen,
+                CommandLineSwitch.Type
             };
         }
 
@@ -250,10 +250,10 @@ namespace ParrotCode.Native.SharedEditor
         {
             return new List<string>
             {
-                SharedCommonFiltersAndPatterns.CloseConsoleWindowOnExit,
-                SharedCommonFiltersAndPatterns.RemoveDirectory,
-                SharedCommonFiltersAndPatterns.IncludeSubdirectories,
-                SharedCommonFiltersAndPatterns.QuietMode
+                CommandLineSwitch.CloseConsoleWindowOnExit,
+                CommandLineSwitch.RemoveDirectory,
+                CommandLineSwitch.IncludeSubdirectories,
+                CommandLineSwitch.QuietMode
             };
         }
     }

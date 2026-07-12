@@ -76,7 +76,7 @@ namespace ParrotCode.Platforms
         /// </returns>
         public override void Execute()
         {
-            string temporaryBuildLogFilePath = SharedProjectDirectory.TemporaryBuildLogFilePath;
+            string temporaryBuildLogFilePath = SharedProjectDirectory.TemporaryProjectBackupLogFilePath;
 
             Directory.CreateDirectory(Path.GetDirectoryName(temporaryBuildLogFilePath));
 

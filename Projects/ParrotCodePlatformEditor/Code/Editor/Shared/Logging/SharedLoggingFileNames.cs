@@ -27,37 +27,33 @@ licensing@sludgyparrot.com
 
 */
 
-#region Included System Assemblies
-using System.Threading.Tasks;
-#endregion
-
 #region Included Parrot Code Assemblies
-using ParrotCode.Native.SharedEditor;
+using ParrotCode.Extensions;
+using ParrotCode.Native;
 #endregion
 
 namespace ParrotCode.Platforms
 {
-    public sealed class ClearProjectBackupCommandLineExecutable : CommandLineExecutable
+    /// <summary>
+    /// Provides shared file names used for logging throughout the build pipeline.
+    /// </summary>
+    /// <remarks>
+    /// This class centralizes the names of log files to ensure they remain
+    /// consistent across the framework.
+    /// </remarks>
+    public static class SharedLoggingFileNames
     {
         /// <summary>
-        /// Gets the minimum process exit code that is considered a failure.
+        /// Gets the default build log file name, including its file extension.
         /// </summary>
         /// <value>
-        /// The exit code threshold used to determine whether command execution
-        /// completed successfully. Any exit code greater than or equal to this
-        /// value is treated as a failure.
+        /// The build log file name (for example, <c>Build.log</c>).
         /// </value>
         /// <remarks>
-        /// This value defaults to <c>8</c>, which corresponds to the Robocopy exit
-        /// code indicating that one or more failures occurred during the copy
-        /// operation. Exit codes below this value are generally considered
-        /// successful or informational by Robocopy.
+        /// This value does not include a directory path. Combine it with the
+        /// appropriate directory when constructing the full path to the build log.
         /// </remarks>
-        public override int FailureExitCode => 1;
-
-        public override Task<int> ExecuteAsync()
-        {
-            throw new System.NotImplementedException();
-        }
+        public static readonly string BuildLogFileName =
+            $"Build{FileExtension.Log.Extension()}";
     }
 }

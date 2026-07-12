@@ -118,6 +118,44 @@
             <see langword="null"/> if no inner exception is specified.
             </param>
         </member>
+        <member name="T:ParrotCode.Native.SharedEditor.CustomInspectorGUILayout">
+            <summary>
+            Provides shared layout options and styling values for custom Unity
+            Editor inspectors.
+            </summary>
+            <remarks>
+            This class centralizes commonly used <see cref="T:UnityEngine.GUILayoutOption"/>s and
+            visual styling values to ensure a consistent appearance across custom
+            inspectors.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.CustomInspectorGUILayout.DefaultInspectorButtonLayoutHeight">
+            <summary>
+            Gets the default height applied to inspector buttons.
+            </summary>
+            <value>
+            A <see cref="T:UnityEngine.GUILayoutOption"/> that sets the button height to
+            <c>50</c> pixels.
+            </value>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.CustomInspectorGUILayout.ApplySettingsButtonColor">
+            <summary>
+            Gets or sets the foreground color used when rendering apply settings
+            buttons.
+            </summary>
+            <value>
+            The text color for apply settings buttons.
+            </value>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.CustomInspectorGUILayout.ApplySettingsButtonBackgroundColor">
+            <summary>
+            Gets or sets the background color used when rendering apply settings
+            buttons.
+            </summary>
+            <value>
+            The background color for apply settings buttons.
+            </value>
+        </member>
         <member name="T:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities">
             <summary>
             Provides commonly used executable names and command-line utilities used by
@@ -290,13 +328,13 @@
             to remove a directory.
             </returns>
         </member>
-        <member name="T:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss">
+        <member name="T:ParrotCode.Native.SharedEditor.SharedCommandLineArguments">
             <summary>
             Provides commonly used executable names and command-line utilities used by
             the Parrot Code build and automation framework.
             </summary>
         </member>
-        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CMDApplication">
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.CMDApplication">
             <summary>
             The executable name for the Windows Command Prompt application.
             </summary>
@@ -305,7 +343,7 @@
             Windows command-line commands or batch scripts.
             </remarks>
         </member>
-        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.RoboCopyApplication">
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.RoboCopyApplication">
             <summary>
             The executable name for the Windows Robocopy utility.
             </summary>
@@ -315,7 +353,7 @@
             backups, and mirroring file structures.
             </remarks>
         </member>
-        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.UnityEditorApplication">
+        <member name="F:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.UnityEditorApplication">
             <summary>
             The executable name for the Unity Editor application.
             </summary>
@@ -325,7 +363,7 @@
             executable is available on the system.
             </remarks>
         </member>
-        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.RoboCopyArguments">
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.RoboCopyArguments">
             <summary>
             Gets the default set of command-line arguments used when invoking
             the Windows <c>robocopy</c> utility.
@@ -340,7 +378,7 @@
             directories and file extensions.
             </remarks>
         </member>
-        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.UnityBuildArguments">
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.UnityBuildArguments">
             <summary>
             Gets the default command-line arguments used to launch the Unity Editor
             for an automated build.
@@ -355,7 +393,7 @@
             returned collection without affecting subsequent calls.
             </remarks>
         </member>
-        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.ProjectBuildLogArguments">
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.ProjectBuildLogArguments">
             <summary>
             Gets the default command-line arguments used to display the project build log
             in a command prompt.
@@ -369,7 +407,7 @@
             build log file before being passed to <c>cmd.exe</c>.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CreateRoboCopyArguments">
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.CreateRoboCopyArguments">
             <summary>
             Gets the default set of command-line arguments used when invoking
             the Windows <c>robocopy</c> utility.
@@ -384,7 +422,7 @@
             directories and file extensions.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CreateUnityBuildArguments">
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.CreateUnityBuildArguments">
             <summary>
             Creates the default command-line arguments used to launch the Unity Editor
             in batch mode for an automated build.
@@ -400,7 +438,7 @@
             Unity Editor process.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss.CreateProjectBuildLogArguments">
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineArguments.CreateProjectBuildLogArguments">
             <summary>
             Creates the command-line arguments used to open a command prompt and display
             the project build log.
@@ -439,6 +477,7 @@
             Title displayed for the project configuration confirmation popup.
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.BuildProjectButtonLabel" -->
         <member name="F:ParrotCode.Native.SharedEditor.SharedCustomEditorStringInfo.ApplySettingsButtonLabel">
             <summary>
             Label displayed on the button used to apply project settings.

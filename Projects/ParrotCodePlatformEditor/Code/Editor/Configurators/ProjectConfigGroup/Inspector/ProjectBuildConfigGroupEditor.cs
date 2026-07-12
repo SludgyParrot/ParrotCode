@@ -87,8 +87,8 @@ namespace ParrotCode.Platforms
                     CustomInspectorGUILayout.ApplySettingsButtonBackgroundColor;
 
                 if (GUILayout.Button(
-                    SharedCustomEditorStringInfo.ApplySettingsButtonLabel,
-                    CustomInspectorGUILayout.ApplySettingsButtonLayoutHeight))
+                    SharedCustomEditorStringInfo.BuildProjectButtonLabel,
+                    CustomInspectorGUILayout.DefaultInspectorButtonLayoutHeight))
                 {
                     buildConfigGroup.ApplySettings();
                 }

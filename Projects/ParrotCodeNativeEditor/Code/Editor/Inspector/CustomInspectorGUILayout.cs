@@ -31,15 +31,51 @@ using UnityEngine;
 
 namespace ParrotCode.Native.SharedEditor
 {
+    /// <summary>
+    /// Provides shared layout options and styling values for custom Unity
+    /// Editor inspectors.
+    /// </summary>
+    /// <remarks>
+    /// This class centralizes commonly used <see cref="GUILayoutOption"/>s and
+    /// visual styling values to ensure a consistent appearance across custom
+    /// inspectors.
+    /// </remarks>
     public static class CustomInspectorGUILayout
     {
         #region GUI Layouts
-        public static GUILayoutOption ApplySettingsButtonLayoutHeight = GUILayout.Height(50.0f);
+
+        /// <summary>
+        /// Gets the default height applied to inspector buttons.
+        /// </summary>
+        /// <value>
+        /// A <see cref="GUILayoutOption"/> that sets the button height to
+        /// <c>50</c> pixels.
+        /// </value>
+        public static readonly GUILayoutOption DefaultInspectorButtonLayoutHeight =
+            GUILayout.Height(50.0f);
+
         #endregion
 
         #region GUI Styles
-        public static Color ApplySettingsButtonColor = Color.white;
-        public static Color ApplySettingsButtonBackgroundColor = Color.gray;
+
+        /// <summary>
+        /// Gets or sets the foreground color used when rendering apply settings
+        /// buttons.
+        /// </summary>
+        /// <value>
+        /// The text color for apply settings buttons.
+        /// </value>
+        public static readonly Color ApplySettingsButtonColor = Color.white;
+
+        /// <summary>
+        /// Gets or sets the background color used when rendering apply settings
+        /// buttons.
+        /// </summary>
+        /// <value>
+        /// The background color for apply settings buttons.
+        /// </value>
+        public static readonly Color ApplySettingsButtonBackgroundColor = Color.gray;
+
         #endregion
     }
 }

@@ -63,7 +63,7 @@ namespace ParrotCode.Platforms
         /// </value>
         public static string TemporaryBuildConfigPath =>
             Path.Combine(
-                Application.dataPath,
+                Application.persistentDataPath,
                 "Build",
                 $"BuildConfig{FileExtension.JSON.Extension()}");
 
@@ -74,11 +74,35 @@ namespace ParrotCode.Platforms
         /// The absolute path of the log file used to store build output and
         /// diagnostic information.
         /// </value>
-        public static string TemporaryBuildLogFilePath =>
+        public static string TemporaryBuildLogFilePath => 
             Path.Combine(
-                Application.dataPath,
+                Application.persistentDataPath,
+               "Build",
+               $"Build{FileExtension.Log.Extension()}");
+
+        /// <summary>
+        /// Gets the directory to the build log file.
+        /// </summary>
+        /// <value>
+        /// The absolute directory of the log file used to store build output and
+        /// diagnostic information.
+        /// </value>
+        public static string BuildLogFileDirectory =>
+         Path.Combine(
+             Application.dataPath,
+             "Build");
+
+        /// <summary>
+        /// Gets the path to the temporary project backup log file.
+        /// </summary>
+        /// <value>
+        /// The absolute path of the log file used to store project backup information.
+        /// </value>
+        public static string TemporaryProjectBackupLogFilePath =>
+            Path.Combine(
+                Application.persistentDataPath,
                 "Build",
-                $"Build{FileExtension.Log.Extension()}");
+                $"Backup{FileExtension.Log.Extension()}");
 
         /// <summary>
         /// Gets the configured build output directory.
