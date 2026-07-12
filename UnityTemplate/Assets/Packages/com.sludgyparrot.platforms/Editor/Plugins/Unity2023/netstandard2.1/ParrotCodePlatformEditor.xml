@@ -416,11 +416,6 @@
             Logs the command used to execute the Unity project build.
             </summary>
         </member>
-        <member name="F:ParrotCode.Platforms.ProjectBuildCommandProcessor._clearTempProjectBackupCommand">
-            <summary>
-            Removes the temporary project backup after the build process completes.
-            </summary>
-        </member>
         <member name="M:ParrotCode.Platforms.ProjectBuildCommandProcessor.InitializeBuild">
             <summary>
             Executes the complete project build workflow.

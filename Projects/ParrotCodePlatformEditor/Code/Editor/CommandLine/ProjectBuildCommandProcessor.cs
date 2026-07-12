@@ -63,13 +63,6 @@ namespace ParrotCode.Platforms
             new ProjectBuildCommandLogExecutable();
 
         /// <summary>
-        /// Removes the temporary project backup after the build process completes.
-        /// </summary>
-        private readonly RemoveFolderCommandLineExecutable _clearTempProjectBackupCommand =
-            new RemoveFolderCommandLineExecutable(
-                SharedNativeProjectDirectory.TemporaryBuildProjectPath);
-
-        /// <summary>
         /// Executes the complete project build workflow.
         /// </summary>
         /// <remarks>
@@ -118,6 +111,10 @@ namespace ParrotCode.Platforms
             }
             finally
             {
+                RemoveFolderCommandLineExecutable _clearTempProjectBackupCommand = 
+                    new RemoveFolderCommandLineExecutable(
+                    SharedNativeProjectDirectory.TemporaryBuildProjectPath);
+
                 await CommandTaskUtility.ExecuteCommandOrThrowAsync(
                     _clearTempProjectBackupCommand,
                     "Clear backup");
