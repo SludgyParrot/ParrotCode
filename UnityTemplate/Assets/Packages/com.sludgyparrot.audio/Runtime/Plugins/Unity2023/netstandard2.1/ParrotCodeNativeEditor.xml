@@ -695,6 +695,51 @@
             Thrown when the derived class does not override this method.
             </exception>
         </member>
+        <member name="T:ParrotCode.Native.SharedEditor.OpenFileCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that opens an existing file using the
+            operating system's default associated application.
+            </summary>
+            <remarks>
+            This command uses the operating system's shell to open the specified file.
+            The file must exist when an instance of this class is created.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.OpenFileCommandLineExecutable._filePath">
+            <summary>
+            The path to the file to open.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.OpenFileCommandLineExecutable.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:ParrotCode.Native.SharedEditor.OpenFileCommandLineExecutable"/> class.
+            </summary>
+            <param name="filePath">
+            The absolute or relative file path of the file to open.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="filePath"/> is <see langword="null"/>, empty, or
+            consists only of white-space characters.
+            </exception>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the specified file does not exist.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.OpenFileCommandLineExecutable.Execute">
+            <summary>
+            Opens the configured file using the operating system's default
+            associated application.
+            </summary>
+            <remarks>
+            The file is opened through the operating system's shell, allowing the
+            default application associated with the file type to determine how the
+            file is displayed.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the file could not be opened.
+            </exception>
+        </member>
         <member name="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable">
             <summary>
             Represents a command-line executable that opens an existing directory
