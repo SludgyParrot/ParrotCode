@@ -81,7 +81,7 @@ namespace ParrotCode.Platforms
         public override async Task<int> ExecuteAsync()
         {
             string arguments = $" {string.Join(" ", SharedCommandLineUtilities.UnityBuildArguments)}" +
-                $" {typeof(PlatformBuilder).FullName}.{nameof(PlatformBuilder.BuildPlayer)} " +
+                $" {typeof(ProjectBuilder).FullName}.{nameof(ProjectBuilder.BuildPlayer)} " +
                 $"{SharedCommonFiltersAndPatterns.UnityLogFile} " +
                 $"{SharedProjectDirectory.TemporaryBuildLogFilePath}";
 

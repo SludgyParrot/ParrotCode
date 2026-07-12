@@ -10,7 +10,6 @@
       "ParrotCodePlatformEditor/1.0.0": {
         "dependencies": {
           "ParrotCodeEditorExtensions": "1.0.0",
-          "ParrotCodeEditorHelpers": "1.0.0",
           "ParrotCodeNative": "1.0.0",
           "ParrotCodeNativeEditor": "1.0.0"
         },
@@ -70,6 +69,7 @@
       "ParrotCodeNativeEditor/1.0.0": {
         "dependencies": {
           "ParrotCodeEditorExtensions": "1.0.0",
+          "ParrotCodeEditorHelpers": "1.0.0",
           "ParrotCodeEventSystem": "1.0.0",
           "ParrotCodeExtensions": "1.0.0",
           "ParrotCodeNative": "1.0.0"

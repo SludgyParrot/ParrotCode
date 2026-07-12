@@ -46,7 +46,7 @@ namespace ParrotCode.Native.SharedEditor
     /// <see cref="SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
     /// The target directory must exist when an instance of this class is created.
     /// </remarks>
-    public sealed class DeleteFolderCommandLineExecutable : CommandLineExecutable
+    public sealed class RemoveFolderCommandLineExecutable : CommandLineExecutable
     {
         /// <summary>
         /// The directory to delete.
@@ -60,7 +60,7 @@ namespace ParrotCode.Native.SharedEditor
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="DeleteFolderCommandLineExecutable"/> class.
+        /// <see cref="RemoveFolderCommandLineExecutable"/> class.
         /// </summary>
         /// <param name="directory">
         /// The path of the directory to delete.
@@ -72,7 +72,7 @@ namespace ParrotCode.Native.SharedEditor
         /// <exception cref="IOException">
         /// Thrown if the specified directory does not exist.
         /// </exception>
-        public DeleteFolderCommandLineExecutable(string directory)
+        public RemoveFolderCommandLineExecutable(string directory)
         {
             if (string.IsNullOrWhiteSpace(directory))
             {

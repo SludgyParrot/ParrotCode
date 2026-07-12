@@ -656,6 +656,108 @@
             Thrown when the derived class does not override this method.
             </exception>
         </member>
+        <member name="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that opens an existing directory
+            using the operating system's default file explorer.
+            </summary>
+            <remarks>
+            This command uses the Windows Shell to open the specified directory.
+            The directory must exist when an instance of this class is created.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable._directory">
+            <summary>
+            The directory to open.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable"/> class.
+            </summary>
+            <param name="directory">
+            The path of the directory to open.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="directory"/> is <see langword="null"/>,
+            empty, or consists only of white-space characters.
+            </exception>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the specified directory does not exist.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable.Execute">
+            <summary>
+            Opens the configured directory using the operating system's default
+            file explorer.
+            </summary>
+            <remarks>
+            The directory is opened by launching it through the Windows Shell,
+            allowing the operating system to determine the appropriate application
+            for displaying the folder.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the directory could not be opened.
+            </exception>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that deletes an existing directory
+            and all of its contents.
+            </summary>
+            <remarks>
+            This command executes the operating system's directory removal command
+            using the arguments defined by
+            <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
+            The target directory must exist when an instance of this class is created.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable._directory">
+            <summary>
+            The directory to delete.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable.FailureExitCode">
+            <summary>
+            Gets the minimum exit code that indicates the delete operation failed.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable"/> class.
+            </summary>
+            <param name="directory">
+            The path of the directory to delete.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="directory"/> is <see langword="null"/>,
+            empty, or consists only of white-space characters.
+            </exception>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the specified directory does not exist.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable.ExecuteAsync">
+            <summary>
+            Deletes the configured directory asynchronously.
+            </summary>
+            <returns>
+            A task that represents the asynchronous delete operation. The task
+            result contains the exit code returned by the directory removal
+            command.
+            </returns>
+            <remarks>
+            The directory is removed recursively using the command-line arguments
+            defined by <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
+            The returned exit code should be compared against
+            <see cref="P:ParrotCode.Native.SharedEditor.RemoveFolderCommandLineExecutable.FailureExitCode"/> to determine whether the operation
+            completed successfully.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the command-line process could not be started.
+            </exception>
+        </member>
         <member name="T:ParrotCode.Native.SharedEditor.UnityCommandLineFlags">
             <summary>
             Defines Unity command-line argument names used when launching the Unity Editor.
@@ -751,106 +853,37 @@
             is logged on Unity's main thread using <see cref="F:UnityEditor.EditorApplication.delayCall"/>.
             </remarks>
         </member>
-        <member name="T:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable">
+        <member name="T:ParrotCode.Native.SharedEditor.CommandTaskUtility">
             <summary>
-            Represents a command-line executable that deletes an existing directory
-            and all of its contents.
-            </summary>
-            <remarks>
-            This command executes the operating system's directory removal command
-            using the arguments defined by
-            <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
-            The target directory must exist when an instance of this class is created.
-            </remarks>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable._directory">
-            <summary>
-            The directory to delete.
+            Provides helper methods for executing command-line executables and validating
+            their exit codes.
             </summary>
         </member>
-        <member name="P:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.FailureExitCode">
+        <member name="M:ParrotCode.Native.SharedEditor.CommandTaskUtility.ExecuteCommandOrThrowAsync(ParrotCode.Native.SharedEditor.CommandLineExecutable,System.String)">
             <summary>
-            Gets the minimum exit code that indicates the delete operation failed.
+            Executes the specified command-line executable asynchronously and throws
+            a <see cref="T:ParrotCode.Native.SharedEditor.CommandLineException"/> if the process exits with a failure
+            exit code.
             </summary>
-        </member>
-        <member name="M:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable"/> class.
-            </summary>
-            <param name="directory">
-            The path of the directory to delete.
+            <param name="executable">
+            The command-line executable to execute.
             </param>
-            <exception cref="T:System.ArgumentNullException">
-            Thrown if <paramref name="directory"/> is <see langword="null"/>,
-            empty, or consists only of white-space characters.
-            </exception>
-            <exception cref="T:System.IO.IOException">
-            Thrown if the specified directory does not exist.
-            </exception>
-        </member>
-        <member name="M:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.ExecuteAsync">
-            <summary>
-            Deletes the configured directory asynchronously.
-            </summary>
+            <param name="operationName">
+            A descriptive name of the operation being performed. This value is included
+            in any thrown <see cref="T:ParrotCode.Native.SharedEditor.CommandLineException"/>.
+            </param>
             <returns>
-            A task that represents the asynchronous delete operation. The task
-            result contains the exit code returned by the directory removal
-            command.
+            A task that represents the asynchronous command execution.
             </returns>
-            <remarks>
-            The directory is removed recursively using the command-line arguments
-            defined by <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
-            The returned exit code should be compared against
-            <see cref="P:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.FailureExitCode"/> to determine whether the operation
-            completed successfully.
-            </remarks>
-            <exception cref="T:System.InvalidOperationException">
-            Thrown if the command-line process could not be started.
-            </exception>
-        </member>
-        <member name="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable">
-            <summary>
-            Represents a command-line executable that opens an existing directory
-            using the operating system's default file explorer.
-            </summary>
-            <remarks>
-            This command uses the Windows Shell to open the specified directory.
-            The directory must exist when an instance of this class is created.
-            </remarks>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable._directory">
-            <summary>
-            The directory to open.
-            </summary>
-        </member>
-        <member name="M:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable"/> class.
-            </summary>
-            <param name="directory">
-            The path of the directory to open.
-            </param>
             <exception cref="T:System.ArgumentNullException">
-            Thrown if <paramref name="directory"/> is <see langword="null"/>,
+            Thrown when <paramref name="executable"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="operationName"/> is <see langword="null"/>,
             empty, or consists only of white-space characters.
             </exception>
-            <exception cref="T:System.IO.IOException">
-            Thrown if the specified directory does not exist.
-            </exception>
-        </member>
-        <member name="M:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable.Execute">
-            <summary>
-            Opens the configured directory using the operating system's default
-            file explorer.
-            </summary>
-            <remarks>
-            The directory is opened by launching it through the Windows Shell,
-            allowing the operating system to determine the appropriate application
-            for displaying the folder.
-            </remarks>
-            <exception cref="T:System.InvalidOperationException">
-            Thrown if the directory could not be opened.
+            <exception cref="T:ParrotCode.Native.SharedEditor.CommandLineException">
+            Thrown when the executable exits with a failure exit code.
             </exception>
         </member>
         <member name="T:ParrotCode.Native.SharedEditor.ICommandLineExecutable">

@@ -165,8 +165,8 @@ namespace ParrotCode.Helpers
 
             if (!File.Exists(path))
             {
-                throw new ArgumentException(
-                    $"The path '{path}' must include a valid directory.",
+                throw new FileNotFoundException(
+                    $"The path '{path}' must include a valid file.",
                     nameof(path));
             }
 
@@ -174,7 +174,7 @@ namespace ParrotCode.Helpers
 
             if (string.IsNullOrWhiteSpace(jsonString))
             {
-                throw new InvalidDataException(
+                throw new IOException(
                     $"Couldn't read a JSON file at path: {path}");
             }
 

@@ -10,6 +10,7 @@
       "ParrotCodeNativeEditor/1.0.0": {
         "dependencies": {
           "ParrotCodeEditorExtensions": "1.0.0",
+          "ParrotCodeEditorHelpers": "1.0.0",
           "ParrotCodeEventSystem": "1.0.0",
           "ParrotCodeExtensions": "1.0.0",
           "ParrotCodeNative": "1.0.0"
@@ -24,6 +25,14 @@
         },
         "runtime": {
           "ParrotCodeEditorExtensions.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotCodeEditorHelpers/1.0.0": {
+        "runtime": {
+          "ParrotCodeEditorHelpers.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -68,6 +77,11 @@
       "sha512": ""
     },
     "ParrotCodeEditorExtensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeEditorHelpers/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

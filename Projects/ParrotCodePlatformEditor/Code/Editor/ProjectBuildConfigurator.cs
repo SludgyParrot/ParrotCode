@@ -28,6 +28,7 @@ licensing@sludgyparrot.com
 */
 
 #region Included System Assemblies
+using System;
 using System.Collections.Generic;
 #endregion
 
@@ -49,9 +50,11 @@ namespace ParrotCode.Platforms
     {
         #region Project Build Configurators
 
-        private static WindowsProjectConfigurator sharedWindowsProjectConfigurator = new WindowsProjectConfigurator();
+        private static WindowsProjectConfigurator sharedWindowsProjectConfigurator = 
+            new WindowsProjectConfigurator();
 
-        private static readonly Dictionary<BuildTarget, IProjectSpecificConfig> projectConfigurators = new Dictionary<BuildTarget, IProjectSpecificConfig>()
+        private static readonly Dictionary<BuildTarget, IProjectSpecificConfig> _projectConfigurators =
+            new Dictionary<BuildTarget, IProjectSpecificConfig>()
         {
             { BuildTarget.Android, new AndroidProjectConfigurator()},
             { BuildTarget.iOS, new IOSProjectConfigurator()},
@@ -59,6 +62,9 @@ namespace ParrotCode.Platforms
             { BuildTarget.StandaloneWindows64, sharedWindowsProjectConfigurator},
             { BuildTarget.WebGL, new WebGLProjectConfigurator()}
         };
+
+        private static readonly ProjectBuildCommandProcessor _buildCommandProcessor = 
+            new ProjectBuildCommandProcessor();
 
         #endregion
 
@@ -69,7 +75,7 @@ namespace ParrotCode.Platforms
 
             #region Apply Target Specific Settings
 
-            if (!projectConfigurators.TryGetValue(settingsGroup.BuildTarget, out IProjectSpecificConfig projectConfigurator))
+            if (!_projectConfigurators.TryGetValue(settingsGroup.BuildTarget, out IProjectSpecificConfig projectConfigurator))
             {
                 Debug.LogWarning($"Apply target specific settings for: {settingsGroup.BuildTarget} failed. " +
                    $"Project configuration for build target: {settingsGroup.BuildTarget} is not currently supported.");
@@ -84,7 +90,7 @@ namespace ParrotCode.Platforms
 
             #endregion
 
-            Debug.Log($"~Target architecture set to: {PlayerSettings.Android.targetArchitectures}");
+            Debug.Log($"~Target architecture set to: {PlayerSettings.Android.targetArchitectures}.");
 
             #region Initialize Build
 
@@ -96,17 +102,18 @@ namespace ParrotCode.Platforms
                 return;
             }
 
-            CreateBuildConfig(buildConfiguration.options);
+            BuildConfigurationSerializer.Serialize(buildConfiguration.options);
 
-            PlatformBuilder.InitializeBuild();
-
+            try
+            {
+                await _buildCommandProcessor.InitializeBuild();
+            }
+            catch(Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
             #endregion
-        }
-
-        private static void CreateBuildConfig(BuildPlayerOptions options)
-        {
-            Storage.SerializeToJsonFile(SharedProjectDirectory.TemporaryBuildConfigPath, 
-                new ProjectBuildOptions(options));
         }
     }
 }

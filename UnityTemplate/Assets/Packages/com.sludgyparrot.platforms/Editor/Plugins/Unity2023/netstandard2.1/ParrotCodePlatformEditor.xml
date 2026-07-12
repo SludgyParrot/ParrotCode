@@ -14,6 +14,29 @@
             ensuring a smoother development experience and better system outcomes.
             </summary>
         </member>
+        <member name="T:ParrotCode.Platforms.BuildConfigurationSerializer">
+            <summary>
+            Provides functionality for creating and persisting Unity player build
+            configurations for use during the automated build process.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.BuildConfigurationSerializer.Serialize(UnityEditor.BuildPlayerOptions)">
+            <summary>
+            Creates and serializes the specified Unity player build configuration
+            to the temporary build configuration file.
+            </summary>
+            <param name="options">
+            The <see cref="T:UnityEditor.BuildPlayerOptions"/> that define how the Unity player
+            should be built.
+            </param>
+            <remarks>
+            The serialized build configuration is consumed by the automated build
+            pipeline when invoking the Unity Editor in batch mode.
+            </remarks>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="options"/> is <see langword="null"/>.
+            </exception>
+        </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildOptions">
              <summary>
              Represents a serializable snapshot of Unity's <see cref="T:UnityEditor.BuildPlayerOptions"/>.
@@ -300,7 +323,7 @@
             <remarks>
             This executable starts the Unity Editor using the current editor
             installation and invokes the build entry point specified by
-            <see cref="M:ParrotCode.Platforms.PlatformBuilder.BuildPlayer"/>.
+            <see cref="!:PlatformBuilder.BuildPlayer"/>.
             </remarks>
         </member>
         <member name="P:ParrotCode.Platforms.ProjectBuildCommandLineExecutable.FailureExitCode">
@@ -370,6 +393,68 @@
             always <c>0</c>, indicating that the logger command was started
             successfully.
             </returns>
+        </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuildCommandProcessor">
+            <summary>
+            Coordinates the automated Unity project build workflow by creating a temporary
+            project backup, executing the project build, cleaning temporary resources,
+            and opening the build output directory.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildCommandProcessor._projectBackupCommand">
+            <summary>
+            Creates a temporary backup of the Unity project before the build process begins.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildCommandProcessor._projectBuildCommand">
+            <summary>
+            Executes the Unity project build.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildCommandProcessor._projectBuildLogCommand">
+            <summary>
+            Logs the command used to execute the Unity project build.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Platforms.ProjectBuildCommandProcessor._clearTempProjectBackupCommand">
+            <summary>
+            Removes the temporary project backup after the build process completes.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuildCommandProcessor.InitializeBuild">
+            <summary>
+            Executes the complete project build workflow.
+            </summary>
+            <remarks>
+            The build workflow performs the following operations:
+            <list type="number">
+            <item>
+            <description>Logs the build command.</description>
+            </item>
+            <item>
+            <description>Creates a temporary backup of the project.</description>
+            </item>
+            <item>
+            <description>Builds the Unity project.</description>
+            </item>
+            <item>
+            <description>Removes the temporary backup project.</description>
+            </item>
+            <item>
+            <description>Opens the build output directory.</description>
+            </item>
+            </list>
+            <para>
+            The temporary backup project is removed regardless of whether the build
+            succeeds or fails.
+            </para>
+            </remarks>
+            <returns>
+            A task that represents the asynchronous build workflow.
+            </returns>
+            <exception cref="T:ParrotCode.Native.SharedEditor.CommandLineException">
+            Thrown when any command-line executable returns a failure exit code.
+            </exception>
         </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildConfigGroupEditor">
             <summary>
@@ -746,6 +831,29 @@
             Applies the configurations to the target platform. e.g Android, Windows, WebGL etc.
             </summary>
         </member>
+        <member name="T:ParrotCode.Platforms.ProjectBuilder">
+            <summary>
+            Provides functionality for building a Unity player using a serialized
+            <see cref="T:UnityEditor.BuildPlayerOptions"/> configuration.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Platforms.ProjectBuilder.BuildPlayer">
+            <summary>
+            Builds a Unity player using the build configuration stored at
+            <see cref="P:ParrotCode.Platforms.SharedProjectDirectory.TemporaryBuildConfigPath"/>.
+            </summary>
+            <remarks>
+            This method deserializes the build configuration, invokes the Unity
+            build pipeline, logs a summary of the build results, and throws an
+            exception if the build does not complete successfully.
+            </remarks>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the serialized build configuration cannot be read.
+            </exception>
+            <exception cref="T:System.Exception">
+            Thrown if the Unity player build does not complete successfully.
+            </exception>
+        </member>
         <member name="T:ParrotCode.Platforms.RuntimePlatformBuilder">
             <summary>
             Provides helper methods for configuring Unity player builds at runtime
@@ -793,6 +901,68 @@
              <see cref="F:UnityEditor.BuildOptions.Development"/> and
              <see cref="F:UnityEditor.BuildOptions.EnableDeepProfilingSupport"/>.
              </remarks>
+        </member>
+        <member name="T:ParrotCode.Platforms.SharedProjectDirectory">
+            <summary>
+            Provides shared paths used by the platform build pipeline.
+            </summary>
+            <remarks>
+            This class exposes commonly used directories and files for temporary build
+            configuration, logging, and output. The paths are resolved relative to the
+            current Unity project's <see cref="P:UnityEngine.Application.dataPath"/>.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Platforms.SharedProjectDirectory.TemporaryBuildConfigPath">
+            <summary>
+            Gets the path to the temporary build configuration file.
+            </summary>
+            <value>
+            The absolute path of the JSON file used to persist
+            <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/> between build stages.
+            </value>
+        </member>
+        <member name="P:ParrotCode.Platforms.SharedProjectDirectory.TemporaryBuildLogFilePath">
+            <summary>
+            Gets the path to the temporary build log file.
+            </summary>
+            <value>
+            The absolute path of the log file used to store build output and
+            diagnostic information.
+            </value>
+        </member>
+        <member name="P:ParrotCode.Platforms.SharedProjectDirectory.BuildFolderDirectory">
+            <summary>
+            Gets the configured build output directory.
+            </summary>
+            <value>
+            The output location specified by the serialized
+            <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/> stored in the temporary build
+            configuration file.
+            </value>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the temporary build configuration file cannot be read.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the build configuration could not be deserialized.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Platforms.SharedProjectDirectory.GetBuildFolderDirectory">
+            <summary>
+            Retrieves the configured build output directory from the temporary build
+            configuration file.
+            </summary>
+            <returns>
+            The configured build output directory if the build configuration is loaded
+            successfully; otherwise, <see langword="null"/>.
+            </returns>
+            <remarks>
+            This method attempts to deserialize the <see cref="T:ParrotCode.Platforms.ProjectBuildOptions"/>
+            stored at <see cref="P:ParrotCode.Platforms.SharedProjectDirectory.TemporaryBuildConfigPath"/> and returns its
+            <see cref="F:ParrotCode.Platforms.ProjectBuildOptions.LocationPathName"/>. If the build
+            configuration cannot be loaded due to an invalid path, an I/O error, or a
+            deserialization failure, a warning is logged and
+            <see langword="null"/> is returned.
+            </remarks>
         </member>
         <member name="T:ParrotCode.Platforms.ProjectBuildConfiguratorEditor">
             <summary>

@@ -121,5 +121,50 @@
             the copy operation.
             </param>
         </member>
+        <member name="T:ParrotCode.Helpers.ParrotCodeEditorTask">
+            <summary>
+            Provides helper methods for executing asynchronous editor operations while
+            logging any unhandled exceptions to the Unity Console.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Helpers.ParrotCodeEditorTask.Run``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Executes an asynchronous operation that returns a value while logging
+            any unhandled exceptions before rethrowing them.
+            </summary>
+            <typeparam name="T">
+            The type of value returned by the asynchronous operation.
+            </typeparam>
+            <param name="task">
+            The asynchronous operation to execute.
+            </param>
+            <returns>
+            A task that completes with the value returned by the asynchronous operation.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="task"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.Exception">
+            Rethrows any exception thrown by the asynchronous operation after it has been logged.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Helpers.ParrotCodeEditorTask.Run(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Executes an asynchronous operation while logging any unhandled exceptions
+            before rethrowing them.
+            </summary>
+            <param name="task">
+            The asynchronous operation to execute.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="task"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.Exception">
+            Rethrows any exception thrown by the asynchronous operation after it has been logged.
+            </exception>
+        </member>
     </members>
 </doc>
