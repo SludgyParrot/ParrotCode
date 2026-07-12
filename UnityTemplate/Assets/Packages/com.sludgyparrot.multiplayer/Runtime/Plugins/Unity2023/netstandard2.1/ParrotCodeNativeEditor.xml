@@ -197,6 +197,21 @@
             build log file before being passed to <c>cmd.exe</c>.
             </remarks>
         </member>
+        <member name="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments">
+            <summary>
+            Gets the default command-line arguments used to remove a directory and
+            all of its contents.
+            </summary>
+            <value>
+            An array containing the arguments required to recursively delete a
+            directory without prompting for confirmation.
+            </value>
+            <remarks>
+            The returned arguments are intended to be combined with the target
+            directory path before being passed to <c>cmd.exe</c> or another
+            command-line process that performs directory removal.
+            </remarks>
+        </member>
         <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.CreateRoboCopyArguments">
             <summary>
             Gets the default set of command-line arguments used when invoking
@@ -245,6 +260,34 @@
             <returns>
             An immutable collection containing the base command-line arguments required
             to display the project build log.
+            </returns>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.CreateRemoveDirectoryArguments">
+            <summary>
+            Creates the default command-line arguments used to remove a directory and
+            all of its contents.
+            </summary>
+            <remarks>
+            The returned arguments are intended to be passed to <c>cmd.exe</c> when
+            executing the directory removal command. The arguments perform the
+            following actions:
+            <list type="bullet">
+            <item>
+            <description>Removes the specified directory.</description>
+            </item>
+            <item>
+            <description>Includes all subdirectories in the removal operation.</description>
+            </item>
+            <item>
+            <description>Suppresses confirmation prompts by enabling quiet mode.</description>
+            </item>
+            </list>
+            The target directory path should be appended by the caller before executing
+            the command.
+            </remarks>
+            <returns>
+            An immutable collection containing the default command-line arguments used
+            to remove a directory.
             </returns>
         </member>
         <member name="T:ParrotCode.Native.SharedEditor.SharedCommandLineArgumentss">
@@ -572,15 +615,253 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:ParrotCode.Native.SharedEditor.ICommandLineExecutable">
+        <member name="T:ParrotCode.Native.SharedEditor.CommandLineExecutable">
             <summary>
-            Defines a contract for asynchronously executing a command-line process.
+            Provides a base implementation of the <see cref="T:ParrotCode.Native.SharedEditor.ICommandLineExecutable"/>
+            interface for command-line executables.
             </summary>
             <remarks>
-            Implementations encapsulate the information required to launch an external
-            executable and return its exit code upon completion. An exit code of
-            <c>0</c> typically indicates success, although the meaning of exit codes
-            is determined by the executed application.
+            Derive from this class to implement command-line operations that can be
+            executed synchronously or asynchronously. Override the members to provide
+            the command-specific failure exit code and execution logic.
+            </remarks>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.CommandLineExecutable.FailureExitCode">
+            <summary>
+            Gets the minimum process exit code that is considered a failure.
+            </summary>
+            <value>
+            The exit code threshold used to determine whether the command execution
+            failed. Exit codes greater than or equal to this value are considered
+            failures.
+            </value>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.CommandLineExecutable.Execute">
+            <summary>
+            Executes the command-line operation synchronously.
+            </summary>
+            <exception cref="T:System.NotImplementedException">
+            Thrown when the derived class does not override this method.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.CommandLineExecutable.ExecuteAsync">
+            <summary>
+            Executes the command-line operation asynchronously.
+            </summary>
+            <returns>
+            A task that represents the asynchronous operation. The task result
+            contains the exit code returned by the completed process.
+            </returns>
+            <exception cref="T:System.NotImplementedException">
+            Thrown when the derived class does not override this method.
+            </exception>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.UnityCommandLineFlags">
+            <summary>
+            Defines Unity command-line argument names used when launching the Unity Editor.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.BatchMode">
+            <summary>
+            Flag for setting batch mode.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.Quit">
+            <summary>
+            Flag for quitting the application.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.ProjectPath">
+            <summary>
+            Flag for setting the target project path.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.ExecuteMethod">
+            <summary>
+            Flag for setting the method to execute.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.BuildTarget">
+            <summary>
+            Flag for setting the build target.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.NoGraphics">
+            <summary>
+            Flag for setting no graphics.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.AcceptAPIUpdate">
+            <summary>
+            Flag to accept API update.
+            </summary>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.LogFile">
+            <summary>
+            Flag for setting an output log file name.
+            </summary>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.CommandLineUtility">
+             <summary>
+             Provides helper methods for executing command-line applications and external
+             processes from within the Unity Editor.
+             </summary>
+             <remarks>
+             This utility wraps <see cref="T:System.Diagnostics.Process"/> to simplify
+             launching command-line tools, waiting for their completion, and retrieving
+             their exit codes.
+            
+             Typical use cases include invoking utilities such as
+             <c>robocopy.exe</c>, <c>git.exe</c>, <c>unity.exe</c>, or other
+             command-line applications used during build automation, project setup,
+             asset processing, and deployment workflows.
+             </remarks>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.CommandLineUtility.RunAsync(System.Diagnostics.ProcessStartInfo,System.Int32)">
+            <summary>
+            Executes the specified process asynchronously and waits for it to complete.
+            </summary>
+            <param name="processInfo">
+            The <see cref="T:System.Diagnostics.ProcessStartInfo"/> that defines the executable to start and
+            the arguments passed to the process.
+            </param>
+            <param name="failureExitCode">
+            The minimum exit code that is considered a failure. If the process exits
+            with a code greater than or equal to this value, an error is logged to the
+            Unity Console; otherwise, a standard log message is written.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation. The task result contains
+            the exit code returned by the completed process.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="processInfo"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown if <see cref="P:System.Diagnostics.ProcessStartInfo.FileName"/> is <see langword="null"/>,
+            empty, or consists only of white-space characters.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the process could not be started.
+            </exception>
+            <remarks>
+            The process is executed on a background thread using
+            <see cref="M:System.Threading.Tasks.Task.Run(System.Action)"/> so that the calling thread is not blocked while
+            waiting for the process to complete. After the process exits, the exit code
+            is logged on Unity's main thread using <see cref="F:UnityEditor.EditorApplication.delayCall"/>.
+            </remarks>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that deletes an existing directory
+            and all of its contents.
+            </summary>
+            <remarks>
+            This command executes the operating system's directory removal command
+            using the arguments defined by
+            <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
+            The target directory must exist when an instance of this class is created.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable._directory">
+            <summary>
+            The directory to delete.
+            </summary>
+        </member>
+        <member name="P:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.FailureExitCode">
+            <summary>
+            Gets the minimum exit code that indicates the delete operation failed.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable"/> class.
+            </summary>
+            <param name="directory">
+            The path of the directory to delete.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="directory"/> is <see langword="null"/>,
+            empty, or consists only of white-space characters.
+            </exception>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the specified directory does not exist.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.ExecuteAsync">
+            <summary>
+            Deletes the configured directory asynchronously.
+            </summary>
+            <returns>
+            A task that represents the asynchronous delete operation. The task
+            result contains the exit code returned by the directory removal
+            command.
+            </returns>
+            <remarks>
+            The directory is removed recursively using the command-line arguments
+            defined by <see cref="P:ParrotCode.Native.SharedEditor.SharedCommandLineUtilities.RemoveDirectoryArguments"/>.
+            The returned exit code should be compared against
+            <see cref="P:ParrotCode.Native.SharedEditor.DeleteFolderCommandLineExecutable.FailureExitCode"/> to determine whether the operation
+            completed successfully.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the command-line process could not be started.
+            </exception>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable">
+            <summary>
+            Represents a command-line executable that opens an existing directory
+            using the operating system's default file explorer.
+            </summary>
+            <remarks>
+            This command uses the Windows Shell to open the specified directory.
+            The directory must exist when an instance of this class is created.
+            </remarks>
+        </member>
+        <member name="F:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable._directory">
+            <summary>
+            The directory to open.
+            </summary>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable"/> class.
+            </summary>
+            <param name="directory">
+            The path of the directory to open.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if <paramref name="directory"/> is <see langword="null"/>,
+            empty, or consists only of white-space characters.
+            </exception>
+            <exception cref="T:System.IO.IOException">
+            Thrown if the specified directory does not exist.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.OpenFolderCommandLineExecutable.Execute">
+            <summary>
+            Opens the configured directory using the operating system's default
+            file explorer.
+            </summary>
+            <remarks>
+            The directory is opened by launching it through the Windows Shell,
+            allowing the operating system to determine the appropriate application
+            for displaying the folder.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the directory could not be opened.
+            </exception>
+        </member>
+        <member name="T:ParrotCode.Native.SharedEditor.ICommandLineExecutable">
+            <summary>
+            Defines the contract for executing a command-line process.
+            </summary>
+            <remarks>
+            Implementations encapsulate the configuration and execution of a specific
+            command-line operation. The interface provides both synchronous and
+            asynchronous execution methods, along with the exit code threshold that
+            determines whether the command execution is considered a failure.
             </remarks>
         </member>
         <member name="P:ParrotCode.Native.SharedEditor.ICommandLineExecutable.FailureExitCode">
@@ -588,25 +869,45 @@
             Gets the minimum process exit code that is considered a failure.
             </summary>
             <value>
-            The exit code threshold used to determine whether command execution
-            completed successfully. Any exit code greater than or equal to this
-            value is treated as a failure.
+            The exit code threshold used to determine whether the command executed
+            successfully. Any exit code greater than or equal to this value is
+            considered a failure.
             </value>
-            <remarks>
-            This value defaults to <c>8</c>, which corresponds to the Robocopy exit
-            code indicating that one or more failures occurred during the copy
-            operation. Exit codes below this value are generally considered
-            successful or informational by Robocopy.
-            </remarks>
         </member>
         <member name="M:ParrotCode.Native.SharedEditor.ICommandLineExecutable.Execute">
             <summary>
-            Executes the configured command-line process asynchronously.
+            Executes the command-line operation synchronously.
+            </summary>
+            <remarks>
+            This method blocks the calling thread until the command-line process
+            has completed execution.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the command-line process could not be started.
+            </exception>
+            <exception cref="T:System.ComponentModel.Win32Exception">
+            Thrown if an operating system error occurs while starting the process.
+            </exception>
+        </member>
+        <member name="M:ParrotCode.Native.SharedEditor.ICommandLineExecutable.ExecuteAsync">
+            <summary>
+            Executes the command-line operation asynchronously.
             </summary>
             <returns>
             A task that represents the asynchronous operation. The task result
-            contains the exit code returned by the executed process.
+            contains the exit code returned by the completed process.
             </returns>
+            <remarks>
+            The returned exit code should be compared against
+            <see cref="P:ParrotCode.Native.SharedEditor.ICommandLineExecutable.FailureExitCode"/> to determine whether the command
+            completed successfully.
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the command-line process could not be started.
+            </exception>
+            <exception cref="T:System.ComponentModel.Win32Exception">
+            Thrown if an operating system error occurs while starting the process.
+            </exception>
         </member>
         <member name="T:ParrotCode.Native.SharedEditor.IProjectConfiguratorRepository">
             <summary>
@@ -761,101 +1062,6 @@
             <remarks>
             This method forwards asset change information to the <c>EventBus</c> by invoking
             an <see cref="T:ParrotCode.Native.SharedEditor.EditorAssetPostProcessorEvent"/>.
-            </remarks>
-        </member>
-        <member name="T:ParrotCode.Native.SharedEditor.UnityCommandLineFlags">
-            <summary>
-            Defines Unity command-line argument names used when launching the Unity Editor.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.BatchMode">
-            <summary>
-            Flag for setting batch mode.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.Quit">
-            <summary>
-            Flag for quitting the application.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.ProjectPath">
-            <summary>
-            Flag for setting the target project path.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.ExecuteMethod">
-            <summary>
-            Flag for setting the method to execute.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.BuildTarget">
-            <summary>
-            Flag for setting the build target.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.NoGraphics">
-            <summary>
-            Flag for setting no graphics.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.AcceptAPIUpdate">
-            <summary>
-            Flag to accept API update.
-            </summary>
-        </member>
-        <member name="F:ParrotCode.Native.SharedEditor.UnityCommandLineFlags.LogFile">
-            <summary>
-            Flag for setting an output log file name.
-            </summary>
-        </member>
-        <member name="T:ParrotCode.Native.SharedEditor.CommandLineUtility">
-             <summary>
-             Provides helper methods for executing command-line applications and external
-             processes from within the Unity Editor.
-             </summary>
-             <remarks>
-             This utility wraps <see cref="T:System.Diagnostics.Process"/> to simplify
-             launching command-line tools, waiting for their completion, and retrieving
-             their exit codes.
-            
-             Typical use cases include invoking utilities such as
-             <c>robocopy.exe</c>, <c>git.exe</c>, <c>unity.exe</c>, or other
-             command-line applications used during build automation, project setup,
-             asset processing, and deployment workflows.
-             </remarks>
-        </member>
-        <member name="M:ParrotCode.Native.SharedEditor.CommandLineUtility.RunAsync(System.Diagnostics.ProcessStartInfo,System.Int32)">
-            <summary>
-            Executes the specified process asynchronously and waits for it to complete.
-            </summary>
-            <param name="processInfo">
-            The <see cref="T:System.Diagnostics.ProcessStartInfo"/> that defines the executable to start and
-            the arguments passed to the process.
-            </param>
-            <param name="failureExitCode">
-            The minimum exit code that is considered a failure. If the process exits
-            with a code greater than or equal to this value, an error is logged to the
-            Unity Console; otherwise, a standard log message is written.
-            </param>
-            <returns>
-            A task that represents the asynchronous operation. The task result contains
-            the exit code returned by the completed process.
-            </returns>
-            <exception cref="T:System.ArgumentNullException">
-            Thrown if <paramref name="processInfo"/> is <see langword="null"/>.
-            </exception>
-            <exception cref="T:System.ArgumentException">
-            Thrown if <see cref="P:System.Diagnostics.ProcessStartInfo.FileName"/> is <see langword="null"/>,
-            empty, or consists only of white-space characters.
-            </exception>
-            <exception cref="T:System.InvalidOperationException">
-            Thrown if the process could not be started.
-            </exception>
-            <remarks>
-            The process is executed on a background thread using
-            <see cref="M:System.Threading.Tasks.Task.Run(System.Action)"/> so that the calling thread is not blocked while
-            waiting for the process to complete. After the process exits, the exit code
-            is logged on Unity's main thread using <see cref="F:UnityEditor.EditorApplication.delayCall"/>.
             </remarks>
         </member>
         <member name="T:ParrotCode.Native.SharedEditor.ConfigValidationRule`1">

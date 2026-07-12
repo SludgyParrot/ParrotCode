@@ -265,7 +265,7 @@
             successful or informational by Robocopy.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Platforms.ProjectBackupCommandLineExecutable.Execute">
+        <member name="M:ParrotCode.Platforms.ProjectBackupCommandLineExecutable.ExecuteAsync">
             <summary>
             Executes a Robocopy command that creates a temporary backup of the current Unity project
             before the build process begins.
@@ -319,7 +319,7 @@
             successful or informational by Robocopy.
             </remarks>
         </member>
-        <member name="M:ParrotCode.Platforms.ProjectBuildCommandLineExecutable.Execute">
+        <member name="M:ParrotCode.Platforms.ProjectBuildCommandLineExecutable.ExecuteAsync">
             <summary>
             Executes the Unity build process asynchronously.
             </summary>

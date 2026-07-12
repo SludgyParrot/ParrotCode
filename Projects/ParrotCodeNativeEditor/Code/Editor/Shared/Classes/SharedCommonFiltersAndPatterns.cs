@@ -69,5 +69,8 @@ namespace ParrotCode.Native.SharedEditor
         public const string UnityLogFile = "-logFile";
         public const string RobocopyLogFile = "/LOG:";
         public const string Echo = "echo";
+        public const string RemoveDirectory = "rmdir";
+        public const string IncludeSubdirectories = "/s";
+        public const string QuietMode = "/q";
     }
 }

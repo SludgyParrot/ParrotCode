@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParrotNativeCode\ParrotCodeNative.csproj" />
-    <ProjectReference Include="..\ParrotNativeSharedEditorCode\ParrotCodeNativeEditor.csproj" />
+    <ProjectReference Include="..\ParrotCodeNativeEditor\ParrotCodeNativeEditor.csproj" />
+    <ProjectReference Include="..\ParrotCodeNative\ParrotCodeNative.csproj" />
   </ItemGroup>
 
   <ItemGroup>

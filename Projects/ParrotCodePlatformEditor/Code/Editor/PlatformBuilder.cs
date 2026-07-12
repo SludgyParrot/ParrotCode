@@ -35,12 +35,12 @@ using System.Threading.Tasks;
 #region Included Unity Assemblies
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 #endregion
 
 #region Included Parrot Code Assemblies
 using ParrotCode.Native.SharedEditor;
 using ParrotCode.Helpers;
-using UnityEditor.Build.Reporting;
 #endregion
 
 namespace ParrotCode.Platforms
@@ -56,15 +56,18 @@ namespace ParrotCode.Platforms
         private static readonly ProjectBuildCommandLogExecutable _projectBuildLogCommand = 
             new ProjectBuildCommandLogExecutable();
 
+        private static readonly DeleteFolderCommandLineExecutable _deleteFolderCommand = 
+            new DeleteFolderCommandLineExecutable("");
+
         private static OpenFolderCommandLineExecutable OpenFolderCommand => new OpenFolderCommandLineExecutable("");
 
-        public static async Task<int> InitializeBuild()
+        public static async void InitializeBuild()
         {
             await _projectBuildLogCommand.ExecuteAsync();
 
             int projectBackupExitCode = await _projectBackupCommand.ExecuteAsync();
 
-            if (projectBackupExitCode >= 8)
+            if (projectBackupExitCode >= _projectBackupCommand.FailureExitCode)
             {
                 throw new CommandLineException(SharedCommandLineUtilities.RoboCopyApplication, 
                     "Project backup", projectBackupExitCode);
@@ -72,15 +75,21 @@ namespace ParrotCode.Platforms
 
             int projectBuildExitCode = await _projectBuildCommand.ExecuteAsync();
 
-            if (projectBuildExitCode >= 8)
+            if (projectBuildExitCode >= _projectBuildCommand.FailureExitCode)
             {
                 throw new CommandLineException(SharedCommandLineUtilities.UnityEditorApplication,
                     "Project build", projectBuildExitCode);
             }
 
-            OpenFolderCommand.Execute();
+            int deleteTempBuildFolderExitCode = await _deleteFolderCommand.ExecuteAsync();
 
-            return 0;
+            if (deleteTempBuildFolderExitCode >= _deleteFolderCommand.FailureExitCode)
+            {
+                throw new CommandLineException(SharedCommandLineUtilities.UnityEditorApplication,
+                    "Delete temp build folder", deleteTempBuildFolderExitCode);
+            }
+
+            OpenFolderCommand.Execute();
         }
 
         public static void BuildPlayer()

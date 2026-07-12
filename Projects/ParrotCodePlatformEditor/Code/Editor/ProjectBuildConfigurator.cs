@@ -98,8 +98,7 @@ namespace ParrotCode.Platforms
 
             CreateBuildConfig(buildConfiguration.options);
 
-            int buildExitCode = await PlatformBuilder.InitializeBuild();
-            Debug.Log($"Build completed with exit code: {buildExitCode}");
+            PlatformBuilder.InitializeBuild();
 
             #endregion
         }

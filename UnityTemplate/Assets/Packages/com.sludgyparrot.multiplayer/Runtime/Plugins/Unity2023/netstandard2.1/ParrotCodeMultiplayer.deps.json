@@ -27,6 +27,17 @@
           }
         }
       },
+      "ParrotCodeEventSystem/1.0.0": {
+        "dependencies": {
+          "ParrotCodeNative": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeEventSystem.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "ParrotCodeExtensions/1.0.0": {
         "dependencies": {
           "ParrotCodeNative": "1.0.0"
@@ -38,9 +49,23 @@
           }
         }
       },
-      "ParrotCodeNative.Reference/0.0.0.0": {
+      "ParrotCodeNative/1.0.0": {
         "runtime": {
           "ParrotCodeNative.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ParrotCodeNativeEditor/1.0.0": {
+        "dependencies": {
+          "ParrotCodeEditorExtensions": "1.0.0",
+          "ParrotCodeEventSystem": "1.0.0",
+          "ParrotCodeExtensions": "1.0.0",
+          "ParrotCodeNative": "1.0.0"
+        },
+        "runtime": {
+          "ParrotCodeNativeEditor.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -59,13 +84,23 @@
       "serviceable": false,
       "sha512": ""
     },
+    "ParrotCodeEventSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "ParrotCodeExtensions/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "ParrotCodeNative.Reference/0.0.0.0": {
-      "type": "reference",
+    "ParrotCodeNative/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeNativeEditor/1.0.0": {
+      "type": "project",
       "serviceable": false,
       "sha512": ""
     }

@@ -14,11 +14,24 @@
         "runtime": {
           "ParrotCodeExtensions.dll": {}
         }
+      },
+      "ParrotCodeNative/1.0.0": {
+        "runtime": {
+          "ParrotCodeNative.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
       }
     }
   },
   "libraries": {
     "ParrotCodeExtensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeNative/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

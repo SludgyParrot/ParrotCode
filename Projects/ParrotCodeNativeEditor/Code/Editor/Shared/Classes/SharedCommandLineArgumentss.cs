@@ -120,6 +120,21 @@ namespace ParrotCode.Native.SharedEditor
         public static string[] ProjectBuildLogArguments => CreateProjectBuildLogArguments().ToArray();
 
         /// <summary>
+        /// Gets the default command-line arguments used to remove a directory and
+        /// all of its contents.
+        /// </summary>
+        /// <value>
+        /// An array containing the arguments required to recursively delete a
+        /// directory without prompting for confirmation.
+        /// </value>
+        /// <remarks>
+        /// The returned arguments are intended to be combined with the target
+        /// directory path before being passed to <c>cmd.exe</c> or another
+        /// command-line process that performs directory removal.
+        /// </remarks>
+        public static string[] RemoveDirectoryArguments => CreateRemoveDirectoryArguments().ToArray();
+
+        /// <summary>
         /// Gets the default set of command-line arguments used when invoking
         /// the Windows <c>robocopy</c> utility.
         /// </summary>
@@ -202,6 +217,43 @@ namespace ParrotCode.Native.SharedEditor
             {
                 SharedCommonFiltersAndPatterns.KeepConsoleWindowOpen,
                 SharedCommonFiltersAndPatterns.Type
+            };
+        }
+
+        /// <summary>
+        /// Creates the default command-line arguments used to remove a directory and
+        /// all of its contents.
+        /// </summary>
+        /// <remarks>
+        /// The returned arguments are intended to be passed to <c>cmd.exe</c> when
+        /// executing the directory removal command. The arguments perform the
+        /// following actions:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>Removes the specified directory.</description>
+        /// </item>
+        /// <item>
+        /// <description>Includes all subdirectories in the removal operation.</description>
+        /// </item>
+        /// <item>
+        /// <description>Suppresses confirmation prompts by enabling quiet mode.</description>
+        /// </item>
+        /// </list>
+        /// The target directory path should be appended by the caller before executing
+        /// the command.
+        /// </remarks>
+        /// <returns>
+        /// An immutable collection containing the default command-line arguments used
+        /// to remove a directory.
+        /// </returns>
+        private static IReadOnlyList<string> CreateRemoveDirectoryArguments()
+        {
+            return new List<string>
+            {
+                SharedCommonFiltersAndPatterns.CloseConsoleWindowOnExit,
+                SharedCommonFiltersAndPatterns.RemoveDirectory,
+                SharedCommonFiltersAndPatterns.IncludeSubdirectories,
+                SharedCommonFiltersAndPatterns.QuietMode
             };
         }
     }

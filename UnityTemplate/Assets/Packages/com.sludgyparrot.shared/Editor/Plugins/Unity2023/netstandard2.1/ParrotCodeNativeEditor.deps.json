@@ -50,6 +50,14 @@
             "fileVersion": "0.0.0.0"
           }
         }
+      },
+      "ParrotCodeNative/1.0.0": {
+        "runtime": {
+          "ParrotCodeNative.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
       }
     }
   },
@@ -70,6 +78,11 @@
       "sha512": ""
     },
     "ParrotCodeExtensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ParrotCodeNative/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
